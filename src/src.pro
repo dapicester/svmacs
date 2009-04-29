@@ -9,6 +9,7 @@ TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
           qt
+CONFIG += debug
 TARGET = svmacs
 DESTDIR = ../bin
 RESOURCES = application.qrc
