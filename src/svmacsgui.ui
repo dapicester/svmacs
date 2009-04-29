@@ -1,0 +1,76 @@
+<ui version="4.0" >
+ <class>svmacsgui</class>
+ <widget class="QWidget" name="svmacsgui" >
+  <property name="windowModality" >
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>469</width>
+    <height>285</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>SVM Audio Classifier</string>
+  </property>
+  <widget class="QTextEdit" name="textEdit" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>351</width>
+     <height>241</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="startButton" >
+   <property name="geometry" >
+    <rect>
+     <x>370</x>
+     <y>10</y>
+     <width>75</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Start</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="stopButton" >
+   <property name="geometry" >
+    <rect>
+     <x>370</x>
+     <y>50</y>
+     <width>75</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Stop</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="quitButton" >
+   <property name="geometry" >
+    <rect>
+     <x>370</x>
+     <y>220</y>
+     <width>75</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>Quit</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

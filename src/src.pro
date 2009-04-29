@@ -1,6 +1,10 @@
-SOURCES += svmacs.cpp \
-           main.cpp
-HEADERS += svmacs.h
+HEADERS += svmacsgui.h \
+           jackclient.h
+SOURCES += svmacsgui.cpp \
+           main.cpp \
+           jackclient.cpp
+FORMS += svmacsgui.ui
+
 TEMPLATE = app
 CONFIG += warn_on \
 	  thread \
@@ -8,3 +12,5 @@ CONFIG += warn_on \
 TARGET = svmacs
 DESTDIR = ../bin
 RESOURCES = application.qrc
+
+unix:LIBS += -ljack -L../lib -ljackcpp

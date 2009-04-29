@@ -4,14 +4,14 @@
  ***************************************************************************/
 
 #include <QApplication>
-#include "svmacs.h"
+#include "svmacsgui.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
       Q_INIT_RESOURCE(application);
       QApplication app(argc, argv);
-      svmacs * mw = new svmacs();
-      mw->show();
+      SvmacGui * dialog = new SvmacGui;
+      
+      dialog->show();
       return app.exec();
 }
 
