@@ -5,7 +5,7 @@
 #ifndef SVMACS_GUI_H
 #define SVMACS_GUI_H
 #include "ui_svmacsgui.h"
-#include "jackclient.h"
+#include "../jack/jackclient.h"
 
 class SvmacGui : public QWidget, private Ui::svmacsgui {
     Q_OBJECT

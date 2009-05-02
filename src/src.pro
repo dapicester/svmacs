@@ -1,17 +1,16 @@
-HEADERS += svmacsgui.h \
-           jackclient.h
-SOURCES += svmacsgui.cpp \
-           main.cpp \
-           jackclient.cpp
-FORMS += svmacsgui.ui
-
 TEMPLATE = app
-CONFIG += warn_on \
-	  thread \
-          qt
-CONFIG += debug
 TARGET = svmacs
 DESTDIR = ../bin
-RESOURCES = application.qrc
+DEPENDPATH += . gui jack
+INCLUDEPATH += . gui jack
 
-unix:LIBS += -ljack -L../lib -ljackcpp
+# Input
+HEADERS += svmacs.h gui/svmacsgui.h jack/jackclient.h
+FORMS += gui/svmacsgui.ui
+SOURCES += main.cpp svmacs.cpp gui/svmacsgui.cpp jack/jackclient.cpp
+RESOURCES += application.qrc
+
+# Libraries
+LIBS += -lrlog
+LIBS += -ljack 
+LIBS += -L../lib -ljackcpp

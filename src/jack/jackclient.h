@@ -4,7 +4,7 @@
  ***************************************************************************/
 #ifndef JACKCLIENT_H
 #define JACKCLIENT_H
-#include<jackaudioio.hpp>
+#include <jackaudioio.hpp>
 
 class JackClient : public JackCpp::AudioIO {
     /** Singleton instance */
