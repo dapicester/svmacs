@@ -64,6 +64,7 @@ void SvmacGui::stopJackClient() {
     
     client->stop();
     delete client;
+    client = 0;
     
     disableButton(stopButton);
     enableButton(startButton);
