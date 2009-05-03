@@ -14,6 +14,8 @@ SvmacGui::SvmacGui(QWidget *parent) {
    connect( startButton, SIGNAL( clicked() ), this, SLOT( startJackClient() ) );
    connect( stopButton, SIGNAL( clicked() ), this, SLOT( stopJackClient() ) );   
    connect( quitButton, SIGNAL( clicked() ), this, SLOT( quitApp() ) );
+   
+   client = 0;
 }
 
 void SvmacGui::about() {
@@ -37,7 +39,6 @@ void SvmacGui::startJackClient() {
     rDebug("starting the Jack client ...");
     textEdit->append("starting the Jack client ...");
     
-    //client = JackClient::getInstance();
     client = new JackClient;
     client->start();
     

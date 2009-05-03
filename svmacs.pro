@@ -11,9 +11,3 @@ RESOURCE = src/application.qrc
 # Config
 CONFIG += warn_on qt thread
 CONFIG += debug
-
-contains(CONFIG,debug) {
-    message("Enabling logging")
-    DEFINES += DEBUG_LEVEL
-}
-

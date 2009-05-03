@@ -14,3 +14,8 @@ RESOURCES += application.qrc
 LIBS += -lrlog
 LIBS += -ljack 
 LIBS += -L../lib -ljackcpp
+
+contains(CONFIG,debug) {
+    message("Enabling logging")
+    DEFINES += DEBUG_LEVEL
+}
