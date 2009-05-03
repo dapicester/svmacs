@@ -2,27 +2,27 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#define RLOG_COMPONENT "jackclient"
+#define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
 #include <QtGui>
-#include "svmacsgui.h"
+#include "svmacgui.h"
 
 SvmacGui::SvmacGui(QWidget *parent) {
    setupUi(this);
    
-   connect( startButton, SIGNAL( clicked() ), this, SLOT( startJackClient() ) );
-   connect( stopButton, SIGNAL( clicked() ), this, SLOT( stopJackClient() ) );   
-   connect( quitButton, SIGNAL( clicked() ), this, SLOT( quitApp() ) );
+   connect(startButton, SIGNAL(clicked()), this, SLOT(startJackClient()) );
+   connect(stopButton,  SIGNAL(clicked()), this, SLOT(stopJackClient()) );
+   connect(aboutButton, SIGNAL(clicked()), this, SLOT(about()) ); 
+   connect(quitButton,  SIGNAL(clicked()), this, SLOT(quitApp()) );
    
    client = 0;
 }
 
 void SvmacGui::about() {
-      QMessageBox::about(this, tr("About Application"),
-            tr("The <b>Application</b> example demonstrates how to "
-                  "write modern GUI applications using Qt, with a menu bar, "
-                  "toolbars, and a status bar."));
+      QMessageBox::about(this, "About",
+            "This is the <b>SVM Audio Classification GUI</b>\n\n"
+            "Copyright 2008-2009 Paolo D'Apice - dapicester@gmail.com");
 }
 
 void SvmacGui::quitApp() {
@@ -37,20 +37,30 @@ void SvmacGui::quitApp() {
 
 void SvmacGui::startJackClient() {
     rDebug("starting the Jack client ...");
-    textEdit->append("starting the Jack client ...");
+    textEdit->append("starting the Jack client...");
     
-    client = new JackClient;
+    client = JackClient::getInstance();
+    if (client == 0) {
+        rDebug("client not created");
+        textEdit->insertPlainText("failed");
+        
+        QMessageBox::warning(this, tr("Title"),
+            tr("Could not start the client.\n"
+               "Please check if the Jackd server is running."));
+        return;
+    } 
     client->start();
     
     disableButton(startButton);
     enableButton(stopButton);
     
+    textEdit->insertPlainText("started");
     rDebug("started");
 }
 
 void SvmacGui::stopJackClient() {
     rDebug("stopping the Jack client ...");
-    textEdit->append("stopping the Jack client ...");
+    textEdit->append("stopping the Jack client...");
     
     client->stop();
     delete client;
@@ -58,6 +68,7 @@ void SvmacGui::stopJackClient() {
     disableButton(stopButton);
     enableButton(startButton);
     
+    textEdit->insertPlainText("done");
     rDebug("stopped");
 }
 

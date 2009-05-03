@@ -4,15 +4,17 @@
  ***************************************************************************/
 #ifndef SVMACS_GUI_H
 #define SVMACS_GUI_H
-#include "ui_svmacsgui.h"
+#include "ui_svmacgui.h"
 #include "../jack/jackclient.h"
 
-class SvmacGui : public QWidget, private Ui::svmacsgui {
+class SvmacGui : public QWidget, private Ui::SvmacQt {
     Q_OBJECT
     JackClient* client;
+
 protected:
     void enableButton(QPushButton* button);
     void disableButton(QPushButton* button);
+
 public:
     SvmacGui(QWidget *parent = 0);
 

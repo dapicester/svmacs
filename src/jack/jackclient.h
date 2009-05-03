@@ -7,18 +7,17 @@
 #include <jackaudioio.hpp>
 
 class JackClient : public JackCpp::AudioIO {
-    /** Singleton instance */
-//  static JackClient* instance;
     
      /** Constructor. */
-//    JackClient();
+    JackClient();
      /** Copy Constructor. */
     JackClient(JackClient&);
-    /** Destructor. */
-//    ~JackClient();
     
 public:
-    JackClient();
+    /** Get an instance of the Jack client. */
+    static JackClient* getInstance();
+
+    /** Destructor. */
     ~JackClient();
     
     /** Input ports. (mono input) */
@@ -26,9 +25,6 @@ public:
     
     /** Output ports. (no output) */
     static const unsigned int NUM_OUTPUT = 0;
-
-    /** Get the singleton instance of the Jack client. */
-    static JackClient* getInstance();
     
     /** Audio callback. All audio processing goes in this function. */
     int audioCallback(jack_nframes_t nframes, 

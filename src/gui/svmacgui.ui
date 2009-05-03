@@ -1,6 +1,6 @@
 <ui version="4.0" >
- <class>svmacsgui</class>
- <widget class="QWidget" name="svmacsgui" >
+ <class>SvmacQt</class>
+ <widget class="QWidget" name="SvmacQt" >
   <property name="windowModality" >
    <enum>Qt::NonModal</enum>
   </property>
@@ -8,8 +8,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>469</width>
-    <height>285</height>
+    <width>451</width>
+    <height>259</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -22,6 +22,9 @@
    <string>SVM Audio Classifier</string>
   </property>
   <widget class="QTextEdit" name="textEdit" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
    <property name="geometry" >
     <rect>
      <x>10</x>
@@ -71,6 +74,19 @@
    </property>
    <property name="text" >
     <string>Quit</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="aboutButton" >
+   <property name="geometry" >
+    <rect>
+     <x>370</x>
+     <y>180</y>
+     <width>75</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text" >
+    <string>About</string>
    </property>
   </widget>
  </widget>

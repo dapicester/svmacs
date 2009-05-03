@@ -8,19 +8,17 @@
 #include"jackclient.h"
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
-// JackClient* JackClient::instance = 0;
+JackClient* JackClient::getInstance() {
+    JackClient* client = 0;
+    try {
+        client = new JackClient;
+    } catch (std::runtime_error) {
+        rWarning("Could not create the client: Jackd not running!");
+    }
+    return client;
+}
 
-// JackClient* JackClient::getInstance() {
-//     rDebug("getting client instance");
-//     if ( instance == 0 ) {
-//         rDebug("instantiating ...");
-//         // initial ports from constructor created here.
-//         instance = new JackClient();  
-//     }
-//     return instance;        
-// }
-
-JackClient::JackClient() : JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT) {
+JackClient::JackClient() : JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT, false) {
     rDebug("constructor called");
 }
 

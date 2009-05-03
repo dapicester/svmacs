@@ -10,25 +10,53 @@
 // qt4
 #include <QApplication>
 
-#include "gui/svmacsgui.h"
+#include <iostream>
+#include <string>
 
+#include "cli/svmaccli.h"
+#include "gui/svmacgui.h"
+
+using namespace std;
 using namespace rlog;
+
+void usage(const char* s);
 
 int main(int argc, char *argv[]) {
     // initialize logging    
     RLogInit(argc, argv);
     StdioNode log;
-    #ifdef DEBUG_LEVEL
+#ifdef ENABLE_DEBUG
     log.subscribeTo( GetGlobalChannel("debug") );
     log.subscribeTo( GetGlobalChannel("info") );
-    #endif
     log.subscribeTo( GetGlobalChannel("warning") );
+#endif 
     log.subscribeTo( GetGlobalChannel("error") );
      
-    if (argc > 1) {
+    // check arguments 
+    if (argc > 2) {
+        rDebug("too many arguments (%i)", argc);
+        usage(argv[0]); 
+        exit(1);
+    }   
+     
+    string argument; 
+    if (argc == 1) {
+        rDebug("no arguments");
+        argument = "gui";
+    } else {
+        argument = argv[1]; 
+    }
+        
+    if ((argument.compare("gui") != 0) && (argument.compare("cli") != 0)) {
+        rDebug("wrong argument ('%s')", argv[1]);
+        usage(argv[0]); 
+        exit(1);
+    }
+    
+    if (argument.compare("cli") == 0) {
         rInfo("Launching the CLI interface ...");
-        // TODO: CLI
-        rError("TODO");
+        SvmacCli* cli = new SvmacCli;
+        return cli->mainLoop();
     } else {
         rInfo("Launching the GUI interface ...");
         Q_INIT_RESOURCE(application);
@@ -38,3 +66,11 @@ int main(int argc, char *argv[]) {
         return app.exec();
     }
 };
+
+void usage(const char* s) {
+    cout << "Usage: " << s << "[interface]" << endl;
+    cout << "Arguments" << endl;
+    cout << "  interface   select the user interface, values are:" << endl;
+    cout << "                gui  [default]" << endl;
+    cout << "                cli  command-line" << endl << endl;
+}
