@@ -10,13 +10,17 @@
 class SvmacGui : public QWidget, private Ui::svmacsgui {
     Q_OBJECT
     JackClient* client;
+protected:
+    void enableButton(QPushButton* button);
+    void disableButton(QPushButton* button);
 public:
     SvmacGui(QWidget *parent = 0);
 
 public slots:
     void startJackClient();
-    void doSomething();
-    void quit();
+    void stopJackClient();
+    void quitApp();    
+    void about();
 };
 
 #endif //SVMACS_GUI_H

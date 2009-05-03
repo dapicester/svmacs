@@ -45,6 +45,9 @@
    </property>
   </widget>
   <widget class="QPushButton" name="stopButton" >
+   <property name="enabled" >
+    <bool>false</bool>
+   </property>
    <property name="geometry" >
     <rect>
      <x>370</x>

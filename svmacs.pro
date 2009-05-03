@@ -8,6 +8,12 @@ TARGET = svmacs
 DESTDIR = bin
 RESOURCE = src/application.qrc
 
-#Config
+# Config
 CONFIG += warn_on qt thread
 CONFIG += debug
+
+contains(CONFIG,debug) {
+    message("Enabling logging")
+    DEFINES += DEBUG_LEVEL
+}
+

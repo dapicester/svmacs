@@ -14,26 +14,27 @@
 
 using namespace rlog;
 
-void initLog(int& argc, char* argv[]) {
-     RLogInit(argc, argv);
-     StdioNode stdLog;
-     stdLog.subscribeTo( RLOG_CHANNEL("debug") );
-     stdLog.subscribeTo( RLOG_CHANNEL("info") );
-     stdLog.subscribeTo( GetGlobalChannel("warning") );
-     stdLog.subscribeTo (GetGlobalChannel("error"));
-}
-
 int main(int argc, char *argv[]) {
+    // initialize logging    
+    RLogInit(argc, argv);
+    StdioNode log;
+    #ifdef DEBUG_LEVEL
+    log.subscribeTo( GetGlobalChannel("debug") );
+    log.subscribeTo( GetGlobalChannel("info") );
+    #endif
+    log.subscribeTo( GetGlobalChannel("warning") );
+    log.subscribeTo( GetGlobalChannel("error") );
+     
     if (argc > 1) {
         rInfo("Launching the CLI interface ...");
         // TODO: CLI
+        rError("TODO");
     } else {
         rInfo("Launching the GUI interface ...");
         Q_INIT_RESOURCE(application);
         QApplication app(argc, argv);
-        SvmacGui * dialog = new SvmacGui;
-        
-        dialog->show();
+        SvmacGui* gui = new SvmacGui;
+        gui->show();
         return app.exec();
     }
 };

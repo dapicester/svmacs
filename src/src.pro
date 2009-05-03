@@ -5,9 +5,9 @@ DEPENDPATH += . gui jack
 INCLUDEPATH += . gui jack
 
 # Input
-HEADERS += svmacs.h gui/svmacsgui.h jack/jackclient.h
+HEADERS += cli/svmacscli.h gui/svmacsgui.h jack/jackclient.h
 FORMS += gui/svmacsgui.ui
-SOURCES += main.cpp svmacs.cpp gui/svmacsgui.cpp jack/jackclient.cpp
+SOURCES += main.cpp gui/svmacsgui.cpp jack/jackclient.cpp
 RESOURCES += application.qrc
 
 # Libraries

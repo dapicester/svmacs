@@ -8,16 +8,19 @@
 
 class JackClient : public JackCpp::AudioIO {
     /** Singleton instance */
-    static JackClient* instance;
+//  static JackClient* instance;
     
      /** Constructor. */
-    JackClient();
+//    JackClient();
      /** Copy Constructor. */
     JackClient(JackClient&);
+    /** Destructor. */
+//    ~JackClient();
     
-    /** Start the client. */
-    void start();
 public:
+    JackClient();
+    ~JackClient();
+    
     /** Input ports. (mono input) */
     static const unsigned int NUM_INPUT = 1;
     
@@ -28,7 +31,7 @@ public:
     static JackClient* getInstance();
     
     /** Audio callback. All audio processing goes in this function. */
-    virtual int audioCallback(jack_nframes_t nframes, 
+    int audioCallback(jack_nframes_t nframes, 
                               audioBufVector inBufs,
                               audioBufVector outBufs);
 };
