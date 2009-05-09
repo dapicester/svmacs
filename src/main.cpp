@@ -2,19 +2,18 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-// rlog
+#include "cli/svmaccli.h"
+#include "gui/svmacgui.h"
+
 #define RLOG_COMPONENT "main"
 #include <rlog/rlog.h>
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
-// qt4
+
 #include <QApplication>
 
 #include <iostream>
 #include <string>
-
-#include "cli/svmaccli.h"
-#include "gui/svmacgui.h"
 
 using namespace std;
 using namespace rlog;
@@ -55,8 +54,9 @@ int main(int argc, char *argv[]) {
     
     if (argument.compare("cli") == 0) {
         rInfo("Launching the CLI interface ...");
-        SvmacCli* cli = new SvmacCli;
-        return cli->mainLoop();
+        SvmacCli* cli = SvmacCli::getInstance();
+        cli->mainLoop();
+        return 0;
     } else {
         rInfo("Launching the GUI interface ...");
         Q_INIT_RESOURCE(application);
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 };
 
 void usage(const char* s) {
-    cout << "Usage: " << s << "[interface]" << endl;
+    cout << "Usage: " << s << " [interface]" << endl;
     cout << "Arguments" << endl;
     cout << "  interface   select the user interface, values are:" << endl;
     cout << "                gui  [default]" << endl;

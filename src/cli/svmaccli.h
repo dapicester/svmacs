@@ -4,18 +4,32 @@
  ***************************************************************************/
 #ifndef SVMACS_CLI_H
 #define SVMACS_CLI_H
+
 #include "../jack/jackclient.h"
 
-void quitproc(int);
-
+/** CLI interface for the SVM Audio Classifier. */
 class SvmacCli {
+    /** Singleton instance. */
+    static SvmacCli* instance;
+    
+    /** Private constructor. */
+    SvmacCli(); 
+        
+    /** Signal handler function. */
+    static void cleanup(int);
+
+    /** Pointer to the Jack client. */
     JackClient* client;
     
 public:
-    SvmacCli();
+    /** Destructor. */
     ~SvmacCli();
     
-    int mainLoop();
+    /** Entry point. */
+    static SvmacCli* getInstance();
+    
+    /** CLI main loop. */
+    void mainLoop();
 };
 
 #endif // SVMACS_CLI_H

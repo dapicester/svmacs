@@ -4,6 +4,7 @@
  ***************************************************************************/
 #ifndef SVMACS_GUI_H
 #define SVMACS_GUI_H
+
 #include "ui_svmacgui.h"
 #include "../jack/jackclient.h"
 
@@ -23,6 +24,7 @@ public slots:
     void stopJackClient();
     void quitApp();    
     void about();
+
 };
 
 #endif //SVMACS_GUI_H

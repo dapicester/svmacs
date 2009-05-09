@@ -2,11 +2,12 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+#include "svmacgui.h"
+
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
 #include <QtGui>
-#include "svmacgui.h"
 
 SvmacGui::SvmacGui(QWidget *parent) {
    setupUi(this);
@@ -49,6 +50,7 @@ void SvmacGui::startJackClient() {
                "Please check if the Jackd server is running."));
         return;
     } 
+    
     client->start();
     
     disableButton(startButton);

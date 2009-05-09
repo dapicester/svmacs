@@ -5,9 +5,9 @@ DEPENDPATH += . gui jack
 INCLUDEPATH += . gui jack
 
 # Input
-HEADERS += cli/svmaccli.h gui/svmacgui.h jack/jackclient.h
+HEADERS += jack/jackclient.h cli/svmaccli.h gui/svmacgui.h 
 FORMS += gui/svmacgui.ui
-SOURCES += main.cpp cli/svmaccli.cpp gui/svmacgui.cpp jack/jackclient.cpp 
+SOURCES += jack/jackclient.cpp cli/svmaccli.cpp gui/svmacgui.cpp main.cpp
 RESOURCES += application.qrc
 
 # Libraries
@@ -16,6 +16,6 @@ LIBS += -ljack
 LIBS += -L../lib -ljackcpp
 
 # Debug
-contains (CONFIG, debug) {
+contains(CONFIG, debug){
     DEFINES += ENABLE_DEBUG
 }
