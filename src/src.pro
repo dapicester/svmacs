@@ -5,14 +5,20 @@ DEPENDPATH += . gui jack
 INCLUDEPATH += . gui jack
 
 # Input
-HEADERS += jack/jackclient.h cli/svmaccli.h gui/svmacgui.h 
+HEADERS += jack/jackclient.h \
+           jack/ringbufferread.h \
+           cli/svmaccli.h \
+           gui/svmacgui.h
+SOURCES += jack/jackclient.cpp \
+           cli/svmaccli.cpp \
+           gui/svmacgui.cpp \
+           main.cpp
 FORMS += gui/svmacgui.ui
-SOURCES += jack/jackclient.cpp cli/svmaccli.cpp gui/svmacgui.cpp main.cpp
 RESOURCES += application.qrc
 
 # Libraries
-LIBS += -lrlog
-LIBS += -ljack 
+LIBS += `pkg-config --cflags --libs jack`
+LIBS += -lrlog 
 LIBS += -L../lib -ljackcpp
 
 # Debug

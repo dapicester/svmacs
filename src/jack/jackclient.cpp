@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 #include"jackclient.h"
+
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
 #define RLOG_COMPONENT "jackclient"
@@ -11,7 +12,9 @@
 #include <iostream>
 using namespace std;
 
-JackClient::JackClient() : JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT, false) {
+JackClient::JackClient() : 
+                JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT, false),
+                buffer(this->getSampleRate() * 2.0) {
     rDebug("constructor called");
 
     reserveInPorts(MAX_IN);
@@ -42,6 +45,7 @@ int JackClient::audioCallback(jack_nframes_t nframes,
     for(unsigned int i = 0; i < inBufs.size(); i++) {
         for(unsigned int j = 0; j < nframes; j++) {
             //outBufs[i][j] = inBufs[i][j];  
+            buffer.write(inBufs[i][j]);
         }
     }
     //0 on success

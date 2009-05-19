@@ -5,12 +5,15 @@
 #ifndef JACKCLIENT_H
 #define JACKCLIENT_H
 
+#include "ringbufferread.h"
 #include <jackaudioio.hpp>
 
 class JackClient : public JackCpp::AudioIO {
 
     static const int MAX_IN = 1;
     static const int MAX_OUT = 1;
+    
+    RingBufferRead<float> buffer;
     
      /** Constructor. */
     JackClient();
