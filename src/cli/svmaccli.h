@@ -6,6 +6,9 @@
 #define SVMACS_CLI_H
 
 #include "../jack/jackclient.h"
+using jack::JackClient;
+
+namespace cli {
 
 /** CLI interface for the SVM Audio Classifier. */
 class SvmacCli {
@@ -31,5 +34,7 @@ public:
     /** CLI main loop. */
     void mainLoop(float N, float R);
 };
+
+}
 
 #endif // SVMACS_CLI_H

@@ -12,6 +12,8 @@ extern "C" {
 }
 #include <string.h>
 
+namespace jack {
+
 class RingBufferRead {
 private:
     /** Poiter to the Jack Ring Buffer. */
@@ -59,5 +61,7 @@ public:
     void reset();
 
 };
+
+}
 
 #endif

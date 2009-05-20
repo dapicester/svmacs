@@ -8,6 +8,8 @@
 #include "ringbufferread.h"
 #include <jackaudioio.hpp>
 
+namespace jack {
+
 class JackClient : public JackCpp::AudioIO {
 
     static const uint MAX_IN = 1;
@@ -54,5 +56,7 @@ private:
     /** Read one audio frame */
     void getAudioFrame();
 };
+
+}
 
 #endif // JACKCLIENT_H

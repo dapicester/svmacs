@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 #include "svmaccli.h"
+using namespace cli;
 
 #define RLOG_COMPONENT "cli"
 #include <rlog/rlog.h>
@@ -75,14 +76,14 @@ void SvmacCli::mainLoop(float N, float R) {
     signal(SIGABRT, &cleanup);
     signal(SIGTERM, &cleanup);
     signal(SIGINT, &cleanup);
-/*    
+    
     // main loop
     while(true) {
         //client->getAudioFrame();
         sleep(1);        
     }
-*/    
-    sleep(3);
+    
+    //sleep(3);
     cleanup(99);
 }
 

@@ -7,6 +7,7 @@
 
 #include "ui_svmacgui.h"
 #include "../jack/jackclient.h"
+using jack::JackClient;
 
 class SvmacGui : public QWidget, private Ui::SvmacQt {
     Q_OBJECT

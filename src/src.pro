@@ -8,7 +8,8 @@ INCLUDEPATH += . gui jack
 HEADERS += jack/jackclient.h \
            jack/ringbufferread.h \
            cli/svmaccli.h \
-           gui/svmacgui.h
+           gui/svmacgui.h \
+ processor.h
 SOURCES += jack/jackclient.cpp \
            jack/ringbufferread.cpp \
            cli/svmaccli.cpp \

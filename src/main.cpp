@@ -3,6 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 #include "cli/svmaccli.h"
+using namespace cli;
+
 #include "gui/svmacgui.h"
 
 #define RLOG_COMPONENT "main"

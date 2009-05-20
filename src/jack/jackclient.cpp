@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 #include"jackclient.h"
+using namespace jack;
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 

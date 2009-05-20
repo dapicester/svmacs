@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 #include "ringbufferread.h"
+using namespace jack;
 
 #define RLOG_COMPONENT "ringbufferread"
 #include <rlog/rlog.h>
