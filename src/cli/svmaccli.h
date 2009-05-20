@@ -29,7 +29,7 @@ public:
     static SvmacCli* getInstance();
     
     /** CLI main loop. */
-    void mainLoop();
+    void mainLoop(float N, float R);
 };
 
 #endif // SVMACS_CLI_H

@@ -10,9 +10,10 @@ HEADERS += jack/jackclient.h \
            cli/svmaccli.h \
            gui/svmacgui.h
 SOURCES += jack/jackclient.cpp \
+           jack/ringbufferread.cpp \
            cli/svmaccli.cpp \
            gui/svmacgui.cpp \
-           main.cpp
+           main.cpp 
 FORMS += gui/svmacgui.ui
 RESOURCES += application.qrc
 

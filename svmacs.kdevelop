@@ -2,7 +2,7 @@
 <kdevelop>
   <general>
     <author>Paolo D'Apice</author>
-    <email>p.dapice@tiscali.it</email>
+    <email>dapicester@gmail.com</email>
     <version>0.1</version>
     <projectmanagement>KDevTrollProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
@@ -14,8 +14,8 @@
     <projectname>svmacs</projectname>
     <projectdirectory>.</projectdirectory>
     <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
-    <defaultencoding/>
+    <description></description>
+    <defaultencoding></defaultencoding>
   </general>
   <kdevfileview>
     <groups>
@@ -47,8 +47,8 @@
       <automaticCodeCompletion>true</automaticCodeCompletion>
       <automaticArgumentsHint>true</automaticArgumentsHint>
       <automaticHeaderCompletion>true</automaticHeaderCompletion>
-      <codeCompletionDelay>250</codeCompletionDelay>
-      <argumentsHintDelay>400</argumentsHintDelay>
+      <codeCompletionDelay>350</codeCompletionDelay>
+      <argumentsHintDelay>500</argumentsHintDelay>
       <headerCompletionDelay>250</headerCompletionDelay>
       <showOnlyAccessibleItems>false</showOnlyAccessibleItems>
       <completionBoxItemOrder>0</completionBoxItemOrder>
@@ -121,16 +121,16 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
+      <dbgshell></dbgshell>
       <breakpoints/>
       <programargs/>
       <gdbpath>/usr/bin/gdb</gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>true</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
@@ -145,7 +145,7 @@
       <mainprogram>/home/paolo/projects/svmacs/bin/svmacs</mainprogram>
       <programargs>cli</programargs>
       <directoryradio>executable</directoryradio>
-      <globaldebugarguments/>
+      <globaldebugarguments></globaldebugarguments>
       <globalcwd>/home/paolo/projects/svmacs</globalcwd>
       <useglobalprogram>true</useglobalprogram>
       <terminal>false</terminal>
@@ -164,7 +164,7 @@
       <runmultiplejobs>false</runmultiplejobs>
       <numberofjobs>1</numberofjobs>
       <dontact>false</dontact>
-      <makebin/>
+      <makebin></makebin>
       <prio>0</prio>
       <envvars/>
     </make>
@@ -181,19 +181,20 @@
     <openfiles/>
   </workspace>
   <kdevfilecreate>
+    <filetypes/>
     <useglobaltypes>
       <type ext="ui" />
+      <type ext="qrc" />
       <type ext="cpp" />
       <type ext="h" />
       <type ext="ts" />
-      <type ext="qrc" />
     </useglobaltypes>
   </kdevfilecreate>
   <kdevdocumentation>
     <projectdoc>
       <docsystem>Doxygen Documentation Collection</docsystem>
       <docurl>svmacs.tag</docurl>
-      <usermanualurl/>
+      <usermanualurl></usermanualurl>
     </projectdoc>
   </kdevdocumentation>
   <substmap>

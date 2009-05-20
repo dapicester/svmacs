@@ -30,12 +30,13 @@ SvmacCli* SvmacCli::getInstance() {
     return instance;
 }
 
-void SvmacCli::mainLoop() {
+void SvmacCli::mainLoop(float N, float R) {
     rDebug("CLI main loop");
     
     cout << "Starting the Jack client ... " << endl;
     
-    client = JackClient::getInstance();
+    //TODO aggiungere parametro N
+    client = JackClient::getInstance(R);
     if (client == 0) {
         rDebug("client not created");
         cout << "failed!" << endl;
@@ -64,6 +65,7 @@ void SvmacCli::mainLoop() {
 
     try {
 	client->connectFromPhysical(0,0);
+	client->connectToPhysical(0,0);
     } catch (std::runtime_error e){
         cout << "WARNING! " << e.what() << endl;
     }
@@ -73,13 +75,14 @@ void SvmacCli::mainLoop() {
     signal(SIGABRT, &cleanup);
     signal(SIGTERM, &cleanup);
     signal(SIGINT, &cleanup);
-    /*
+/*    
     // main loop
     while(true) {
-        
+        //client->getAudioFrame();
+        sleep(1);        
     }
-    */
-    sleep(10);
+*/    
+    sleep(3);
     cleanup(99);
 }
 

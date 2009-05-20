@@ -32,30 +32,39 @@ int main(int argc, char *argv[]) {
     log.subscribeTo( GetGlobalChannel("error") );
      
     // check arguments 
-    if (argc > 2) {
+    if (argc > 4) {
         rDebug("too many arguments (%i)", argc);
         usage(argv[0]); 
         exit(1);
     }   
      
-    string argument; 
+    string interface; 
     if (argc == 1) {
         rDebug("no arguments");
-        argument = "gui";
+        interface = "gui";
     } else {
-        argument = argv[1]; 
+        interface = argv[1]; 
     }
         
-    if ((argument.compare("gui") != 0) && (argument.compare("cli") != 0)) {
+    if ((interface.compare("gui") != 0) && (interface.compare("cli") != 0)) {
         rDebug("wrong argument ('%s')", argv[1]);
         usage(argv[0]); 
         exit(1);
     }
     
-    if (argument.compare("cli") == 0) {
+    if (interface.compare("cli") == 0) {
+        float N = 1.0, R = 0.0;
+        if (argc > 2) {
+            N = atof(argv[2]);
+            rDebug("N = %f", N);
+            if (argc > 3) {
+                R = atof(argv[3]);
+                rDebug("R = %f", R);
+            }
+        } 
         rInfo("Launching the CLI interface ...");
         SvmacCli* cli = SvmacCli::getInstance();
-        cli->mainLoop();
+        cli->mainLoop(N,R);
         return 0;
     } else {
         rInfo("Launching the GUI interface ...");
@@ -68,9 +77,13 @@ int main(int argc, char *argv[]) {
 };
 
 void usage(const char* s) {
-    cout << "Usage: " << s << " [interface]" << endl;
+//TODO usare opzioni del tipo [-r overlap -n size]
+    cout << "Usage: " << s << " [interface] [size] [overlap]" << endl;
     cout << "Arguments" << endl;
     cout << "  interface   select the user interface, values are:" << endl;
     cout << "                gui  [default]" << endl;
-    cout << "                cli  command-line" << endl << endl;
+    cout << "                cli  command-line" << endl;
+    cout << "  size        frame length in seconds (N)" << endl;
+    cout << "  overlap     percentage of overlapping (R)" << endl;
+    cout << endl;
 }
