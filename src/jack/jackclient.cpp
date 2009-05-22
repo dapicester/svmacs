@@ -17,7 +17,9 @@ using namespace std;
 JackClient::JackClient(float overlap) : 
                 JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT, false),
                 N(getSampleRate()),
-                input(N * 2.0 + 1.0), buffer(N) {
+                input(N * 2.0 + 1.0), 
+                //buffer(N),
+                processor(getSampleRate()) {
     rDebug("constructor called");
 
     // reserve ports
@@ -77,10 +79,10 @@ void JackClient::getAudioFrame() {
         if (R > 0) { // overlapping frames
             input.read(frame, R);    // read the first R samples
             input.peek(frame+R, N-R);// and peek the remaining N-R samples 
-            buffer.write(frame, N);
         } else { // no overlapping frames
             input.read(frame, N); 
-            buffer.write(frame,N);
         }
+       // buffer.write(frame,N);
+        processor.process(frame);
     } 
 }

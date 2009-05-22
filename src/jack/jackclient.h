@@ -5,6 +5,8 @@
 #ifndef JACKCLIENT_H
 #define JACKCLIENT_H
 
+#include "../features/processor.h"
+
 #include "ringbufferread.h"
 #include <jackaudioio.hpp>
 
@@ -22,10 +24,12 @@ class JackClient : public JackCpp::AudioIO {
     /** Input buffer. */
     RingBufferRead input;
     /** Current frame. */
-    RingBufferRead buffer;
+    //RingBufferRead buffer;
     
     /// temporary storage 
     float* frame;
+    
+    features::Processor processor;
     
      /** Constructor. */
     JackClient(float overlap);
