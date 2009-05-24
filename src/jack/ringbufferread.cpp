@@ -14,7 +14,7 @@ using namespace jack;
 
 RingBufferRead::RingBufferRead(size_t size, bool mlock){
     mLength = size;
-    mRingBufferPtr = jack_ringbuffer_create(mLength * float_size);
+    mRingBufferPtr = jack_ringbuffer_create(mLength * double_size);
 
     //should we lock the memory for the ring buffer?
     if(mlock)
@@ -31,34 +31,34 @@ size_t RingBufferRead::length(){
 }
 
 size_t RingBufferRead::getReadSpace(){ 
-    return jack_ringbuffer_read_space(mRingBufferPtr) / float_size;
+    return jack_ringbuffer_read_space(mRingBufferPtr) / double_size;
 }
 
 size_t RingBufferRead::getWriteSpace(){
-    return jack_ringbuffer_write_space(mRingBufferPtr) / float_size;
+    return jack_ringbuffer_write_space(mRingBufferPtr) / double_size;
 }
 
-int RingBufferRead::read(float &dest){
+int RingBufferRead::read(double &dest){
     if(getReadSpace() <= 0){
         //throw error!!!!
         return 1;
     }
-    jack_ringbuffer_read(mRingBufferPtr, (char *)&dest, float_size);
+    jack_ringbuffer_read(mRingBufferPtr, (char *)&dest, double_size);
     return 0;
 }
 
-int RingBufferRead::peek(float &dest){
+int RingBufferRead::peek(double &dest){
     if(getReadSpace() <= 0){
         //throw error!!!!
         return 1;
     }
-    jack_ringbuffer_peek(mRingBufferPtr, (char *)&dest, float_size);
+    jack_ringbuffer_peek(mRingBufferPtr, (char *)&dest, double_size);
     return 0;
 }
 
-int RingBufferRead::read(float* dest, unsigned cnt, bool peek){
+int RingBufferRead::read(double* dest, unsigned cnt, bool peek){
     jack_ringbuffer_data_t readVec[2];
-    unsigned int read_size = float_size * cnt;
+    unsigned int read_size = double_size * cnt;
     if(getReadSpace() <= 0){
         //throw error!!!!
         return 1;
@@ -91,22 +91,22 @@ int RingBufferRead::read(float* dest, unsigned cnt, bool peek){
     return 0;
 }
 
-int RingBufferRead::peek(float *dest, unsigned cnt){
+int RingBufferRead::peek(double *dest, unsigned cnt){
     return read(dest, cnt, true);
 }
 
-int RingBufferRead::write(float src){
+int RingBufferRead::write(double src){
     if(getWriteSpace() <= 0){
         //throw error!!!!
         return 1;
     }
-    jack_ringbuffer_write(mRingBufferPtr, (char *)&src, float_size);
+    jack_ringbuffer_write(mRingBufferPtr, (char *)&src, double_size);
     return 0;
 }
 
-int RingBufferRead::write(float* src, unsigned int cnt){
+int RingBufferRead::write(double* src, unsigned int cnt){
     jack_ringbuffer_data_t writeVec[2];
-    unsigned int write_size = float_size * cnt;
+    unsigned int write_size = double_size * cnt;
     if(cnt > getWriteSpace()){
         //throw error!!!!
         return 1;

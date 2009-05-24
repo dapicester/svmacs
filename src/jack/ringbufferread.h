@@ -21,7 +21,8 @@ private:
     size_t mLength;
     
     /// Size
-    static const int float_size = sizeof(float);
+    //static const int float_size = sizeof(float);
+    static const int double_size = sizeof(double);
     
 public:
     /** Constructor */
@@ -40,22 +41,22 @@ public:
     size_t getWriteSpace();
     
     /** Read from the buffer into a variable. */
-    int read(float &dest);
+    int read(double &dest);	
     	
     /** Read from the buffer into a variable without moving the read pointer. */
-    int peek(float &dest);
+    int peek(double &dest);
     
     /** Read from the buffer into an array. */
-    int read(float dest[], unsigned cnt, bool peek = false);
+    int read(double dest[], unsigned cnt, bool peek = false);
 			
     /** Read from the buffer into an array without move the read pointer. */
-    int peek(float dest[], unsigned cnt);
+    int peek(double dest[], unsigned cnt);
 			
     /** Write into the ring buffer. */
-    int write(float src);
+    int write(double src);
     
     /** Write an array of values into the ring buffer. */
-    int write(float src[], unsigned int cnt);
+    int write(double src[], unsigned int cnt);
 
     /** Reset the read and write pointers, effectively making the ring buffer empty (not threadsafe) */
     void reset();

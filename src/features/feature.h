@@ -5,6 +5,9 @@
 #ifndef FEATURE_H
 #define FEATURE_H
 
+#include <itpp/itsignal.h>
+using namespace itpp;
+
 #include <string>
 using namespace std;
 
@@ -35,7 +38,7 @@ public:
     }
 
     /** Process an audio frame and returns its features */
-    virtual float* extract(const float frame[]) const = 0;
+    virtual vec extract(const vec& frame) const = 0;
     
 };
 

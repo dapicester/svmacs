@@ -10,6 +10,9 @@ using namespace jack;
 #define RLOG_COMPONENT "jackclient"
 #include <rlog/rlog.h>
 
+#include <itpp/itsignal.h>
+using namespace itpp;
+
 #include <cmath>
 #include <iostream>
 using namespace std;
@@ -27,7 +30,7 @@ JackClient::JackClient(float overlap) :
     reserveOutPorts(MAX_OUT);
     rDebug("reserved ports: %d IN, %d OUT", MAX_IN, MAX_OUT); 
     
-    frame = new float[N];    
+    frame = new double[N];    
     //R = static_cast<int>(floor(N * overlap));
     R = floor(N * overlap);
     rDebug("R = %d", R);
@@ -82,7 +85,7 @@ void JackClient::getAudioFrame() {
         } else { // no overlapping frames
             input.read(frame, N); 
         }
-       // buffer.write(frame,N);
-        processor.process(frame);
+        vec vframe(frame,N);
+        processor.process(vframe);
     } 
 }

@@ -8,6 +8,9 @@
 #include "feature.h"
 using namespace features;
 
+#include <itpp/itsignal.h>
+using namespace itpp;
+
 namespace features {
 
 class ZCR : public Feature {
@@ -16,7 +19,7 @@ public:
     ZCR(int samplerate, string name = "ZCR");
     ~ZCR();
     
-    float* extract(const float frame[]) const;
+    vec extract(const vec& frame) const;
 };
 
 }

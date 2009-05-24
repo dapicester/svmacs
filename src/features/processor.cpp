@@ -23,9 +23,10 @@ Processor::~Processor() {
     rDebug("Processor destructed");
 }
 
-float* Processor::process(const float* frame) {
+float* Processor::process(const vec& frame) {
     rDebug("calling process ...");
-    for (int i=0; i<fsize; i++) {
+    
+    for (uint i=0; i<fsize; i++) {
         rDebug("extracting: %s ...",features[i]->getName().c_str());
         features[i]->extract(frame);
     }

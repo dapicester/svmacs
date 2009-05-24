@@ -17,38 +17,37 @@ class JackClient : public JackCpp::AudioIO {
     static const uint MAX_IN = 1;
     static const uint MAX_OUT = 1;
     
-    /** Overlap. */
+    /// Frame overlap in samples
     uint R; 
-    /** Frame length. */
+    /// Frame length in samples
     uint N;
-    /** Input buffer. */
+    /// Input buffer
     RingBufferRead input;
-    /** Current frame. */
-    //RingBufferRead buffer;
+    /// Current frame
+    //RingBufferRead buffer; 
+    double* frame;
     
-    /// temporary storage 
-    float* frame;
-    
+    /// Audio frame processor
     features::Processor processor;
     
-     /** Constructor. */
+     /// Constructor
     JackClient(float overlap);
-     /** Copy Constructor. */
+     /// Copy-constructor
     JackClient(JackClient&);
     
-    /// Initializations.
+    /// Initializations
     void init();
     
 public:
-    /** Get an instance of the Jack client. */
+    /** Get the Jack client instance */
     static JackClient* getInstance(float overlap = 0.0);
 
-    /** Destructor. */
+    /// Destructor
     ~JackClient();
     
-    /** Input ports. (mono input) */
+    /// Numberof input ports (mono input)
     static const uint NUM_INPUT = 1;
-    /** Output ports. (monitor output) */
+    /// Number of output ports (monitor output) 
     static const uint NUM_OUTPUT = 1;
     
     /** Audio callback. All audio processing goes in this function. */

@@ -15,7 +15,7 @@ ZCR::ZCR(int samplerate, string name) : Feature() {
 
 ZCR::~ZCR() {}
 
-float* ZCR::extract(const float* frame) const {
+vec ZCR::extract(const vec& frame) const {
 
     return 0;
 }

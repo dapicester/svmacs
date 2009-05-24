@@ -25,7 +25,10 @@ FORMS += gui/svmacgui.ui
 RESOURCES += application.qrc
 
 # Libraries
-LIBS += `pkg-config --cflags --libs jack`
+CONFIG += link_pkgconfig
+PKGCONFIG += jack
+#LIBS += -ljack -lpthread -lrt
+LIBS += `itpp-config --debug --cflags --static --libs`
 LIBS += -lrlog 
 LIBS += -L../lib -ljackcpp
 

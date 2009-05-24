@@ -7,21 +7,35 @@
 
 #include "feature.h"
 
+#include <itpp/itsignal.h>
+using namespace itpp;
+
 namespace features {
 
 class Processor {
-    int sampleRate;
-
-    static const int fsize = 2;
-    /** Features extractors */
+    /// Sample rate (from Jackd)
+    uint sampleRate;
+    
+    /// Frame length
+    uint M;
+    /// Frame overlap
+    uint R;
+    
+    /// Number of feature extractors
+    static const uint fsize = 2;
+    
+    /// Features extractors 
     Feature* features[fsize];
     
 public:
+    /// Constructor
     Processor(int sr);
+    
+    /// Destructor
     ~Processor();
 
     /** Process an audio frame and returns its features */
-    float* process(const float frame[]);
+    float* process(const vec& frame);
 };
 
 }
