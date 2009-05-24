@@ -24,7 +24,7 @@ Processor::~Processor() {
 }
 
 float* Processor::process(const vec& frame) {
-    rDebug("calling process ...");
+    rDebug("process called ...");
     
     for (uint i=0; i<fsize; i++) {
         rDebug("extracting: %s ...",features[i]->getName().c_str());

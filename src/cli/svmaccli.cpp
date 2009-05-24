@@ -85,6 +85,8 @@ void SvmacCli::mainLoop(float N, float R) {
     
     //sleep(3);
     cleanup(99);
+    
+    exit(0);
 }
 
 void SvmacCli::cleanup(int signal) {  

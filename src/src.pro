@@ -1,8 +1,10 @@
 TEMPLATE = app
+LANGUAGE = C++
 TARGET = svmacs
 DESTDIR = ../bin
 DEPENDPATH += . gui jack
 INCLUDEPATH += . gui jack
+CONFIG += debug
 
 # Input
 HEADERS += jack/jackclient.h \

@@ -16,6 +16,7 @@ Energy::Energy(int samplerate, string name) : Feature() {
 Energy::~Energy() {}
 
 vec Energy::extract(const vec& frame) const {
-
-    return 0;
+    //rDebug("Energy->extract()");
+    vec ret(1);
+    return ret;
 }
