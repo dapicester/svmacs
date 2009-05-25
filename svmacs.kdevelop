@@ -1,10 +1,12 @@
 <?xml version = '1.0'?>
 <kdevelop>
   <general>
+    <projectmanagement>KDevCustomProject</projectmanagement>
+    <projectdirectory>/home/paolo/tmp/svmacs</projectdirectory>
+    <absoluteprojectpath>true</absoluteprojectpath>
     <author>Paolo D'Apice</author>
     <email>dapicester@gmail.com</email>
     <version>0.1</version>
-    <projectmanagement>KDevTrollProject</projectmanagement>
     <primarylanguage>C++</primarylanguage>
     <keywords>
       <keyword>Qt</keyword>
@@ -12,10 +14,8 @@
     <versioncontrol>kdevsubversion</versioncontrol>
     <ignoreparts/>
     <projectname>svmacs</projectname>
-    <projectdirectory>.</projectdirectory>
-    <absoluteprojectpath>false</absoluteprojectpath>
-    <description/>
-    <defaultencoding/>
+    <description></description>
+    <defaultencoding></defaultencoding>
   </general>
   <kdevfileview>
     <groups>
@@ -121,16 +121,19 @@
   </kdevdoctreeview>
   <kdevdebugger>
     <general>
-      <dbgshell/>
+      <projectmanagement>KDevCustomProject</projectmanagement>
+      <projectdirectory>/home/paolo/tmp/svmacs</projectdirectory>
+      <absoluteprojectpath>true</absoluteprojectpath>
+      <dbgshell></dbgshell>
       <breakpoints/>
       <programargs/>
       <gdbpath>/usr/bin/gdb</gdbpath>
       <breakonloadinglibs>true</breakonloadinglibs>
       <separatetty>true</separatetty>
       <floatingtoolbar>false</floatingtoolbar>
-      <configGdbScript/>
-      <runShellScript/>
-      <runGdbScript/>
+      <configGdbScript></configGdbScript>
+      <runShellScript></runShellScript>
+      <runGdbScript></runGdbScript>
       <raiseGDBOnStart>false</raiseGDBOnStart>
     </general>
     <display>
@@ -157,6 +160,9 @@
       </envvars>
     </run>
     <general>
+      <projectmanagement>KDevCustomProject</projectmanagement>
+      <projectdirectory>/home/paolo/tmp/svmacs</projectdirectory>
+      <absoluteprojectpath>true</absoluteprojectpath>
       <activedir>src</activedir>
     </general>
     <make>
@@ -222,4 +228,65 @@
     <customTagfilePath>/home/paolo/projects/svmacs/tags</customTagfilePath>
     <activeTagsFiles/>
   </ctagspart>
+  <kdevcustomproject>
+    <filelistdirectory>/home/paolo/tmp/svmacs</filelistdirectory>
+    <run>
+      <directoryradio>executable</directoryradio>
+      <mainprogram>/home/paolo/tmp/svmacs/bin/svmacs</mainprogram>
+      <programargs>cli 1 0.5</programargs>
+      <globaldebugarguments>cli 1 0.5</globaldebugarguments>
+      <globalcwd>/home/paolo/tmp/svmacs</globalcwd>
+      <useglobalprogram>false</useglobalprogram>
+      <terminal>false</terminal>
+      <autocompile>false</autocompile>
+      <autoinstall>false</autoinstall>
+      <autokdesu>false</autokdesu>
+      <envvars/>
+    </run>
+    <filetypes>
+      <filetype>*.java</filetype>
+      <filetype>*.h</filetype>
+      <filetype>*.H</filetype>
+      <filetype>*.hh</filetype>
+      <filetype>*.hxx</filetype>
+      <filetype>*.hpp</filetype>
+      <filetype>*.c</filetype>
+      <filetype>*.C</filetype>
+      <filetype>*.cc</filetype>
+      <filetype>*.cpp</filetype>
+      <filetype>*.c++</filetype>
+      <filetype>*.cxx</filetype>
+      <filetype>Makefile</filetype>
+      <filetype>CMakeLists.txt</filetype>
+    </filetypes>
+    <blacklist/>
+    <build>
+      <buildtool>make</buildtool>
+      <builddir>/home/paolo/tmp/svmacs</builddir>
+      <builddir/>
+    </build>
+    <other>
+      <prio>0</prio>
+      <otherbin></otherbin>
+      <defaulttarget></defaulttarget>
+      <otheroptions></otheroptions>
+      <selectedenvironment>default</selectedenvironment>
+      <environments>
+        <default/>
+      </environments>
+    </other>
+    <make>
+      <abortonerror>false</abortonerror>
+      <numberofjobs>0</numberofjobs>
+      <prio>0</prio>
+      <dontact>false</dontact>
+      <makebin></makebin>
+      <defaulttarget></defaulttarget>
+      <makeoptions></makeoptions>
+      <selectedenvironment>default</selectedenvironment>
+      <environments>
+        <default/>
+      </environments>
+    </make>
+  </kdevcustomproject>
 </kdevelop>
