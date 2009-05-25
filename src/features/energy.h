@@ -13,12 +13,16 @@ using namespace itpp;
 
 namespace features {
 
+/// Extract the energy
 class Energy : public Feature {
 
 public:
     Energy(int samplerate, string name = "Energy");
     ~Energy();
     
+    /** Compute the energy for the given frame
+     * \param frame the audio samples
+     */
     vec extract(const vec& frame) const;
 };
 

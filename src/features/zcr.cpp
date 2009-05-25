@@ -28,12 +28,8 @@ vec ZCR::extract(const vec& frame) const {
     for (int i=0; i<diff.length(); i++)
         if (diff[i] == 0)
             cont++;
-    //FIXME test
-    double zcr = ((double) cont)/((double)len) * getSamplerate();
-    #ifdef ENABLE_DEBUG
-    rDebug("zcr: %f", zcr);
-    #endif
     
+    double zcr = ((double) cont)/((double)len) * getSamplerate();
     out.set(zcr,0);
     
     return out;

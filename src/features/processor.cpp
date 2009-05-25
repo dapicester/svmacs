@@ -44,16 +44,17 @@ vec Processor::process(const vec& frame) {
         vec curr = elem_mult( pframe.get(i, i+R-1), win);
         // TODO spettro
       
+        out.ins(0, features[0]->extract(curr)); //ZCR
+        out.ins(1, features[1]->extract(curr)); //energy
+        /*      
         for (uint i=0; i<fsize; i++) {
             //rDebug("extracting: %s ...",features[i]->getName().c_str());
             vec feat = features[i]->extract(curr);
             out.ins(out.length(), feat);
         }
+        */
     }
     
-#ifdef ENABLE_DEBUG    
-    //cout << "out: " << out << endl;
-#endif
     // TODO data reduction
     return out;
 }
