@@ -7,7 +7,7 @@
 
 #include "feature.h"
 
-#include <itpp/itsignal.h>
+#include <itpp/itbase.h>
 using namespace itpp;
 
 namespace features {
@@ -15,6 +15,14 @@ namespace features {
 class Processor {
     /// Sample rate (from Jackd)
     uint sampleRate;
+    
+    /// Default window length in seconds (25ms)
+    static const double WIN_LEN = 0.025;
+    /// Default percentage of windows overlap (50%)
+    static const double WIN_OVL = 0.5;
+    
+    /// Windows
+    vec win;
     
     /// Frame length
     uint M;
@@ -35,7 +43,7 @@ public:
     ~Processor();
 
     /** Process an audio frame and returns its features */
-    float* process(const vec& frame);
+    vec process(const vec& frame);
 };
 
 }

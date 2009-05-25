@@ -31,7 +31,10 @@ public:
     /** Entry point. */
     static SvmacCli* getInstance();
     
-    /** CLI main loop. */
+    /** CLI main loop. 
+     * \param N frame length in seconds
+     * \param R percentage of frame overlap     
+     */
     void mainLoop(float N, float R);
 };
 

@@ -8,7 +8,7 @@
 #include "feature.h"
 using namespace features;
 
-#include <itpp/itsignal.h>
+#include <itpp/itbase.h>
 using namespace itpp;
 
 namespace features {

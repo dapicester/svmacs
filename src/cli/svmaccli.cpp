@@ -36,8 +36,7 @@ void SvmacCli::mainLoop(float N, float R) {
     
     cout << "Starting the Jack client ... " << endl;
     
-    //TODO aggiungere parametro N
-    client = JackClient::getInstance(R);
+    client = JackClient::getInstance(N,R);
     if (client == 0) {
         rDebug("client not created");
         cout << "failed!" << endl;

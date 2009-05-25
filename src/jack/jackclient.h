@@ -14,24 +14,26 @@ namespace jack {
 
 class JackClient : public JackCpp::AudioIO {
 
+    /// Maximum number of input ports
     static const uint MAX_IN = 1;
+    /// Maximum number of output ports
     static const uint MAX_OUT = 1;
     
-    /// Frame overlap in samples
-    uint R; 
     /// Frame length in samples
     uint N;
+    /// Frame overlap in samples
+    uint R; 
+
     /// Input buffer
     RingBufferRead input;
     /// Current frame
-    //RingBufferRead buffer; 
     double* frame;
     
     /// Audio frame processor
     features::Processor processor;
     
      /// Constructor
-    JackClient(float overlap);
+    JackClient(float length, float overlap);
      /// Copy-constructor
     JackClient(JackClient&);
     
@@ -39,8 +41,11 @@ class JackClient : public JackCpp::AudioIO {
     void init();
     
 public:
-    /** Get the Jack client instance */
-    static JackClient* getInstance(float overlap = 0.0);
+    /** Get the Jack client instance
+     * \param length frame length in seconds (defaults to 1 second)
+     * \param overlap percentage of frame overlap (defaults to 0)
+     */
+    static JackClient* getInstance(float length = 1.0, float overlap = 0.0);
 
     /// Destructor
     ~JackClient();
