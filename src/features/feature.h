@@ -5,6 +5,12 @@
 #ifndef FEATURE_H
 #define FEATURE_H
 
+#ifdef DEBUG
+#define PRINT(x) cout << #x << ": " << x <<endl;
+#else
+#define PRINT(x)
+#endif
+
 #include <itpp/itsignal.h>
 using namespace itpp;
 

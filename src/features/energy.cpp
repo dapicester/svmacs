@@ -5,7 +5,7 @@
 #include "energy.h"
 using namespace features;
 
-#define RLOG_COMPONENT "zcr"
+#define RLOG_COMPONENT "energy"
 #include <rlog/rlog.h>
 
 Energy::Energy(int samplerate, string name) : Feature() {
@@ -16,17 +16,17 @@ Energy::Energy(int samplerate, string name) : Feature() {
 Energy::~Energy() {}
 
 vec Energy::extract(const vec& frame) const {
-    vec out(1);
     const int len = frame.length();
     
     vec square = sqr(abs(frame));
     
-    double energy = 0;
-    for (int i=0; i<len; i++)
-        energy += square[i];
-    
+    double energy = sum(square);
+    //PRINT(energy)
+
     energy = energy / len * getSamplerate();
-    out.set(energy,0);
+    //PRINT(energy)
     
-    return out;
+    vec ret(&energy, 1);
+    //PRINT(ret);
+    return ret;
 }

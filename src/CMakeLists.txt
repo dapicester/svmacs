@@ -14,7 +14,8 @@ set(svmacs_HDRS
 	features/processor.h
 	features/feature.h
 	features/zcr.h
-	features/energy.h 
+	features/energy.h
+	features/ass.h 
 	cli/svmaccli.h
 	gui/svmacgui.h
 )
@@ -25,35 +26,23 @@ set(svmacs_SRCS
 	features/processor.cpp
 	features/zcr.cpp
 	features/energy.cpp
+	features/ass.cpp
 	cli/svmaccli.cpp
 	gui/svmacgui.cpp
 	main.cpp 
 )
 
-# qt4
-
-# ui
-set(svmacs_UIS
-	gui/svmacgui.ui
-)
-
+### qt4 ui
+set(svmacs_UIS gui/svmacgui.ui)
 qt4_wrap_ui(svmacs_UIS_H ${svmacs_UIS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-# moc
-
-#set(svmacs_QT_SRC
-#	gui/svmacgui.cpp
-#)
-set(svmacs_MOCS
-	gui/svmacgui.h
-)
+### qt4 moc
+set(svmacs_MOCS gui/svmacgui.h)
 qt4_wrap_cpp(svmacs_MOCS_SRC ${svmacs_MOCS})
 
-# resources
-set (svmacs_RCCS
-	application.qrc
-)
+### qt4 resources
+set (svmacs_RCCS application.qrc)
 qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
 
 # executable

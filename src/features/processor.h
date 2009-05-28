@@ -29,11 +29,17 @@ class Processor {
     /// Frame overlap
     uint R;
     
-    /// Number of feature extractors
-    static const uint fsize = 2;
+    /// Number of frequency bins
+    static const int N_FFT = 1024;
     
+    /// Number of feature extractors
+    static const uint N_FEAT = 3;
+
     /// Features extractors 
-    Feature* features[fsize];
+    Feature* features[N_FEAT];
+
+    /// Number of features
+    static const uint N_FEATURES = 4;
     
 public:
     /// Constructor
