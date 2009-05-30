@@ -34,10 +34,9 @@ class Processor {
     
     /// Number of feature extractors
     static const uint N_FEAT = 3;
-
     /// Features extractors 
     Feature* features[N_FEAT];
-
+    
     /// Number of features
     static const uint N_FEATURES = 4;
     
@@ -47,7 +46,7 @@ public:
     
     /// Destructor
     ~Processor();
-
+    
     /** Process an audio frame and returns its features */
     vec process(const vec& frame);
 };

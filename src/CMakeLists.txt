@@ -2,7 +2,7 @@ include(${CMAKE_ROOT}/Modules/FindQt4.cmake)
 include(${QT_USE_FILE})
 include_directories(. ../lib ./utils)
 
-add_definitions(-Wall -W -ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
+add_definitions(-Wall -W -g `pkg-config --cflags jack` `itpp-config --cflags`)
 
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 

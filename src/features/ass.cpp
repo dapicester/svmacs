@@ -5,6 +5,8 @@
 #include "ass.h"
 using namespace features;
 
+#include "convert.h"
+
 #define RLOG_COMPONENT "ass"
 #include <rlog/rlog.h>
 
@@ -13,7 +15,7 @@ ASS::ASS(int samplerate, string name) : Feature() {
     setName(name);
 }
 
-ASS::~ASS() {}
+ASS::~ASS() { type = SPECTRAL; }
 
 vec ASS::extract(const vec& frame) const {
     const int len = frame.length() - 1;
@@ -24,10 +26,7 @@ vec ASS::extract(const vec& frame) const {
     double summ = sum(spectrum);
     //PRINT(summ);
 
-    vec bins(len);
-    for (int i=0; i<len; i++) {
-        bins[i] = i+2;
-    }
+    vec bins("1:" + utils::stringify(len));
     //PRINT(bins);
     
     double tmp[2];
@@ -36,9 +35,9 @@ vec ASS::extract(const vec& frame) const {
         tmp[1] = 0.0;
     } else {
         double centroid = sum(elem_mult(spectrum, bins))/summ;
-        PRINT(centroid);
+        //PRINT(centroid);
         double spread = sum(elem_mult(sqr(spectrum - centroid), bins))/summ;
-        PRINT(spread);
+        //PRINT(spread);
 
         tmp[0] = spread;
         tmp[1] = centroid;

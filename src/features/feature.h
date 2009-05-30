@@ -5,12 +5,6 @@
 #ifndef FEATURE_H
 #define FEATURE_H
 
-#ifdef DEBUG
-#define PRINT(x) cout << #x << ": " << x <<endl;
-#else
-#define PRINT(x)
-#endif
-
 #include <itpp/itsignal.h>
 using namespace itpp;
 
@@ -18,6 +12,12 @@ using namespace itpp;
 using namespace std;
 
 namespace features {
+
+/// Type of feature
+enum Type { 
+    TEMPORAL, 
+    SPECTRAL 
+};
 
 /** Interface to be implemented. */
 class Feature {
@@ -33,19 +33,25 @@ protected:
     void setSamplerate(const int& sr) {
         samplerate = sr;
     }
+
+   Type type;
     
 public:
-    string getName() const { 
+    inline string getName() const { 
         return name; 
     }
     
-    int getSamplerate() const {
+    inline int getSamplerate() const {
         return samplerate;
+    }
+
+    inline int getType() {
+        return type;
     }
 
     /** Process an audio frame and returns its features */
     virtual vec extract(const vec& frame) const = 0;
-    
+
 };
 
 }

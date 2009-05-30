@@ -10,6 +10,9 @@
 #include "ringbufferread.h"
 #include <jackaudioio.hpp>
 
+#include <itpp/itsignal.h>
+using namespace itpp;
+
 namespace jack {
 
 class JackClient : public JackCpp::AudioIO {
@@ -59,10 +62,14 @@ public:
     int audioCallback(jack_nframes_t nframes, 
                       audioBufVector inBufs,
                       audioBufVector outBufs);
-                                                           
+    
+    /// Get samples from the input buffer
+    vec* getFrame();
+/*
 private:
-    /** Read one audio frame */
-    void getAudioFrame();
+    /// Read one audio frame
+    void processFrame();
+*/
 };
 
 }

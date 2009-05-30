@@ -28,9 +28,9 @@ int main(int argc, char *argv[]) {
     StdioNode log;
 #ifdef ENABLE_DEBUG
     log.subscribeTo( GetGlobalChannel("debug") );
+#endif 
     log.subscribeTo( GetGlobalChannel("info") );
     log.subscribeTo( GetGlobalChannel("warning") );
-#endif 
     log.subscribeTo( GetGlobalChannel("error") );
      
     // check arguments 
@@ -38,8 +38,8 @@ int main(int argc, char *argv[]) {
         rDebug("too many arguments (%i)", argc);
         usage(argv[0]); 
         exit(1);
-    }   
-     
+    }
+    
     string interface; 
     if (argc == 1) {
         rDebug("no arguments");
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     } else {
         interface = argv[1]; 
     }
-        
+    
     if ((interface.compare("gui") != 0) && (interface.compare("cli") != 0)) {
         rDebug("wrong argument ('%s')", argv[1]);
         usage(argv[0]); 
@@ -58,12 +58,13 @@ int main(int argc, char *argv[]) {
         float N = 1.0, R = 0.0;
         if (argc > 2) {
             N = atof(argv[2]);
-            rDebug("N = %f", N);
             if (argc > 3) {
                 R = atof(argv[3]);
-                rDebug("R = %f", R);
             }
-        } 
+        }
+        rInfo("N = %f", N);
+        rInfo("R = %f", R);
+        
         rInfo("Launching the CLI interface ...");
         SvmacCli* cli = SvmacCli::getInstance();
         cli->mainLoop(N,R);

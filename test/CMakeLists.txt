@@ -7,8 +7,9 @@ set(INCLUDE_DIR
 
 include_directories(${INCLUDE_DIR})
 
-add_definitions(-Wall -W -ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
-add_definitions(-DDEBUG)
+add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
+#add_definitions(-DDEBUG)
+add_definitions(-DPLOT)
 
 #link_directories(${CMAKE_SOURCE_DIR}/lib)
 link_directories(${INCLUDE_DIR})
@@ -20,6 +21,7 @@ set(RING_BUFFER
 )
 
 set(FEATURES
+    testfeatures.h
     ../src/features/zcr.h
     ../src/features/zcr.cpp
     ../src/features/energy.h
@@ -28,16 +30,15 @@ set(FEATURES
     ../src/features/ass.cpp
 )
 
+set(EXECUTABLE_OUTPUT_PATH ./bin)
+
 add_executable(test-fail testfail.cpp)
 add_executable(test-utils testutils.cpp)
 add_executable(test-ringbuffer testringbuffer.cpp)
 add_executable(test-ringbufferread testringbufferread.cpp ${RING_BUFFER})
-add_executable(test-features testfeatures.cpp ${FEATURES})
+add_executable(test-zcr testzcr.cpp ${FEATURES})
+add_executable(test-energy testenergy.cpp ${FEATURES})
+add_executable(test-ass testass.cpp ${FEATURES})
 
 enable_testing()
-add_test(00-fail test-fail)
-add_test(01-utils test-utils)
-add_test(02-ringbuffer test-ringbuffer)
-add_test(03-ringbufferread test-ringbufferread)
-add_test(04-features test-features)
-
+#add_test(00-fail ./bin/test-fail)

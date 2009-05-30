@@ -10,10 +10,8 @@ using namespace jack;
 #define RLOG_COMPONENT "jackclient"
 #include <rlog/rlog.h>
 
-#include <itpp/itbase.h>
-using namespace itpp;
-
 #include <cmath>
+
 #include <iostream>
 using namespace std;
 
@@ -60,21 +58,38 @@ JackClient* JackClient::getInstance(float length, float overlap) {
 int JackClient::audioCallback(jack_nframes_t nframes, 
                               audioBufVector inBufs,
                               audioBufVector outBufs) {
+    //rDebug("callback");
     for(uint i = 0; i < inBufs.size(); i++) {
         for(uint j = 0; j < nframes; j++) {
             // fill the buffer
             input.write(inBufs[i][j]);
             // copy to output
-            outBufs[i][j] = inBufs[i][j];  
+            outBufs[i][j] = inBufs[i][j];
             
-            getAudioFrame();
+           getFrame();
         }
     }
     //0 on success
     return 0;
-}   
+}
 
-void JackClient::getAudioFrame() {
+vec* JackClient::getFrame() {
+    if (input.getReadSpace() >= N) {
+        rDebug("there are %d samples in the input buffer", N);
+        if (R > 0) { // overlapping frames
+            input.read(frame, R);    // read the first R samples
+            input.peek(frame+R, N-R);// and peek the remaining N-R samples 
+        } else { // no overlapping frames
+            input.read(frame, N);
+        }
+        vec* vframe = new vec(frame, N);
+        processor.process(*vframe);
+        return vframe;
+    } 
+}
+
+/*
+void JackClient::processFrame() {
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
         if (R > 0) { // overlapping frames
@@ -83,8 +98,9 @@ void JackClient::getAudioFrame() {
         } else { // no overlapping frames
             input.read(frame, N); 
         }
-        vec vframe(frame,N);
+        vec vframe(frame, N);
         // TODO: utilizzare il vec in uscita
         vec out = processor.process(vframe);
     } 
 }
+*/

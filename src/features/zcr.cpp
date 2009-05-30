@@ -13,7 +13,7 @@ ZCR::ZCR(int samplerate, string name) : Feature() {
     setName(name);
 }
 
-ZCR::~ZCR() {}
+ZCR::~ZCR() { type = TEMPORAL; }
 
 vec ZCR::extract(const vec& frame) const {
     const int len = frame.length();

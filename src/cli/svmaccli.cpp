@@ -78,7 +78,7 @@ void SvmacCli::mainLoop(float N, float R) {
     
     // main loop
     while(true) {
-        //client->getAudioFrame();
+        //client->getFrame();
         sleep(1);        
     }
     

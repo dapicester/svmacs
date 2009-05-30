@@ -13,7 +13,7 @@ Energy::Energy(int samplerate, string name) : Feature() {
     setName(name);
 }
 
-Energy::~Energy() {}
+Energy::~Energy() { type = TEMPORAL; }
 
 vec Energy::extract(const vec& frame) const {
     const int len = frame.length();
