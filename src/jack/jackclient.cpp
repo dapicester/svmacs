@@ -66,14 +66,16 @@ int JackClient::audioCallback(jack_nframes_t nframes,
             // copy to output
             outBufs[i][j] = inBufs[i][j];
             
-           getFrame();
+            // FIXME che fare col valore ritornato?
+            processFrame();
         }
     }
     //0 on success
     return 0;
 }
 
-vec* JackClient::getFrame() {
+vec* JackClient::processFrame() {
+    vec* out = 0;
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
         if (R > 0) { // overlapping frames
@@ -83,24 +85,7 @@ vec* JackClient::getFrame() {
             input.read(frame, N);
         }
         vec* vframe = new vec(frame, N);
-        processor.process(*vframe);
-        return vframe;
+        out = processor.process(*vframe);
     } 
+    return out;
 }
-
-/*
-void JackClient::processFrame() {
-    if (input.getReadSpace() >= N) {
-        rDebug("there are %d samples in the input buffer", N);
-        if (R > 0) { // overlapping frames
-            input.read(frame, R);    // read the first R samples
-            input.peek(frame+R, N-R);// and peek the remaining N-R samples 
-        } else { // no overlapping frames
-            input.read(frame, N); 
-        }
-        vec vframe(frame, N);
-        // TODO: utilizzare il vec in uscita
-        vec out = processor.process(vframe);
-    } 
-}
-*/

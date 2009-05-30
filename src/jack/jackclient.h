@@ -63,13 +63,10 @@ public:
                       audioBufVector inBufs,
                       audioBufVector outBufs);
     
-    /// Get samples from the input buffer
-    vec* getFrame();
-/*
-private:
-    /// Read one audio frame
-    void processFrame();
-*/
+private:    
+    /// Process samples from the input buffer
+    vec* processFrame();
+
 };
 
 }
