@@ -8,9 +8,6 @@
 #include "feature.h"
 using namespace features;
 
-#include <itpp/itsignal.h>
-using namespace itpp;
-
 namespace features {
 
 /// Extract the Zero-Crossing-Rate
@@ -20,10 +17,12 @@ public:
     ZCR(int samplerate, string name = "ZCR");
     ~ZCR();
     
+    Type getType() const;
+    
     /** Compute the ZCR for the given frame
      * \param frame the audio samples
      */
-    vec extract(const vec& frame) const;
+    void extract(const vec& frame, vec& features) const;
 };
 
 }

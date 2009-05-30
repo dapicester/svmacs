@@ -42,10 +42,10 @@ inline vec getSilence(const vec& time) {
 }
 
 /// Test a feature on a given signal
-void test(const vec& signal, const Feature* feature) {
+void test(const vec& signal, const Feature* feature, vec& features) {
     cout << "Testing " << feature->getName() << " ..." << endl;
-    vec val = feature->extract(signal);
-    PRINT(val);
+    feature->extract(signal, features);
+    PRINT(features);
     cout << "done." << endl;
 }
 

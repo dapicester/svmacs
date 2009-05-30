@@ -68,6 +68,7 @@ int JackClient::audioCallback(jack_nframes_t nframes,
             
             // FIXME che fare col valore ritornato?
             processFrame();
+            
         }
     }
     //0 on success

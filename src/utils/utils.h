@@ -5,7 +5,7 @@
 #ifndef SVM_UTILS_H
 #define SVM_UTILS_H
 
-#include "gnuplot_i.hpp"
+
 
 #include <itpp/itbase.h>
 using itpp::vec;
@@ -14,7 +14,6 @@ using itpp::vec;
 using std::cout;
 using std::cin;
 using std::endl;
-using std::string;
 
 namespace utils {
 
@@ -41,24 +40,6 @@ void pressKey () {
     std::cin.get();
 
     return;
-}
-
-Gnuplot* plot_x(const vec& x, const string& title = "") {
-    Gnuplot* p = new Gnuplot("test");
-    p->set_grid();
-    p->set_style("lines");
-    p->plot_x(x, title);
-    p->showonscreen();
-    return p;
-}
-
-Gnuplot* plot_xy(const vec& x, const vec& y, const string& title = "") {
-    Gnuplot* p = new Gnuplot("test");
-    p->set_grid();
-    p->set_style("lines");
-    p->plot_xy(x, y, title);
-    p->showonscreen();
-    return p;
 }
 
 };

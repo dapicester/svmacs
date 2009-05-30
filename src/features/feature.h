@@ -5,8 +5,8 @@
 #ifndef FEATURE_H
 #define FEATURE_H
 
-#include <itpp/itsignal.h>
-using namespace itpp;
+#include <itpp/base/vec.h>
+using itpp::vec;
 
 #include <string>
 using namespace std;
@@ -34,8 +34,6 @@ protected:
         samplerate = sr;
     }
 
-   Type type;
-    
 public:
     inline string getName() const { 
         return name; 
@@ -45,12 +43,13 @@ public:
         return samplerate;
     }
 
-    inline int getType() {
-        return type;
-    }
+    virtual inline Type getType() const = 0;
 
-    /** Process an audio frame and returns its features */
-    virtual vec extract(const vec& frame) const = 0;
+    /** Process an audio frame and returns its features 
+     \param frame data to be processed
+     \param features features vector to which append data
+     */
+    virtual void extract(const vec& frame, vec& features) const = 0;
 
 };
 

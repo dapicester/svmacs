@@ -8,10 +8,9 @@ set(INCLUDE_DIR
 include_directories(${INCLUDE_DIR})
 
 add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
-#add_definitions(-DDEBUG)
-add_definitions(-DPLOT)
+add_definitions(-DDEBUG)
+#add_definitions(-DPLOT)
 
-#link_directories(${CMAKE_SOURCE_DIR}/lib)
 link_directories(${INCLUDE_DIR})
 link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp)
 
@@ -42,3 +41,6 @@ add_executable(test-ass testass.cpp ${FEATURES})
 
 enable_testing()
 #add_test(00-fail ./bin/test-fail)
+add_test(01-test-zcr bin/test-zcr)
+add_test(02-test-energy bin/test-energy)
+add_test(03-test-ass bin/test-ass)

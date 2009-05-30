@@ -5,6 +5,9 @@
 #include "zcr.h"
 using namespace features;
 
+#include <itpp/base/math/elem_math.h>
+using itpp::sign;
+
 #define RLOG_COMPONENT "zcr"
 #include <rlog/rlog.h>
 
@@ -13,25 +16,22 @@ ZCR::ZCR(int samplerate, string name) : Feature() {
     setName(name);
 }
 
-ZCR::~ZCR() { type = TEMPORAL; }
+ZCR::~ZCR() {}
 
-vec ZCR::extract(const vec& frame) const {
+Type ZCR::getType() const { return TEMPORAL; }
+
+void ZCR::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
 
     vec sgn = sign(frame); 
-    //PRINT(sgn);
     
     double cont = 0;
     for (int  i = 0; i < len - 2; i++) {
         if ( (sgn[i+1] - sgn[i]) != 0 )
              cont++;
     }
-    //PRINT(cont);
 
     double zcr = cont / len * getSamplerate();
-    //PRINT(zcr);
     
-    vec ret(&zcr, 1); 
-    //PRINT(ret);
-    return ret;
+    features = concat(features, zcr); 
 }

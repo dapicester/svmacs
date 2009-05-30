@@ -6,9 +6,11 @@
 #include "ass.h"
 using namespace features;
 
+#ifdef PLOT
 #include "utils.h"
-
+#include "plot.h"
 #include "gnuplot_i.hpp"
+#endif
 
 int main() {
     vec t = getTime(0, 2, 0.01);
@@ -17,9 +19,13 @@ int main() {
 
     vec sx = abs(fft(to_cvec(x), N_FFT)).left(N_FFT/2);
     vec sy = abs(fft(to_cvec(y), N_FFT)).left(N_FFT/2);
-
-    test(sx, new ASS(100));
-    test(sy, new ASS(100));
+    
+    vec featx, featy;
+    test(sx, new ASS(100), featx);
+    test(sy, new ASS(100), featy);
+    
+    if (featx.size() != 2 || featy.size() != 2)
+        exit(1);
 
 #ifdef PLOT
     Gnuplot* p1 = cli::plot_xy(t, x, "test");

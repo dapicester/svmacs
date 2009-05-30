@@ -8,9 +8,6 @@
 #include "feature.h"
 using namespace features;
 
-#include <itpp/itsignal.h>
-using namespace itpp;
-
 namespace features {
 
 /// Extract the Audio Spectral Spread and the Audio Spectral Centroid
@@ -20,11 +17,13 @@ public:
     ASS(int samplerate, string name = "ASS");
     ~ASS();
     
+    Type getType() const;
+    
     /** 
      * Compute the ASS and the ASC for the given spectrum
      * \param frame the audio spectrum
      */
-    vec extract(const vec& frame) const;
+     void extract(const vec& frame, vec& features) const;
 };
 
 }

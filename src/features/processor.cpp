@@ -12,6 +12,11 @@ using namespace features;
 #include "utils.h"
 using utils::flipud;
 
+#include <itpp/itsignal.h>
+using namespace itpp;
+#include <itpp/stat/misc_stat.h>
+using itpp::mean;
+
 #define RLOG_COMPONENT "processor"
 #include <rlog/rlog.h>
 
@@ -35,31 +40,48 @@ Processor::~Processor() {
 vec* Processor::process(const vec& frame) {
     rDebug("process called ...");
     
-    vec pframe(frame);
-    pframe.ins(frame.length(), flipud(frame.right(R)));
+    double L = frame.length();
+    //rDebug("L: %f", L);
+    
+    double Nframes = floor((L-R)/(M-R));
+    rDebug("Nframes: %f", Nframes);
+    
+    vec pframe = concat(frame, flipud(frame.right(R)));
     rDebug("frame padded to length %d", pframe.length());
    
     // TODO init altre features
     
-    rDebug("process frame");
-    vec* out;
-    for (uint i=0; i<pframe.length()-R; i+=R) {
+    //rDebug("process frame");    
+    mat mfeatures(Nframes, N_FEATURES);
+    for (uint i=0, counter=0; i<L-M-1; i+=R, counter++) {
         //rDebug("reading samples with index [%d,%d]", i, i+R-1);
+        
         vec current = elem_mult( pframe.get(i, i+R-1), win);
         vec spectrum = abs(fft(to_cvec(current), N_FFT)).left(N_FFT/2);
         
         //rDebug("extracting");
+        vec feat;
         for (uint j=0; j<N_FEAT; j++) {
-            //rDebug("extracting: %s ...",features[i]->getName().c_str());
-            vec feat;
+            //rDebug("extracting: %s ...",features[j]->getName().c_str());
             switch (features[j]->getType()) {
-            case TEMPORAL: features[j]->extract(current); break;
-            case SPECTRAL: features[j]->extract(spectrum); break;
+            case TEMPORAL:
+                features[j]->extract(current, feat); 
+                break;
+            case SPECTRAL: 
+                features[j]->extract(spectrum, feat); 
+                break;
             }
-            //concat(out, feat);
         }
+        cout << "feat: " << feat << endl;
+        mfeatures.set_row(counter, feat);
     }
+    //cout << "mfeatures: " << mfeatures << endl;
     
-    // TODO data reduction
+    // data reduction
+    vec* out = new vec(N_FEATURES);
+    for (uint i=0; i<N_FEATURES; i++) {
+        out->set(i, mean( mfeatures.get_col(i)));
+    }
+    //cout << "out: " << *out << endl;
     return out;
 }

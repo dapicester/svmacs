@@ -8,9 +8,6 @@
 #include "feature.h"
 using namespace features;
 
-#include <itpp/itsignal.h>
-using namespace itpp;
-
 namespace features {
 
 /// Extract the energy
@@ -20,11 +17,13 @@ public:
     Energy(int samplerate, string name = "Energy");
     ~Energy();
     
+    Type getType() const;
+    
     /**
      * Compute the energy for the given frame
      * \param frame the audio samples
      */
-    vec extract(const vec& frame) const;
+    void extract(const vec& frame, vec& features) const;
 };
 
 }

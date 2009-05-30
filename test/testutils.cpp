@@ -12,21 +12,13 @@ int main(int argc, char** argv) {
     vec b = flipud(a);
     cout << "a: " << a << endl;
     cout << "b: " << b << endl;
-    /*
-    cout << "a.*b: " << elem_mult(a,b) << endl;
-
-    vec c(a);
-    cout << "c: " << c << endl;
     
-    c.ins(c.length(),b);
-    cout << "c: " << c << endl;
+    cout << concat(a,b) << endl;
     
-    vec d = c.get(1,4);
-    cout << "d: " << d << endl;
-    cout << "size: " << d.size() << endl;
-    */
+    vec c;
+    c = concat(c,3.14);
+    cout << c << endl;
     
-    //vec s = sign(a);
-    vec s = a-b;
-    cout << "s: " << s << endl;
+    c = concat(c,a);
+    cout << c << endl;
 }

@@ -7,8 +7,8 @@
 
 #include "feature.h"
 
-#include <itpp/itbase.h>
-using namespace itpp;
+#include <itpp/base/vec.h>
+using itpp::vec;
 
 namespace features {
 
