@@ -17,9 +17,15 @@ int main() {
     vec x = getSignal(t, 1.0);
     vec y = getSilence(t);
 
-    vec feat;
-    test(x, new Energy(100), feat);
+    vec featx, featy;
+    test(x, new Energy(100), featx);
+    test(y, new Energy(100), featy);
 
+    if (featx.size() != 1 || 
+        featy.size() != 1 ||
+        featy[0] != 0.0 )
+        exit (1);
+        
 #ifdef PLOT
     Gnuplot* p1 = cli::plot_xy(t, x, "test");
     Gnuplot* p2 = cli::plot_xy(t, y, "silence");

@@ -33,12 +33,12 @@ class Processor {
     static const int N_FFT = 1024;
     
     /// Number of feature extractors
-    static const uint N_FEAT = 3;
+    static const uint N_FEAT = 4;
     /// Features extractors 
     Feature* features[N_FEAT];
     
     /// Number of features
-    static const uint N_FEATURES = 4;
+    static const uint N_FEATURES = 5;
     
 public:
     /// Constructor

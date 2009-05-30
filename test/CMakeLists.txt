@@ -27,6 +27,8 @@ set(FEATURES
     ../src/features/energy.cpp
     ../src/features/ass.h
     ../src/features/ass.cpp
+    ../src/features/srf.h
+    ../src/features/srf.cpp
 )
 
 set(EXECUTABLE_OUTPUT_PATH ./bin)
@@ -38,9 +40,11 @@ add_executable(test-ringbufferread testringbufferread.cpp ${RING_BUFFER})
 add_executable(test-zcr testzcr.cpp ${FEATURES})
 add_executable(test-energy testenergy.cpp ${FEATURES})
 add_executable(test-ass testass.cpp ${FEATURES})
+add_executable(test-srf testsrf.cpp ${FEATURES})
 
 enable_testing()
 #add_test(00-fail ./bin/test-fail)
 add_test(01-test-zcr bin/test-zcr)
 add_test(02-test-energy bin/test-energy)
 add_test(03-test-ass bin/test-ass)
+add_test(04-test-srf bin/test-srf)

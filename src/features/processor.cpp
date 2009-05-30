@@ -7,6 +7,7 @@
 #include "zcr.h"
 #include "energy.h"
 #include "ass.h"
+#include "srf.h"
 using namespace features;
 
 #include "utils.h"
@@ -28,7 +29,8 @@ Processor::Processor(int sr) : sampleRate(sr) {
     
     features[0] = new ZCR(sr);
     features[1] = new Energy(sr);  
-    features[2] = new ASS(sr);  
+    features[2] = new ASS(sr); 
+    features[3] = new SRF(sr); 
      
     rDebug("Processor created");
 }
@@ -44,10 +46,10 @@ vec* Processor::process(const vec& frame) {
     //rDebug("L: %f", L);
     
     double Nframes = floor((L-R)/(M-R));
-    rDebug("Nframes: %f", Nframes);
+    //rDebug("Nframes: %f", Nframes);
     
     vec pframe = concat(frame, flipud(frame.right(R)));
-    rDebug("frame padded to length %d", pframe.length());
+    //rDebug("frame padded to length %d", pframe.length());
    
     // TODO init altre features
     
@@ -72,7 +74,7 @@ vec* Processor::process(const vec& frame) {
                 break;
             }
         }
-        cout << "feat: " << feat << endl;
+        //cout << "feat: " << feat << endl;
         mfeatures.set_row(counter, feat);
     }
     //cout << "mfeatures: " << mfeatures << endl;

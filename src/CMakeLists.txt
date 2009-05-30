@@ -16,6 +16,7 @@ set(svmacs_HDRS
 	features/zcr.h
 	features/energy.h
 	features/ass.h 
+	features/srf.h 
 	cli/svmaccli.h
 	gui/svmacgui.h
 )
@@ -27,6 +28,7 @@ set(svmacs_SRCS
 	features/zcr.cpp
 	features/energy.cpp
 	features/ass.cpp
+	features/srf.cpp 
 	cli/svmaccli.cpp
 	gui/svmacgui.cpp
 	main.cpp 
