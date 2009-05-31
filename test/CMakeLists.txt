@@ -8,7 +8,7 @@ set(INCLUDE_DIR
 include_directories(${INCLUDE_DIR})
 
 add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
-add_definitions(-DDEBUG)
+#add_definitions(-DDEBUG)
 #add_definitions(-DPLOT)
 
 link_directories(${INCLUDE_DIR})
@@ -19,16 +19,29 @@ set(RING_BUFFER
     ../src/jack/ringbufferread.cpp
 )
 
-set(FEATURES
-    testfeatures.h
+set(ZCR testfeatures.h
     ../src/features/zcr.h
     ../src/features/zcr.cpp
+)
+
+set(ENERGY testfeatures.h
     ../src/features/energy.h
     ../src/features/energy.cpp
+)
+
+set(ASS testfeatures.h
     ../src/features/ass.h
     ../src/features/ass.cpp
+) 
+
+set(SRF testfeatures.h
     ../src/features/srf.h
     ../src/features/srf.cpp
+)
+
+set(HR testfeatures.h
+    ../src/features/hr.h
+    ../src/features/hr.cpp
 )
 
 set(EXECUTABLE_OUTPUT_PATH ./bin)
@@ -37,10 +50,11 @@ add_executable(test-fail testfail.cpp)
 add_executable(test-utils testutils.cpp)
 add_executable(test-ringbuffer testringbuffer.cpp)
 add_executable(test-ringbufferread testringbufferread.cpp ${RING_BUFFER})
-add_executable(test-zcr testzcr.cpp ${FEATURES})
-add_executable(test-energy testenergy.cpp ${FEATURES})
-add_executable(test-ass testass.cpp ${FEATURES})
-add_executable(test-srf testsrf.cpp ${FEATURES})
+add_executable(test-zcr testzcr.cpp ${ZCR})
+add_executable(test-energy testenergy.cpp ${ENERGY})
+add_executable(test-ass testass.cpp ${ASS})
+add_executable(test-srf testsrf.cpp ${SRF})
+add_executable(test-hr testhr.cpp ${HR})
 
 enable_testing()
 #add_test(00-fail ./bin/test-fail)
@@ -48,3 +62,4 @@ add_test(01-test-zcr bin/test-zcr)
 add_test(02-test-energy bin/test-energy)
 add_test(03-test-ass bin/test-ass)
 add_test(04-test-srf bin/test-srf)
+add_test(04-test-hr bin/test-hr)

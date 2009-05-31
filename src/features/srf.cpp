@@ -13,10 +13,6 @@ using itpp::sum;
 #define RLOG_COMPONENT "srf"
 #include <rlog/rlog.h>
 
-#define PRINT(X) cout << #X << ": " << X <<endl;
-#include <iostream>
-using namespace std;
-
 SRF::SRF(int samplerate, string name) : Feature() {
     setSamplerate(samplerate);
     setName(name);

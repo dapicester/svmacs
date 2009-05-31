@@ -5,10 +5,10 @@
 #ifndef SVM_UTILS_H
 #define SVM_UTILS_H
 
-
-
 #include <itpp/itbase.h>
 using itpp::vec;
+using itpp::ivec;
+using itpp::to_ivec;
 
 #include <iostream>
 using std::cout;
@@ -28,7 +28,49 @@ vec flipud(const vec& input) {
     return output;
 }
 
+/** Return the number of elements. */
+inline uint numel(const vec& input) {
+    return input.length();
 }
+
+/** Return the number of elements. */
+inline uint numel(const ivec& input) {
+    return input.length();
+}
+
+/** Find indices of nonzero elements. */
+ivec find(const vec& input) {
+    const int len = input.length(); 
+    ivec idx;
+    for (int i=0; i<len; i++) {
+        if (input[i] != 0.0) {
+            idx = concat(idx, i);
+        }
+    }
+    return idx;
+}
+
+/** Return difference and approximate derivative. */
+vec diff(const vec& input) {
+    const int len = input.length()-1; 
+    vec out(len);
+    for (int i=0; i<len; i++)
+        out[i] = input[i+1] - input[i];
+    return out;
+}
+
+/** Find local maxima indices. */
+ivec maxima(const vec& input) {
+    vec updown = sign(diff(input));
+    
+    vec flags; 
+    flags = concat(flags, static_cast<double>(updown[0] < 0));
+    flags = concat(flags, to_vec(diff(updown) < 0));
+    flags = concat(flags, static_cast<double>(updown[updown.length()-1] > 0));
+    return to_ivec(find(flags));
+}
+
+} // namespace utils
 
 namespace cli {
 
@@ -42,6 +84,6 @@ void pressKey () {
     return;
 }
 
-};
+} // namespace cli
 
 #endif
