@@ -25,6 +25,7 @@ int main() {
     test(sy, new ASS(100), featy);
     
     if (featx.size() != 2 || featy.size() != 2 
+//        || featx[0] != 1445.48 || featy[1] != 17.6541
         || featy[0] != 0 || featy[1] != 0)
         exit(1);
 

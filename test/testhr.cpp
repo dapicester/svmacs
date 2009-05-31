@@ -14,7 +14,7 @@ using namespace features;
 
 int main() {
     vec t = getTime(0, 2, 0.01);
-    vec x = getSignal(t, 1.0, 0.2);
+    vec x = getSignal(t, 1.0);
     vec y = getSilence(t);
    
     vec featx, featy;

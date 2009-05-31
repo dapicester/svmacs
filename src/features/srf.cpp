@@ -31,9 +31,10 @@ void SRF::extract(const vec& frame, vec& features) const {
     
     double K = 0.0;
     for (int k=1; k<len; k++) {
-        //FIXME constrollare
         double summ = sum(spectrum2.left(k));
-        if ( summ > threshold) {
+        //FIXME va col < (sbagliata la versione matlab)
+        //if ( summ > threshold) {
+        if ( summ < threshold) {
              K = k;
              break;
         }

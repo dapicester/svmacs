@@ -38,8 +38,8 @@ void ASS::extract(const vec& frame, vec& features) const {
         vec tmp("0 0");
         features = concat(features, tmp);
     } else {
-        double centroid = sum(elem_mult(spectrum, bins))/summ;
-        double spread = sum(elem_mult(sqr(spectrum - centroid), bins))/summ;
+        double centroid = sum(elem_mult(bins,spectrum))/summ;
+        double spread = sum(elem_mult(sqr(bins-centroid), spectrum))/summ;
         
         features = concat(features, spread);
         features = concat(features, centroid);

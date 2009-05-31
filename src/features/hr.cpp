@@ -38,8 +38,11 @@ void HR::extract(const vec& frame, vec& features) const {
     double out = 0.0;
     
     if (numel(find(frame)) != 0) { // no silence
-        vec R = xcorr(frame, len-1, "coeff");
-        R = R.right(len/2);
+        vec R = xcorr(frame, -1, "coeff");
+        const int rlen = R.length();
+        
+        R = R.right(rlen-rlen/2);
+        
         ivec idx = maxima(R);
         vec maxval = R(idx);
         
