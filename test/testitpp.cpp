@@ -11,11 +11,9 @@ using namespace std;
 #define PRINT(X) cout << #X << ": " << X << endl;
 
 int main() {
-	mat A = "1 2 3; 4 5 6"; PRINT(A);
-	mat B = "1 2 3"; PRINT(B);
+	mat A = "1 2 3; 4 5 6; 7 8 9"; PRINT(A);
+	mat B = "1; 2; 3"; PRINT(B);
 	
-	mat C = B*A; PRINT(C);
-
-
-
+	mat C = A*B; PRINT(C);
+        mat D = B.hermitian_transpose() * A; PRINT(D);
 }

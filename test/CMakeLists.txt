@@ -7,15 +7,11 @@ set(INCLUDE_DIR
 
 include_directories(${INCLUDE_DIR})
 
-#find_package(LAPACK REQUIRED)
-#find_package(BLAS REQUIRED)
-
-add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags --static --libs`)
+add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
 #add_definitions(-DDEBUG)
 #add_definitions(-DPLOT)
 
 link_directories(${INCLUDE_DIR})
-link_directories(/usr/lib/gcc/i486-linux-gnu/4.2/)
 link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp)
 
 set(RING_BUFFER
