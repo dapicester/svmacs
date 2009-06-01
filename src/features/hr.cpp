@@ -24,8 +24,6 @@ HR::~HR() {}
 inline Type HR::getType() const { return TEMPORAL; }
 
 void HR::extract(const vec& frame, vec& features) const {
-    const int len = frame.length();
-    
     double out = 0.0;
     
     if (numel(find(frame)) != 0) { // no silence

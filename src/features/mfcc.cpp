@@ -13,6 +13,7 @@ using utils::stringify;
 
 #define PRINT(X) cout << #X << ": " << X << endl;
 #define PR(X) cout << X << endl;
+#define LINE cout << "---------------------------------------------" << endl;
 
 MFCC::MFCC(int samplerate, string name) : Feature() {
     setSamplerate(samplerate);
@@ -29,7 +30,7 @@ void MFCC::setFilterBank(const mat* fb) {
 
 const mat* MFCC::getMelFilters(const int& Nfft, const int& Fs, const int& Nfilters) {
     const double freqMin = 0, freqMax = Fs/2;
-    mat* wts = new mat(Nfilters, Nfft);
+    mat wts(Nfilters, Nfft);
     
     vec tmp = "0 : " + stringify(Nfilters+1);
 
@@ -64,7 +65,7 @@ const mat* MFCC::getMelFilters(const int& Nfft, const int& Fs, const int& Nfilte
 	m2.zeros();
 	m2.set_row(1, min(m1));
         
-        wts->set_row(i, max(m2)); //PRINT(wts->get_row(i));
+        wts.set_row(i, max(m2)); //PRINT(wts.get_row(i));
     }
 
     // Make sure 2nd half of FFT is zero
@@ -73,11 +74,23 @@ const mat* MFCC::getMelFilters(const int& Nfft, const int& Fs, const int& Nfilte
     //zeros.zeros();
     //wts->set_cols(Nfft/2+1, zeros);
     //PRINT(*wts);
-    return wts;
+    return new mat(wts.get_cols(0,Nfft/2));
 }
 
 void MFCC::extract(const vec& frame, vec& features) const {
-    mat spectrum(frame);
-    mat energy = (*filterBank) * spectrum.hermitian_transpose();
-    PR("oooo");
+    //tic();
+
+    mat spectrum(frame);   
+    mat energy = ((*filterBank) * spectrum) + 1; //PRINT(energy); LINE;
+    
+    int numFilters = filterBank->rows(); //PRINT(numFilters);
+    
+    mat a = "0 : " + stringify(N_MFCC); //PRINT(a);
+    mat b = "1 : " + stringify(numFilters); //PRINT(b);
+    mat c = (a.hermitian_transpose() * (b - 0.5)); //PRINT(tmp3); LINE;
+    mat d = log10(energy); //PRINT(d); LINE;
+    mat coeffs = cos(c * (pi/numFilters)) * d; //PRINT(coeffs); LINE;
+    //PRINT(toc());
+    
+    features = concat(features, coeffs.get_col(0).right(N_MFCC));
 }

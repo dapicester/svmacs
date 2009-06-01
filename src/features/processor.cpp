@@ -9,6 +9,7 @@
 #include "ass.h"
 #include "srf.h"
 #include "hr.h"
+#include "mfcc.h"
 using namespace features;
 
 #include "utils.h"
@@ -33,10 +34,10 @@ Processor::Processor(int sr) : sampleRate(sr) {
     features[2] = new ASS(sr); 
     features[3] = new SRF(sr); 
     features[4] = new HR(sr);
-/*    MFCC* mfcc = new MFCC(sr);
-    mat* fb = generateFilter(N_FFT, sr, N_MFCC_FILTERS);
-    mfcc->setFilterBanK(fb);
-    features[5] = mfcc;*/
+    MFCC* mfcc = new MFCC(sr);
+    const mat* fb = MFCC::getMelFilters(N_FFT-1, sr, 24); //N_MFCC_FILTERS
+    mfcc->setFilterBank(fb);
+    features[5] = mfcc;
      
     rDebug("Processor created");
 }
@@ -69,7 +70,7 @@ vec* Processor::process(const vec& frame) {
         
         //rDebug("extracting");
         vec feat;
-        for (uint j=0; j<N_FEAT; j++) {
+        for (uint j=0; j<N_EXCTRACTORS; j++) {
             //rDebug("extracting: %s ...",features[j]->getName().c_str());
             switch (features[j]->getType()) {
             case TEMPORAL:
@@ -90,6 +91,6 @@ vec* Processor::process(const vec& frame) {
     for (uint i=0; i<N_FEATURES; i++) {
         out->set(i, mean( mfeatures.get_col(i)));
     }
-    //cout << "out: " << *out << endl;
+    cout << "out: " << *out << endl;
     return out;
 }

@@ -64,8 +64,8 @@ void SvmacCli::mainLoop(float N, float R) {
 #endif
 
     try {
-	//client->connectFromPhysical(0,0);
-	//client->connectToPhysical(0,0);
+	client->connectFromPhysical(0,0);
+	client->connectToPhysical(0,0);
     } catch (std::runtime_error e){
         cout << "WARNING! " << e.what() << endl;
     }

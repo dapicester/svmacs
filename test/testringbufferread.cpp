@@ -7,11 +7,11 @@ using std::endl;
 
 int main(){
 	double t[] = {1,2,3,4,5,6,7,8};    
-	int r;	
+	//int r;	
 	
-	int L = 8, // lunghezza array
-	N = 4, // lunghezza frame
-	R = 2; // overlap
+	int L = 8; // lunghezza array
+	int N = 4; // lunghezza frame
+	//int R = 2; // overlap
 	
 	RingBufferRead input(2*L+1); // deve essere abbastanza grande, diciamo 2L+1
 	cout << "input length = " << input.length() << endl;

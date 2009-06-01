@@ -14,14 +14,14 @@ using namespace features;
 
 int main() {
     vec t = getTime(0, 2, 0.01);
-    vec x = getSignal(t, 1.0, 0.2);
+    vec x = getSignal(t, 1.0);
     vec y = getSilence(t);
 
     vec sx = abs(fft(to_cvec(x), N_FFT)).left(N_FFT/2);
     vec sy = abs(fft(to_cvec(y), N_FFT)).left(N_FFT/2);
     
     MFCC* mfcc = new MFCC(100);
-    const mat* fb = MFCC::getMelFilters(N_FFT, 100, 24);
+    const mat* fb = MFCC::getMelFilters(N_FFT-1, 100, 24);
     mfcc->setFilterBank(fb);
     //mfcc->setFilterBank(MFCC::getMelFilters(16, 100, 4));
     
