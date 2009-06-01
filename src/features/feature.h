@@ -43,7 +43,7 @@ public:
         return samplerate;
     }
 
-    virtual inline Type getType() const = 0;
+    virtual Type getType() const = 0;
 
     /** Process an audio frame and returns its features 
      \param frame data to be processed

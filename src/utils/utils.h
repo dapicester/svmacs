@@ -18,7 +18,7 @@ using std::endl;
 namespace utils {
 
 /** Return a mirrored copy of the input vector. */
-vec flipud(const vec& input) {
+inline vec flipud(const vec& input) {
     const int len = input.length(); 
     vec output(len);
     for (int i=0, j=len-1; i<len; i++, j--) {
@@ -39,7 +39,7 @@ inline uint numel(const ivec& input) {
 }
 
 /** Find indices of nonzero elements. */
-ivec find(const vec& input) {
+inline ivec find(const vec& input) {
     const int len = input.length(); 
     ivec idx;
     for (int i=0; i<len; i++) {
@@ -51,7 +51,7 @@ ivec find(const vec& input) {
 }
 
 /** Return difference and approximate derivative. */
-vec diff(const vec& input) {
+inline vec diff(const vec& input) {
     const int len = input.length()-1; 
     vec out(len);
     for (int i=0; i<len; i++)
@@ -60,7 +60,7 @@ vec diff(const vec& input) {
 }
 
 /** Find local maxima indices. */
-ivec maxima(const vec& input) {
+inline ivec maxima(const vec& input) {
     vec updown = sign(diff(input));
     
     vec flags; 
@@ -74,7 +74,7 @@ ivec maxima(const vec& input) {
 
 namespace cli {
 
-void pressKey () {
+void inline pressKey () {
     cout << endl << "Press ENTER to continue..." << endl;
 
     std::cin.clear();

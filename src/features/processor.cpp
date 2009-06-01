@@ -8,6 +8,7 @@
 #include "energy.h"
 #include "ass.h"
 #include "srf.h"
+#include "hr.h"
 using namespace features;
 
 #include "utils.h"
@@ -31,6 +32,11 @@ Processor::Processor(int sr) : sampleRate(sr) {
     features[1] = new Energy(sr);  
     features[2] = new ASS(sr); 
     features[3] = new SRF(sr); 
+    features[4] = new HR(sr);
+/*    MFCC* mfcc = new MFCC(sr);
+    mat* fb = generateFilter(N_FFT, sr, N_MFCC_FILTERS);
+    mfcc->setFilterBanK(fb);
+    features[5] = mfcc;*/
      
     rDebug("Processor created");
 }

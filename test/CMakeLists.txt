@@ -7,11 +7,15 @@ set(INCLUDE_DIR
 
 include_directories(${INCLUDE_DIR})
 
-add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
+#find_package(LAPACK REQUIRED)
+#find_package(BLAS REQUIRED)
+
+add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags --static --libs`)
 #add_definitions(-DDEBUG)
 #add_definitions(-DPLOT)
 
 link_directories(${INCLUDE_DIR})
+link_directories(/usr/lib/gcc/i486-linux-gnu/4.2/)
 link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp)
 
 set(RING_BUFFER
@@ -44,9 +48,15 @@ set(HR testfeatures.h
     ../src/features/hr.cpp
 )
 
+set(MFCC testfeatures.h
+    ../src/features/mfcc.h
+    ../src/features/mfcc.cpp
+)
+
 set(EXECUTABLE_OUTPUT_PATH ./bin)
 
 add_executable(test-fail testfail.cpp)
+add_executable(test-itpp testitpp.cpp)
 add_executable(test-utils testutils.cpp)
 add_executable(test-ringbuffer testringbuffer.cpp)
 add_executable(test-ringbufferread testringbufferread.cpp ${RING_BUFFER})
@@ -55,9 +65,11 @@ add_executable(test-energy testenergy.cpp ${ENERGY})
 add_executable(test-ass testass.cpp ${ASS})
 add_executable(test-srf testsrf.cpp ${SRF})
 add_executable(test-hr testhr.cpp ${HR})
+add_executable(test-mfcc testmfcc.cpp ${MFCC})
 
 enable_testing()
 #add_test(00-fail ./bin/test-fail)
+#add_test(00-itpp ./bin/test-itpp)
 add_test(01-test-zcr bin/test-zcr)
 add_test(02-test-energy bin/test-energy)
 add_test(03-test-ass bin/test-ass)

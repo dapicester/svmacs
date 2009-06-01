@@ -7,21 +7,12 @@ using namespace features;
 
 #include "utils.h"
 using namespace utils;
-/*
-#include <itpp/base/math/elem_math.h>
-using itpp::sqr;
-#include <itpp/base/matfunc.h>
-using itpp::sum;
-*/
+
 #include <itpp/signal/sigfun.h>
 using namespace itpp;
 
 #define RLOG_COMPONENT "hr"
 #include <rlog/rlog.h>
-
-#define PRINT(X) cout << #X << ": " << X <<endl;
-#include <iostream>
-using namespace std;
 
 HR::HR(int samplerate, string name) : Feature() {
     setSamplerate(samplerate);
@@ -30,7 +21,7 @@ HR::HR(int samplerate, string name) : Feature() {
 
 HR::~HR() {}
 
-Type HR::getType() const { return TEMPORAL; }
+inline Type HR::getType() const { return TEMPORAL; }
 
 void HR::extract(const vec& frame, vec& features) const {
     const int len = frame.length();

@@ -31,14 +31,16 @@ class Processor {
     
     /// Number of frequency bins
     static const int N_FFT = 1024;
+    /// Number of MFCC filters
+    static const int N_MFCC_FILTERS = 24; 
     
     /// Number of feature extractors
-    static const uint N_FEAT = 4;
+    static const uint N_FEAT = 5;
     /// Features extractors 
     Feature* features[N_FEAT];
     
     /// Number of features
-    static const uint N_FEATURES = 5;
+    static const uint N_FEATURES = 6;
     
 public:
     /// Constructor

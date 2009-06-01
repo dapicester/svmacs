@@ -22,7 +22,7 @@ ASS::ASS(int samplerate, string name) : Feature() {
 
 ASS::~ASS() {}
 
-Type ASS::getType() const { return SPECTRAL; }
+inline Type ASS::getType() const { return SPECTRAL; }
 
 void ASS::extract(const vec& frame, vec& features) const {
     const int len = frame.length() - 1;

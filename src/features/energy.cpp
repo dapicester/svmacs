@@ -21,7 +21,7 @@ Energy::Energy(int samplerate, string name) : Feature() {
 
 Energy::~Energy() {}
 
-Type Energy::getType() const { return TEMPORAL; }
+inline Type Energy::getType() const { return TEMPORAL; }
 
 void Energy::extract(const vec& frame, vec& features) const {
     const int len = frame.length();

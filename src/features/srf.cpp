@@ -20,7 +20,7 @@ SRF::SRF(int samplerate, string name) : Feature() {
 
 SRF::~SRF() {}
 
-Type SRF::getType() const { return SPECTRAL; }
+inline Type SRF::getType() const { return SPECTRAL; }
 
 void SRF::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
