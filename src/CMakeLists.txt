@@ -19,7 +19,6 @@ set(svmacs_HDRS
 	features/srf.h 
 	features/hr.h 
 	features/mfcc.h
-	utils/worker.h
 	cli/svmaccli.h
 	gui/svmacgui.h
 )
@@ -34,7 +33,6 @@ set(svmacs_SRCS
 	features/srf.cpp 
 	features/hr.cpp 
 	features/mfcc.cpp
-	utils/worker.cpp
 	cli/svmaccli.cpp
 	gui/svmacgui.cpp
 	main.cpp 
