@@ -3,6 +3,7 @@ set(INCLUDE_DIR
     ../src/jack 
     ../src/features
     ../src/utils 
+    ../src/model
 )
 
 include_directories(${INCLUDE_DIR})
@@ -49,6 +50,9 @@ set(MFCC testfeatures.h
     ../src/features/mfcc.cpp
 )
 
+set(MODEL ../src/model/range.h
+)
+
 set(EXECUTABLE_OUTPUT_PATH ./bin)
 
 add_executable(test-fail testfail.cpp)
@@ -62,6 +66,7 @@ add_executable(test-ass testass.cpp ${ASS})
 add_executable(test-srf testsrf.cpp ${SRF})
 add_executable(test-hr testhr.cpp ${HR})
 add_executable(test-mfcc testmfcc.cpp ${MFCC})
+add_executable(test-model testmodel.cpp ${MODEL})
 
 enable_testing()
 #add_test(00-fail ./bin/test-fail)

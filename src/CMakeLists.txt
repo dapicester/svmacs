@@ -6,7 +6,7 @@ add_definitions(-Wall -W -g `pkg-config --cflags jack` `itpp-config --cflags`)
 
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 
-link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp)
+link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp OpenThreads)
 
 set(svmacs_HDRS
 	jack/jackclient.h
@@ -19,6 +19,7 @@ set(svmacs_HDRS
 	features/srf.h 
 	features/hr.h 
 	features/mfcc.h
+	utils/worker.h
 	cli/svmaccli.h
 	gui/svmacgui.h
 )
@@ -33,6 +34,7 @@ set(svmacs_SRCS
 	features/srf.cpp 
 	features/hr.cpp 
 	features/mfcc.cpp
+	utils/worker.cpp
 	cli/svmaccli.cpp
 	gui/svmacgui.cpp
 	main.cpp 

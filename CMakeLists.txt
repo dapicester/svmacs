@@ -9,7 +9,7 @@ find_package(Qt4 REQUIRED)
 
 add_subdirectory(src)
 
-#set (ENABLE_TESTING TRUE)
+set (ENABLE_TESTING TRUE)
 
 if (ENABLE_TESTING)
     add_subdirectory(test)
