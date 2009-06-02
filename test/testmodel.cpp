@@ -35,16 +35,23 @@ void testScaleData() {
    "-0.6000   -0.2000    0.2000    0.6000    1.0000    1.4000    1.8000    2.2000;"
    " 2.6000    2.2000    1.8000    1.4000    1.0000    0.6000    0.2000   -0.2000";
 
-   mat* scaled = scaleData(input,range);
+   mat scaled = scaleData(input,range);
    PRINT(expected);
-   PRINT(*scaled);
+   PRINT(scaled);
     
-//   if (expected != *scaled)
+//  if (expected != scaled)
+//     exit(1);
+
+    vec vscaled = scaleData(input.get_row(0), range);
+    PRINT(vscaled);
+
+//   if (expected.get_row(0) != vscaled)
 //      exit(1);
+
 }
 
 int main() {
-    PRINT(range);
+    PRINT(getRange());
     
-    testScaleData();   
+    testScaleData();
 }
