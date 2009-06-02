@@ -34,9 +34,7 @@ JackClient::JackClient(float length, float overlap) :
     rInfo("create a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
 }
 
-void JackClient::init() {
-    //TODO if necessary, extra init here ...
-}
+void JackClient::init() {}
 
 JackClient::~JackClient() {
     rDebug("destructor called");
@@ -75,8 +73,8 @@ int JackClient::audioCallback(jack_nframes_t nframes,
     return 0;
 }
 
-vec* JackClient::processFrame() {
-    vec* out = 0;
+vec JackClient::processFrame() {
+    vec out;
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
         if (R > 0) { // overlapping frames
@@ -85,8 +83,9 @@ vec* JackClient::processFrame() {
         } else { // no overlapping frames
             input.read(frame, N);
         }
-        vec* vframe = new vec(frame, N);
-        out = processor.process(*vframe);
+        
+        vec vframe(frame,N);
+        out = processor.process(vframe);
     } 
     return out;
 }

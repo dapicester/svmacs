@@ -65,7 +65,7 @@ public:
     
 private:    
     /// Process samples from the input buffer
-    vec* processFrame();
+    vec processFrame();
 
 };
 

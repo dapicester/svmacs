@@ -87,13 +87,13 @@ inline void pressKey () {
     return;
 }
 
-inline const char* vec2str(vec input) {
+inline const char* vec2str(const vec& input) {
     ostringstream os(ios::out);
     os << input;
     return os.str().c_str();
 }
 
-inline const char* mat2str(mat input) {
+inline const char* mat2str(const mat& input) {
     ostringstream os(ios::out);
     os << input;
     return os.str().c_str();

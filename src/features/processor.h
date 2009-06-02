@@ -50,7 +50,7 @@ public:
     ~Processor();
     
     /** Process an audio frame and returns its features */
-    vec* process(const vec& frame);
+    vec process(const vec& frame);
 };
 
 }

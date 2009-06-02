@@ -14,6 +14,8 @@ using namespace features;
 
 #include "utils.h"
 using utils::flipud;
+using cli::vec2str;
+using cli::mat2str;
 
 #include <itpp/itsignal.h>
 using namespace itpp;
@@ -29,11 +31,13 @@ Processor::Processor(int sr) : sampleRate(sr) {
     R = floor(WIN_OVL * M);
     win = hamming(M);
     
+    // initialize feature extractors
     features[0] = new ZCR(sr);
     features[1] = new Energy(sr);  
     features[2] = new ASS(sr); 
     features[3] = new SRF(sr); 
     features[4] = new HR(sr);
+    
     MFCC* mfcc = new MFCC(sr);
     const mat* fb = MFCC::getMelFilters(N_FFT-1, sr, 24); //N_MFCC_FILTERS
     mfcc->setFilterBank(fb);
@@ -46,7 +50,7 @@ Processor::~Processor() {
     rDebug("Processor destructed");
 }
 
-vec* Processor::process(const vec& frame) {
+vec Processor::process(const vec& frame) {
     rDebug("process called ...");
     
     double L = frame.length();
@@ -58,9 +62,6 @@ vec* Processor::process(const vec& frame) {
     vec pframe = concat(frame, flipud(frame.right(R)));
     //rDebug("frame padded to length %d", pframe.length());
    
-    // TODO init altre features
-    
-    //rDebug("process frame");    
     mat mfeatures(Nframes, N_FEATURES);
     for (uint i=0, counter=0; i<L-M-1; i+=R, counter++) {
         //rDebug("reading samples with index [%d,%d]", i, i+R-1);
@@ -68,7 +69,7 @@ vec* Processor::process(const vec& frame) {
         vec current = elem_mult( pframe.get(i, i+R-1), win);
         vec spectrum = abs(fft(to_cvec(current), N_FFT)).left(N_FFT/2);
         
-        //rDebug("extracting");
+        //rDebug("extracting ...");
         vec feat;
         for (uint j=0; j<N_EXCTRACTORS; j++) {
             //rDebug("extracting: %s ...",features[j]->getName().c_str());
@@ -81,16 +82,17 @@ vec* Processor::process(const vec& frame) {
                 break;
             }
         }
-        //cout << "feat: " << feat << endl;
+        //rDebug("feature vector: %s", vec2str(feat));
         mfeatures.set_row(counter, feat);
     }
-    //cout << "mfeatures: " << mfeatures << endl;
+    //rDebug("feature matrix:\n %s", mat2str(mfeatures));
     
     // data reduction
-    vec* out = new vec(N_FEATURES);
+    vec out(N_FEATURES);
     for (uint i=0; i<N_FEATURES; i++) {
-        out->set(i, mean( mfeatures.get_col(i)));
+        out.set(i, mean(mfeatures.get_col(i)) );
     }
-    cout << "out: " << *out << endl;
+    //rDebug("feature vector: %s", vec2str(out));
+    //cout << out << endl;
     return out;
 }
