@@ -9,11 +9,14 @@
 using itpp::vec;
 using itpp::ivec;
 using itpp::to_ivec;
+using itpp::mat;
 
 #include <iostream>
 using std::cout;
 using std::cin;
 using std::endl;
+using std::ostringstream;
+using std::ios;
 
 namespace utils {
 
@@ -74,7 +77,7 @@ inline ivec maxima(const vec& input) {
 
 namespace cli {
 
-void inline pressKey () {
+inline void pressKey () {
     cout << endl << "Press ENTER to continue..." << endl;
 
     std::cin.clear();
@@ -82,6 +85,18 @@ void inline pressKey () {
     std::cin.get();
 
     return;
+}
+
+inline const char* vec2str(vec input) {
+    ostringstream os(ios::out);
+    os << input;
+    return os.str().c_str();
+}
+
+inline const char* mat2str(mat input) {
+    ostringstream os(ios::out);
+    os << input;
+    return os.str().c_str();
 }
 
 } // namespace cli

@@ -1,5 +1,6 @@
 #include "utils.h"
 using namespace utils;
+using namespace cli;
 
 #include <itpp/itbase.h>
 using namespace itpp;
@@ -7,10 +8,7 @@ using namespace itpp;
 #include <iostream>
 using namespace std;
 
-int main(int argc, char** argv) {
-    vec a = "0 -1 2 0 4";
-    cout << "a        : " << a << endl;
-    //---------------------------------
+void testFlipud(const vec& a) {
     vec b = flipud(a);
     cout << "flipud(a): " << b << endl;
     
@@ -21,7 +19,9 @@ int main(int argc, char** argv) {
         cout << "*flipud*" << endl;
         exit(1);
     }
-    //--------------------------------
+}
+
+void testFind(const vec& a) {
     ivec c = find(a);
     cout << "find(a)  : " << c << endl;
     
@@ -32,24 +32,38 @@ int main(int argc, char** argv) {
         cout << "*find*" << endl;
         exit(1);
     }
-    //--------------------------------
-    b = diff(a);
+}
+
+void testDiff(const vec& a) {
+    vec b = diff(a);
     cout << "diff(a)  : " << b << endl;
     
-    exp = "-1 3 -2 4";
+    vec exp = "-1 3 -2 4";
     cout << "expected : " << exp << endl;
     if (exp != b) {
         cout << "*diff*" << endl;
         exit(1);
     }
-    //--------------------------------
-    c = maxima(a);
+}
+
+void testMaxima(const vec& a) {
+    ivec c = maxima(a);
     cout << "maxima(a): " << c << endl;
     
-    iexp = "0 2 4";
+    ivec iexp = "0 2 4";
     cout << "expected : " << iexp << endl;
     if (iexp != c) {
         cout << "*maxima*" << endl;
         exit(1);
     }
+}
+
+int main(int argc, char** argv) {
+    vec a = "0 -1 2 0 4";
+    cout << "a        : " << vec2str(a) << endl;
+    
+    testFlipud(a);
+    testFind(a);
+    testDiff(a);
+    testMaxima(a);
 }
