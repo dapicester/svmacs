@@ -47,6 +47,7 @@ Processor::Processor(int sr) : sampleRate(sr) {
 }
 
 Processor::~Processor() {
+    //delete []features;
     rDebug("Processor destructed");
 }
 

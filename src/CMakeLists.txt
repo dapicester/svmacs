@@ -19,6 +19,8 @@ set(svmacs_HDRS
 	features/srf.h 
 	features/hr.h 
 	features/mfcc.h
+	model/classifier.h
+	model/svmclassifier.h
 	cli/svmaccli.h
 	gui/svmacgui.h
 )
@@ -33,6 +35,7 @@ set(svmacs_SRCS
 	features/srf.cpp 
 	features/hr.cpp 
 	features/mfcc.cpp
+	model/svmclassifier.cpp
 	cli/svmaccli.cpp
 	gui/svmacgui.cpp
 	main.cpp 

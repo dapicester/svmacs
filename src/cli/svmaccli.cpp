@@ -72,7 +72,7 @@ void SvmacCli::mainLoop(float N, float R) {
     
     // trap signals
     cout << "use CTRL-C to quit" << endl;
-    signal(SIGABRT, &cleanup);
+    //signal(SIGABRT, &cleanup);
     signal(SIGTERM, &cleanup);
     signal(SIGINT, &cleanup);
     

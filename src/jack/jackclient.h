@@ -6,6 +6,7 @@
 #define JACKCLIENT_H
 
 #include "../features/processor.h"
+#include "../model/classifier.h"
 
 #include "ringbufferread.h"
 #include <jackaudioio.hpp>
@@ -34,6 +35,9 @@ class JackClient : public JackCpp::AudioIO {
     
     /// Audio frame processor
     features::Processor processor;
+    
+    /// Audio classifier
+    model::Classifier* classifier;
     
      /// Constructor
     JackClient(float length, float overlap);
@@ -65,7 +69,8 @@ public:
     
 private:    
     /// Process samples from the input buffer
-    vec processFrame();
+    void processFrame();
+    
 
 };
 

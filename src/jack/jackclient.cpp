@@ -5,6 +5,9 @@
 #include"jackclient.h"
 using namespace jack;
 
+#include "../model/svmclassifier.h"
+using model::SvmClassifier;
+
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
 
 #define RLOG_COMPONENT "jackclient"
@@ -29,7 +32,10 @@ JackClient::JackClient(float length, float overlap) :
     rDebug("reserved ports: %d IN, %d OUT", MAX_IN, MAX_OUT); 
     
     // allocate buffer for current frame
-    frame = new double[N];               
+    frame = new double[N];      
+             
+    // instantiate a classifier
+    classifier = new SvmClassifier();
     
     rInfo("create a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
 }
@@ -37,6 +43,7 @@ JackClient::JackClient(float length, float overlap) :
 void JackClient::init() {}
 
 JackClient::~JackClient() {
+    delete classifier;
     rDebug("destructor called");
 }
 
@@ -64,19 +71,18 @@ int JackClient::audioCallback(jack_nframes_t nframes,
             // copy to output
             outBufs[i][j] = inBufs[i][j];
             
-            // FIXME che fare col valore ritornato?
             processFrame();
-            
         }
     }
     //0 on success
     return 0;
 }
 
-vec JackClient::processFrame() {
-    vec out;
+void JackClient::processFrame() {
+    //vec out;
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
+        
         if (R > 0) { // overlapping frames
             input.read(frame, R);    // read the first R samples
             input.peek(frame+R, N-R);// and peek the remaining N-R samples 
@@ -85,7 +91,11 @@ vec JackClient::processFrame() {
         }
         
         vec vframe(frame,N);
-        out = processor.process(vframe);
+        vec out = processor.process(vframe);
+        
+        //FIXME va qui?
+        EventType t = classifier->classify(out);
+        rInfo("EventType: %i", t);
     } 
-    return out;
+    //return out;
 }
