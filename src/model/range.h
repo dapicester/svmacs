@@ -14,12 +14,12 @@ using itpp::vec;
 namespace model {
 
 /// Linearly scale data to be whithin a given range.
-inline mat* scaleData(const mat& input, const mat& range) {
+inline mat scaleData(const mat& input, const mat& range) {
     int R = input.rows();
     int C = input.cols();
     
-    mat* scaled = new mat(R,C);
-    scaled->zeros();
+    mat scaled(R,C);
+    scaled.zeros();
     
     // scale data to be within [mi,Mi]
     for(int i=0; i<C; i++) {
@@ -29,13 +29,31 @@ inline mat* scaleData(const mat& input, const mat& range) {
         double Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
             vec value = 2 * (col - mi ) / (Mi - mi) - 1; 
-            scaled->set_col(i, value);
+            scaled.set_col(i, value);
         }
     }
     return scaled;
 }
 
-const mat range = 
+/// Linearly scale data to be whithin a given range.
+inline vec scaleData(const vec& input, const mat& range) {
+    const int len = input.length();
+    
+    vec scaled(len);
+    scaled.zeros();
+    
+    // scale data to be within [mi,Mi]
+    for(int i=0; i<len; i++) {
+        double mi = range(0,i);
+        double Mi = range(1,i);
+        if( (Mi - mi) != 0.0) {
+            scaled[i] = 2 * (input[i] - mi ) / (Mi - mi) - 1; 
+        }
+    }
+    return scaled;
+}
+
+const mat range = //TODO: salvare in un file IT++
 " 677.1070780399273871807963587343692779541015625 "
 " 171.124029237493601840469636954367160797119140625 "
 "2600.723774908210543799214065074920654296875 "
