@@ -6,11 +6,10 @@ add_definitions(-Wall -W -g `pkg-config --cflags jack` `itpp-config --cflags`)
 
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 
-link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp OpenThreads)
+link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp svm)
+
 
 set(svmacs_HDRS
-	jack/jackclient.h
-	jack/ringbufferread.h
 	features/processor.h
 	features/feature.h
 	features/zcr.h
@@ -21,13 +20,13 @@ set(svmacs_HDRS
 	features/mfcc.h
 	model/classifier.h
 	model/svmclassifier.h
+	jack/jackclient.h
+	jack/ringbufferread.h
 	cli/svmaccli.h
 	gui/svmacgui.h
 )
 
 set(svmacs_SRCS
-	jack/jackclient.cpp
-	jack/ringbufferread.cpp
 	features/processor.cpp
 	features/zcr.cpp
 	features/energy.cpp
@@ -36,6 +35,8 @@ set(svmacs_SRCS
 	features/hr.cpp 
 	features/mfcc.cpp
 	model/svmclassifier.cpp
+	jack/jackclient.cpp
+	jack/ringbufferread.cpp
 	cli/svmaccli.cpp
 	gui/svmacgui.cpp
 	main.cpp 
@@ -55,7 +56,7 @@ set (svmacs_RCCS application.qrc)
 qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
 
 # executable
-add_executable(svmacs ${svmacs_HDRS} ${svmacs_SRCS} ${svmacs_UIS_H} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
+add_executable(svmacs ${svmacs_SRCS} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
 
 # link
 target_link_libraries(svmacs ${QT_LIBRARIES})

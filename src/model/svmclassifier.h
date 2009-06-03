@@ -8,9 +8,16 @@
 #include "classifier.h"
 using namespace model;
 
+#include "svm.h"
+
 namespace model {
 
 class SvmClassifier : public Classifier {
+    //static const string M1 = "m1.model";
+    //static const string MODEL = "model.model";
+
+    const struct svm_model* m1;
+    const struct svm_model* model;
 
 public:
     SvmClassifier();

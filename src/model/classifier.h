@@ -17,8 +17,9 @@ enum EventType {
 
 /** Interface to be implemented. */
 class Classifier {
-
 public:
+
+static const char* EventDescription[4];
 
 /** Process the audio features for detection and classification of events. */
 virtual EventType classify(vec& features) const = 0;
@@ -26,5 +27,4 @@ virtual EventType classify(vec& features) const = 0;
 };
 
 }
-
 #endif

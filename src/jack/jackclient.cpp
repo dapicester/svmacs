@@ -21,7 +21,7 @@ using namespace std;
 JackClient::JackClient(float length, float overlap) : 
                 JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT, false),
                 N(floor(length * getSampleRate())),
-                R(floor(N * overlap)),            
+                R(floor(N * overlap)), 
                 input(N * 2.0 + 1.0), 
                 processor(getSampleRate()) {
     rDebug("constructor called");
@@ -32,8 +32,8 @@ JackClient::JackClient(float length, float overlap) :
     rDebug("reserved ports: %d IN, %d OUT", MAX_IN, MAX_OUT); 
     
     // allocate buffer for current frame
-    frame = new double[N];      
-             
+    frame = new double[N];
+    
     // instantiate a classifier
     classifier = new SvmClassifier();
     
@@ -52,7 +52,7 @@ JackClient* JackClient::getInstance(float length, float overlap) {
     try {
         client = new JackClient(length, overlap);
         client->init();
-        rInfo("sample rate: %f", (float) client->getSampleRate());       
+        rInfo("sample rate: %f", (float) client->getSampleRate());
     } catch (std::runtime_error) {
         rWarning("Could not create the client: Jackd not running!");
     }
@@ -95,7 +95,7 @@ void JackClient::processFrame() {
         
         //FIXME va qui?
         EventType t = classifier->classify(out);
-        rInfo("EventType: %i", t);
+        //rInfo("EventType: %i", t);
     } 
     //return out;
 }

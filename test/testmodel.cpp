@@ -2,8 +2,11 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+#include "svmclassifier.h"
 #include "range.h"
 using namespace model;
+
+#include "svm.h"
 
 #include <iostream>
 using namespace std;
@@ -50,8 +53,40 @@ void testScaleData() {
 
 }
 
-int main() {
-    PRINT(getRange());
+void testNode() {
+    vec uno = "1 0 1 0";
+    PRINT(uno);
+
+    PRINT(sizeof(svm_node));
+    PRINT(sizeof(svm_node*));
+
+    svm_node array[4];
+    for (int i=0; i<uno.length(); +i++) {
+	array[i].index = i;
+	array[i].value = uno[i];
+    }
     
-    testScaleData();
+    
+    for (int i=0; i<uno.length(); +i++) {
+	int index = array[i].index;
+	double val = array[i].value;
+	cout << index << ":" << val << " ";
+	if (i==uno.length()-1) cout << endl; 
+    }
+
+    svm_node* ptr = array;
+    for(int i = 0; i<uno.length(); i++) {
+	cout << ptr->index << ":" << ptr->value << " ";
+	ptr++;
+	//if (i==uno.length()-1) cout << endl; 
+    }
+    
+}
+
+int main() {
+    //PRINT(getRange());
+    
+    //testScaleData();
+
+    testNode();
 }
