@@ -8,7 +8,7 @@
 #include "classifier.h"
 using namespace model;
 
-#include "svm.h"
+#include <libsvm-2.0/libsvm/svm.h>
 
 namespace model {
 

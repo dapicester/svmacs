@@ -6,7 +6,7 @@
 #include "range.h"
 using namespace model;
 
-#include "svm.h"
+#include <libsvm-2.0/libsvm/svm.h>
 
 #include <iostream>
 using namespace std;
