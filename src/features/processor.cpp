@@ -89,11 +89,11 @@ vec Processor::process(const vec& frame) {
     //rDebug("feature matrix:\n %s", mat2str(mfeatures));
     
     // data reduction
-    vec out(N_FEATURES);
+    vec vout(N_FEATURES);
     for (uint i=0; i<N_FEATURES; i++) {
-        out.set(i, mean(mfeatures.get_col(i)) );
+        vout.set(i, mean(mfeatures.get_col(i)) );
     }
-    //rDebug("feature vector: %s", vec2str(out));
-    //cout << out << endl;
-    return out;
+    //rDebug("feature vector: %s", vec2str(vout));
+    //cout << vout << endl;
+    return vout;
 }

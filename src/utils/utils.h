@@ -16,7 +16,6 @@ using std::cout;
 using std::cin;
 using std::endl;
 using std::ostringstream;
-using std::ios;
 
 namespace utils {
 
@@ -88,13 +87,13 @@ inline void pressKey () {
 }
 
 inline const char* vec2str(const vec& input) {
-    ostringstream os(ios::out);
+    ostringstream os(ostringstream::out);
     os << input;
     return os.str().c_str();
 }
 
 inline const char* mat2str(const mat& input) {
-    ostringstream os(ios::out);
+    ostringstream os(ostringstream::out);
     os << input;
     return os.str().c_str();
 }

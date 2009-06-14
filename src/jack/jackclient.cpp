@@ -24,7 +24,7 @@ JackClient::JackClient(float length, float overlap) :
                 R(floor(N * overlap)), 
                 input(N * 2.0 + 1.0), 
                 processor(getSampleRate()) {
-    rDebug("constructor called");
+    rDebug("constructor invoked");
 
     // reserve ports
     reserveInPorts(MAX_IN);
@@ -43,7 +43,7 @@ JackClient::JackClient(float length, float overlap) :
 void JackClient::init() {}
 
 JackClient::~JackClient() {
-    delete classifier;
+    //delete classifier;
     rDebug("destructor called");
 }
 
@@ -52,7 +52,7 @@ JackClient* JackClient::getInstance(float length, float overlap) {
     try {
         client = new JackClient(length, overlap);
         client->init();
-        rInfo("sample rate: %f", (float) client->getSampleRate());
+        rInfo("sample rate: %5.0f", (float) client->getSampleRate());
     } catch (std::runtime_error) {
         rWarning("Could not create the client: Jackd not running!");
     }
@@ -79,7 +79,6 @@ int JackClient::audioCallback(jack_nframes_t nframes,
 }
 
 void JackClient::processFrame() {
-    //vec out;
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
         
@@ -91,11 +90,13 @@ void JackClient::processFrame() {
         }
         
         vec vframe(frame,N);
-        vec out = processor.process(vframe);
+        vec ff = processor.process(vframe);
+        rDebug("feature vector:");
+        cout << ff << endl;
         
-        //FIXME va qui?
-        EventType t = classifier->classify(out);
-        //rInfo("EventType: %i", t);
+        EventType t = classifier->classify(ff);
+        if (t != NONE)
+            rInfo("Detected EventType: %i", t);
+
     } 
-    //return out;
 }

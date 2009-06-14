@@ -25,14 +25,14 @@ SvmacCli::~SvmacCli() {
 
 SvmacCli* SvmacCli::getInstance() {
     if (instance == 0) {
-        rDebug("instantiating singleton");
+        rDebug("instantiating singleton ...");
         instance = new SvmacCli();
     } 
     return instance;
 }
 
 void SvmacCli::mainLoop(float N, float R) {
-    rDebug("CLI main loop");
+    rDebug("starting CLI main loop");
     
     cout << "Starting the Jack client ... " << endl;
     

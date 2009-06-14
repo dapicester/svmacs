@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
     string interface; 
     if (argc == 1) {
         rDebug("no arguments");
-        interface = "gui";
+        interface = "cli";
     } else {
         interface = argv[1]; 
     }
@@ -84,8 +84,8 @@ void usage(const char* s) {
     cout << "Usage: " << s << " [interface] [size] [overlap]" << endl;
     cout << "Arguments" << endl;
     cout << "  interface   select the user interface, values are:" << endl;
-    cout << "                gui  [default]" << endl;
-    cout << "                cli  command-line" << endl;
+    cout << "                gui  " << endl;
+    cout << "                cli  [default]" << endl;
     cout << "  size        frame length in seconds (N)" << endl;
     cout << "  overlap     percentage of overlapping (R)" << endl;
     cout << endl;

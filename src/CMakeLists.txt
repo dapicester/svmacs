@@ -1,14 +1,17 @@
+# compiler flags
 include(${CMAKE_ROOT}/Modules/FindQt4.cmake)
 include(${QT_USE_FILE})
+include_directories(/usr/include)
 include_directories(. ../lib ./utils)
-
+#add_definitions(-Wall -g -DNDEBUG -O3 -march=pentium4 -pipe)
 add_definitions(-Wall -W -g `pkg-config --cflags jack` `itpp-config --cflags`)
+add_definitions(-fbounds-check)
 
+# linker options
 link_directories(${PROJECT_SOURCE_DIR}/lib)
+#link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp svm)
 
-link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp svm)
-
-
+# headers
 set(svmacs_HDRS
 	features/processor.h
 	features/feature.h
@@ -26,6 +29,7 @@ set(svmacs_HDRS
 	gui/svmacgui.h
 )
 
+# sources
 set(svmacs_SRCS
 	features/processor.cpp
 	features/zcr.cpp
@@ -57,8 +61,18 @@ qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
 
 # executable
 add_executable(svmacs ${svmacs_SRCS} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
-
 # link
-target_link_libraries(svmacs ${QT_LIBRARIES})
+target_link_libraries(svmacs ${QT_LIBRARIES} jack pthread rt itpp fftw3 lapack blas rlog jackcpp svm)
+# output dir
+set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+#add_custom_command(
+#	TARGET svmacs
+#	POST_BUILD
+#	COMMAND cp src/model/m1 src/model/model ${BIN_DIR}
+#	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+#	COMMENT "Copying model files"
+#)
+
+#set(CMAKE_EXE_LINKER_FLAGS "-static")
