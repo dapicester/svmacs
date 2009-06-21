@@ -17,16 +17,52 @@ SvmClassifier::SvmClassifier() : Classifier() {
     rDebug("constructor invoked");
     
     rDebug("loading Detection model ...");
-    m1 = svm_load_model("m1");
-    if (m1 == NULL)
-        rError("Detection model is NULL!");
+    m1 = getDetectionModel(true);
     
     rDebug("loading Classification model ...");
-    model = svm_load_model("model");
-    if (model == NULL)
-        rError("Classification model is NULL!");
+    model = getClassificationModel(true);
     
     rDebug("SvmClassifier created");
+}
+
+svm_model* SvmClassifier::getDetectionModel(bool useFile) {
+    const char* MODEL = "m1";
+    struct svm_model* m1;
+    
+    if (useFile) {
+        rDebug("reading model file: %s", MODEL);
+        m1 = svm_load_model(MODEL);
+        if (m1 == NULL) {
+            std::string message = "Detection model is NULL!";
+            rError("%s", message.c_str());
+            throw BadModel(message);
+        }
+    } else {
+        rDebug("creating model from scratch");
+        //TODO
+        m1 = NULL;
+    }
+    return m1;
+}
+
+svm_model* SvmClassifier::getClassificationModel(bool useFile) {
+    const char* MODEL  = "model";
+    struct svm_model* model;
+    
+    if (useFile) {
+        rDebug("reading model file: %s", MODEL);
+        model = svm_load_model(MODEL);
+        if (model == NULL) {
+            std::string message = "Classification model is NULL!";
+            rError("%s", message.c_str());
+            throw BadModel(message);
+        }
+    } else {
+        rDebug("creating model from scratch");
+        //TODO
+        model = NULL;
+    }
+    return model;
 }
 
 SvmClassifier::~SvmClassifier(){
@@ -50,55 +86,35 @@ EventType SvmClassifier::classify(vec& features) const {
     // mark the last element
     array[i].index = -1;
     array[i].value = 0.0;
-
-#ifdef ENABLE_DEBUG
+#if 0 // enable debug array
     for (int i=0; i<len+1; i++) {
        rDebug("array[%d]:  index=%d  value=%f",i,array[i].index,array[i].value);
     }
 #endif
-    
-    rDebug("detection");
-    int detected = svm_predict(m1, array);
-    rDebug("detected: %d", detected);
-
+ 
     EventType t = NONE;
-    if (detected == 1) {
-        rDebug("classification");
+    
+#if 1 // enable detection step
+    //rDebug("detection");
+    int detected = svm_predict(m1, array);
+    rDebug("detection = %d", detected);
+#endif
+
+#if 1 // enable classification step
+    if (detected == 1) { 
+        //rDebug("classification");
         int type = svm_predict(model, array);
+        rDebug("classification = %d", type);
         switch (type) {
         case GUNSHOT: t = GUNSHOT; break;
         case SCREAM:  t = SCREAM;  break;
         case GLASS:   t = GLASS;   break;
         } 
     }
+#endif
     return t;
-/*    
-    int detected = svm_predict(m1, array);
-    EventType t = NONE;
-    const char* description = "None";
-    
-    if (detected == 1) {
-        rDebug("classification");
-        int type = svm_predict(model, array);
+}
 
-        switch (type) {
-        case GUNSHOT:
-           t = GUNSHOT;
-           description = "Gunshot";
-           break;
-        case SCREAM:
-           t = SCREAM;
-           description = "Scream";
-           break;
-        case GLASS:
-           t = GLASS;
-           description = "Glass";
-           break;
-        }
-        rInfo("Event Detected: %s!", description);
-    } else {
-        rDebug("nothing detected");
-    }
-    return t;
- */
+void SvmClassifier::debugModel(const struct svm_model* model) {
+    //TODO
 }

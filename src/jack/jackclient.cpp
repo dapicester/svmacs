@@ -91,12 +91,22 @@ void JackClient::processFrame() {
         
         vec vframe(frame,N);
         vec ff = processor.process(vframe);
+#ifdef ENABLE_DEBUG
         rDebug("feature vector:");
         cout << ff << endl;
-        
-        EventType t = classifier->classify(ff);
-        if (t != NONE)
-            rInfo("Detected EventType: %i", t);
+#endif
 
+#if 1 // enable the classifier        
+        EventType type = classifier->classify(ff);
+        if (type != NONE) {
+            const char* message;
+            switch (type) {
+            case GUNSHOT: message = "GUNSHOT"; break;
+            case SCREAM:  message = "SCREAM";  break;
+            case GLASS:   message = "GLASS";   break;
+            } 
+            rInfo("Detected EventType: %s", message);
+         }
+#endif
     } 
 }

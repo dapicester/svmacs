@@ -55,24 +55,29 @@ vec Processor::process(const vec& frame) {
     rDebug("process called ...");
     
     double L = frame.length();
-    //rDebug("L: %f", L);
+    //rDebug("L: %5.0f", L);
     
     double Nframes = floor((L-R)/(M-R));
-    //rDebug("Nframes: %f", Nframes);
+    //rDebug("Nframes: %3.0f", Nframes);
     
     vec pframe = concat(frame, flipud(frame.right(R)));
     //rDebug("frame padded to length %d", pframe.length());
-   
+       
     mat mfeatures(Nframes, N_FEATURES);
-    for (uint i=0, counter=0; i<L-M-1; i+=R, counter++) {
+    //for (uint i=0, counter=0; i<L-M-1; i+=R, counter++) {
+    for (uint i=0, counter=0; counter < Nframes; i+=R, counter++) {
         //rDebug("reading samples with index [%d,%d]", i, i+R-1);
+        //rDebug("current counter  [%d]", counter);
         
-        vec current = elem_mult( pframe.get(i, i+R-1), win);
+        vec tmp = pframe.get(i, i+M-1);
+        //rDebug("read %d samples", tmp.length());
+        
+        vec current = elem_mult(tmp, win);
         vec spectrum = abs(fft(to_cvec(current), N_FFT)).left(N_FFT/2);
         
         //rDebug("extracting ...");
         vec feat;
-        for (uint j=0; j<N_EXCTRACTORS; j++) {
+        for (uint j=0; j<N_EXTRACTORS; j++) {
             //rDebug("extracting: %s ...",features[j]->getName().c_str());
             switch (features[j]->getType()) {
             case TEMPORAL:

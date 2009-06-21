@@ -34,12 +34,12 @@ SvmacCli* SvmacCli::getInstance() {
 void SvmacCli::mainLoop(float N, float R) {
     rDebug("starting CLI main loop");
     
-    cout << "Starting the Jack client ... " << endl;
+    rInfo("Starting the Jack client ... ");
     
     client = JackClient::getInstance(N,R);
     if (client == 0) {
         rDebug("client not created");
-        cout << "failed!" << endl;
+        rError("failed!");
         
         cout << "Could not start the client. "
                 "Please check if the Jackd server is running." << endl;
@@ -49,8 +49,8 @@ void SvmacCli::mainLoop(float N, float R) {
     // setup & start
     client->start();
     if (!client->isRealTime())
-        cout << "WARNING! Not Realtime" << endl; 
-    cout << "Jack client started" << endl;
+        rWarning("WARNING! Not Realtime"); 
+    rInfo("Jack client started");
 
 #ifdef ENABLE_DEBUG    
     // status
@@ -67,11 +67,11 @@ void SvmacCli::mainLoop(float N, float R) {
 	client->connectFromPhysical(0,0);
 	client->connectToPhysical(0,0);
     } catch (std::runtime_error e){
-        cout << "WARNING! " << e.what() << endl;
+        rWarning("WARNING! %s", e.what());
     }
     
     // trap signals
-    cout << "use CTRL-C to quit" << endl;
+    rInfo("use CTRL-C to quit");
     //signal(SIGABRT, &cleanup);
     signal(SIGTERM, &cleanup);
     signal(SIGINT, &cleanup);
@@ -91,7 +91,7 @@ void SvmacCli::mainLoop(float N, float R) {
 void SvmacCli::cleanup(int signal) {  
     if (signal == 99) rDebug("timeout"); 
     else rDebug("CTRL-C trapped");
-    cout << "quitting ... ";
+    rInfo("quitting ... ");
 
     rDebug("getting client pointer");
     JackClient* client = SvmacCli::getInstance()->client;
@@ -106,6 +106,6 @@ void SvmacCli::cleanup(int signal) {
     client->close();	// stop client.
     delete client;
     
-    cout << "done" << endl << endl;
+    rInfo("done.\n");
     exit(0);
 }

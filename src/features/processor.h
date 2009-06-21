@@ -35,9 +35,9 @@ class Processor {
     static const int N_MFCC_FILTERS = 24; 
     
     /// Number of feature extractors
-    static const uint N_EXCTRACTORS = 6;
+    static const uint N_EXTRACTORS = 6;
     /// Features extractors 
-    Feature* features[N_EXCTRACTORS];
+    Feature* features[N_EXTRACTORS];
     
     /// Number of features
     static const uint N_FEATURES = 12;

@@ -67,12 +67,12 @@ target_link_libraries(svmacs ${QT_LIBRARIES} jack pthread rt itpp fftw3 lapack b
 set(BIN_DIR ${PROJECT_SOURCE_DIR}/bin)
 set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 
-#add_custom_command(
-#	TARGET svmacs
-#	POST_BUILD
-#	COMMAND cp src/model/m1 src/model/model ${BIN_DIR}
-#	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-#	COMMENT "Copying model files"
-#)
+add_custom_command(
+	TARGET svmacs
+	POST_BUILD
+	COMMAND cp src/model/m1 src/model/model ${BIN_DIR}
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+	COMMENT "Copying model files"
+)
 
 #set(CMAKE_EXE_LINKER_FLAGS "-static")
