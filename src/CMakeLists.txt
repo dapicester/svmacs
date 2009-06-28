@@ -60,7 +60,7 @@ set (svmacs_RCCS application.qrc)
 qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
 
 # executable
-add_executable(svmacs ${svmacs_SRCS} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
+add_executable(svmacs ${svmacs_SRCS} ${svmacs_UIS_H} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
 # link
 target_link_libraries(svmacs ${QT_LIBRARIES} jack pthread rt itpp fftw3 lapack blas rlog jackcpp svm)
 # output dir
