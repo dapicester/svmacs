@@ -10,7 +10,11 @@ using jack::JackClient;
 
 namespace cli {
 
-/** CLI interface for the SVM Audio Classifier. */
+/** 
+@class SvmacCli
+@brief CLI interface for the SVM Audio Classifier. 
+@author Paolo D'Apice
+*/
 class SvmacCli {
     /** Singleton instance. */
     static SvmacCli* instance;
@@ -28,10 +32,14 @@ public:
     /** Destructor. */
     ~SvmacCli();
     
-    /** Entry point. */
+    /**
+     * Entry point. 
+     * \return the singleton instance
+     */
     static SvmacCli* getInstance();
     
-    /** CLI main loop. 
+    /** 
+     * CLI main loop. 
      * \param N frame length in seconds
      * \param R percentage of frame overlap     
      */

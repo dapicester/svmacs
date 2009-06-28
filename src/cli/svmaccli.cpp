@@ -35,7 +35,6 @@ void SvmacCli::mainLoop(float N, float R) {
     rDebug("starting CLI main loop");
     
     rInfo("Starting the Jack client ... ");
-    
     client = JackClient::getInstance(N,R);
     if (client == 0) {
         rDebug("client not created");
@@ -64,8 +63,10 @@ void SvmacCli::mainLoop(float N, float R) {
 #endif
 
     try {
-	client->connectFromPhysical(0,0);
-	client->connectToPhysical(0,0);
+        rDebug("connecting from input port");
+        client->connectFromPhysical(0,0);
+        rDebug("connecting to output port");
+        client->connectToPhysical(0,0);
     } catch (std::runtime_error e){
         rWarning("WARNING! %s", e.what());
     }
@@ -79,8 +80,8 @@ void SvmacCli::mainLoop(float N, float R) {
     // main loop
     while(true) {
         //client->getFrame();
-        sleep(1);        
-    }
+        sleep(1); 
+    } 
     
     //sleep(3);
     cleanup(99);

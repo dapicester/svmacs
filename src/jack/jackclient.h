@@ -71,7 +71,6 @@ private:
     /// Process samples from the input buffer
     void processFrame();
     
-
 };
 
 }

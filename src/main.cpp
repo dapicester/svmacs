@@ -22,6 +22,14 @@ using namespace rlog;
 
 void usage(const char* s);
 
+/**
+ @brief The application entry point.
+ 
+ It sets up the loggers, parse the command line arguments 
+ and instantiate either the CLI or the GUI.
+ 
+ @author Paolo D'Apice
+ */
 int main(int argc, char *argv[]) {
     // initialize logging    
     RLogInit(argc, argv);
@@ -54,7 +62,9 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
     
+    // launch the application
     if (interface.compare("cli") == 0) {
+        /* CLI */
         float N = 1.0, R = 0.5;
         if (argc > 2) {
             N = atof(argv[2]);
@@ -70,6 +80,7 @@ int main(int argc, char *argv[]) {
         cli->mainLoop(N,R);
         return 0;
     } else {
+        /* GUI */
         rInfo("Launching the GUI interface ...");
         Q_INIT_RESOURCE(application);
         QApplication app(argc, argv);
@@ -79,6 +90,7 @@ int main(int argc, char *argv[]) {
     }
 };
 
+/// Print the launching parameters
 void usage(const char* s) {
 //TODO usare opzioni del tipo [-r overlap -n size]
     cout << "Usage: " << s << " [interface] [size] [overlap]" << endl;
