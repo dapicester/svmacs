@@ -16,6 +16,9 @@ SvmacGui::SvmacGui(QWidget *parent) {
    connect(stopButton,  SIGNAL(clicked()), this, SLOT(stopJackClient()) );
    connect(aboutButton, SIGNAL(clicked()), this, SLOT(about()) ); 
    connect(quitButton,  SIGNAL(clicked()), this, SLOT(quitApp()) );
+   //connect(client, SIGNAL(eventDetected(EventType)), this, SLOT(highlightEvent(EventType)) );
+
+   connect(testButton, SIGNAL(clicked()), this, SLOT(test()) );
    
    client = 0;
 }
@@ -118,6 +121,39 @@ void SvmacGui::stopJackClient() {
     rDebug("stopped");
 }
 
+bool SvmacGui::flag = false;
+
+void SvmacGui::test() {
+	rInfo("test button");
+//TODO QThread: attenzione mutex/semaphore
+	if (flag == false) {
+		QPalette palette(QColor(255,255,255));
+		palette.setColor( QPalette::Text, QColor(255,0,0) );
+		palette.setColor( QPalette::Foreground, QColor(255,0,0) );
+		gunshotLabel->setPalette(palette);
+	} else {
+		QPalette palette2(QColor(255,255,255));
+		palette2.setColor( QPalette::Text, QColor(0,255,0) );
+		palette2.setColor( QPalette::Foreground, QColor(0,255,0) );
+		gunshotLabel->setPalette(palette2);
+	}
+	flag = !flag;
+}
+
+void SvmacGui::highlightEvent(model::EventType type) {
+    switch(type) {
+    case 1:
+	redLabel(gunshotLabel);
+	break;
+    case 2:
+	redLabel(screamLabel);
+	break;
+    case 3:
+	redLabel(glassLabel);
+	break;
+    }
+}
+
 void SvmacGui::enableButton(QAbstractButton* button) {
     button->setEnabled(true);    
 }
@@ -132,4 +168,15 @@ void SvmacGui::enableSpinBox(QAbstractSpinBox* spinbox) {
 
 void SvmacGui::disableSpinBox(QAbstractSpinBox* spinbox) {
     spinbox->setEnabled(false);    
+}
+
+void SvmacGui::redLabel(QLabel* label) {
+// colora rosso, aspetta un secondo e colora nomrmale
+	QPalette palette;
+	palette.setColor( QPalette::Text, QColor( Qt::red ) );
+	label->setPalette(palette);
+}
+
+void SvmacGui::stdLabel(QLabel* label) {
+
 }

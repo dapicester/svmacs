@@ -9,6 +9,9 @@
 #include "../jack/jackclient.h"
 using jack::JackClient;
 
+#include "../model/classifier.h"
+using model::EventType;
+
 /** 
 @class SvmacGui
 @brief GUI interface for the SVM Audio Classifier. 
@@ -19,6 +22,7 @@ class SvmacGui : public QWidget, private Ui::SvmacQt {
     /** Pointer to the Jack client */
     JackClient* client;
 
+    static bool flag;
 protected:
     /// Enable the specified button
     void enableButton(QAbstractButton* button);
@@ -28,6 +32,10 @@ protected:
     void enableSpinBox(QAbstractSpinBox* spinbox);
     /// Disable the spin box
     void disableSpinBox(QAbstractSpinBox* spinbox);
+    /// Highlight a label using red color
+    void redLabel(QLabel* label);
+    /// Apply standard palette to the label
+    void stdLabel(QLabel* label);
 
 public:
     /** Constructor. */
@@ -42,6 +50,11 @@ public slots:
     void quitApp();    
     /// Show the about dialog
     void about();
+    
+    /// Highlight the event label
+    void highlightEvent(EventType type);
+
+    void test();
 
 };
 

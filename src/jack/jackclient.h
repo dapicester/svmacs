@@ -7,16 +7,21 @@
 
 #include "../features/processor.h"
 #include "../model/classifier.h"
+using model::EventType;
 
 #include "ringbufferread.h"
 #include <jackaudioio.hpp>
 
 #include <itpp/itsignal.h>
-using namespace itpp;
+using namespace itpp; //TODO rimuovere using
+
+#include <QObject>
 
 namespace jack {
 
-class JackClient : public JackCpp::AudioIO {
+class JackClient : public QObject, public JackCpp::AudioIO {
+
+    Q_OBJECT
 
     /// Maximum number of input ports
     static const uint MAX_IN = 1;
@@ -67,6 +72,9 @@ public:
                       audioBufVector inBufs,
                       audioBufVector outBufs);
     
+signals:
+    void eventDetected(EventType type);
+
 private:    
     /// Process samples from the input buffer
     void processFrame();

@@ -106,6 +106,8 @@ void JackClient::processFrame() {
             case GLASS:   message = "GLASS";   break;
             } 
             rInfo("Detected EventType: %s", message);
+            // TODO
+            //emit detectedEvent(type, message);
          }
 #endif
     } 

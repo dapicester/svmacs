@@ -52,7 +52,10 @@ qt4_wrap_ui(svmacs_UIS_H ${svmacs_UIS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 ### qt4 moc
-set(svmacs_MOCS gui/svmacgui.h)
+set(svmacs_MOCS 
+	jack/jackclient.h
+	gui/svmacgui.h
+)
 qt4_wrap_cpp(svmacs_MOCS_SRC ${svmacs_MOCS})
 
 ### qt4 resources
