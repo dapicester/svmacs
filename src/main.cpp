@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     // launch the application
     if (interface.compare("cli") == 0) {
         /* CLI */
-        float N = 1.0, R = 0.5;
+        float N = 0.5, R = 0.25;
         if (argc > 2) {
             N = atof(argv[2]);
             if (argc > 3) {
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
             }
         }
         rInfo("frame length N = %f seconds", N);
-        rInfo("overlapping  R = %f percent", R);
+        rInfo("overlapping  R = %f percent", R*100);
         
         rInfo("Launching the CLI interface ...");
         SvmacCli* cli = SvmacCli::getInstance();

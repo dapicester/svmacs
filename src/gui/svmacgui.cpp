@@ -139,6 +139,10 @@ void SvmacGui::stopJackClient() {
     enableButton(inputCheckBox);
     enableButton(outputCheckBox);
     
+    blackLabel(gunshotLabel);
+    blackLabel(screamLabel);
+    blackLabel(glassLabel);
+        
     textEdit->insertPlainText("done");
     rDebug("stopped");
 }
@@ -183,6 +187,8 @@ void SvmacGui::highlightEvent(const Event& event) {
         blackLabel(screamLabel);
         break;
     }
+//    if (type != 0)
+//        textEdit->append(event.getDescription());
 }
 
 void SvmacGui::enableButton(QAbstractButton* button) {

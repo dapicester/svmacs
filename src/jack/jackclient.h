@@ -59,7 +59,7 @@ public:
      * \param length frame length in seconds (defaults to 1 second)
      * \param overlap percentage of frame overlap (defaults to 0)
      */
-    static JackClient* getInstance(float length = 1.0, float overlap = 0.0);
+    static JackClient* getInstance(float length = 0.5, float overlap = 0.25);
 
     /// Destructor
     ~JackClient();
