@@ -8,6 +8,8 @@
 #include "../features/processor.h"
 #include "../model/classifier.h"
 using model::EventType;
+#include "../model/event.h"
+using model::Event;
 
 #include "ringbufferread.h"
 #include <jackaudioio.hpp>
@@ -73,7 +75,7 @@ public:
                       audioBufVector outBufs);
     
 signals:
-    void eventDetected(EventType type);
+    void eventDetected(const Event&);
 
 private:    
     /// Process samples from the input buffer

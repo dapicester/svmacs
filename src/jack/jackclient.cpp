@@ -98,17 +98,17 @@ void JackClient::processFrame() {
 
 #if 1 // enable the classifier        
         EventType type = classifier->classify(ff);
+        const char* message = "";
         if (type != NONE) {
-            const char* message;
             switch (type) {
             case GUNSHOT: message = "GUNSHOT"; break;
             case SCREAM:  message = "SCREAM";  break;
             case GLASS:   message = "GLASS";   break;
             } 
             rInfo("Detected EventType: %s", message);
-            // TODO
-            //emit detectedEvent(type, message);
          }
+         Event e(type, message);
+         emit eventDetected(e);
 #endif
     } 
 }

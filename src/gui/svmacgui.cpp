@@ -9,6 +9,23 @@
 
 #include <QtGui>
 
+QPalette SvmacGui::getPalette(Color color) {
+    rDebug("getting palette ");
+    if (color == BLACK) {
+        QPalette palette(QColor(255,255,255));
+        palette.setColor( QPalette::Foreground, QColor(0,0,0) );
+        return palette;
+    } else { 
+        QPalette palette(QColor(255,255,255));
+        palette.setColor( QPalette::Foreground, QColor(255,0,0) );
+        return palette;
+    }
+}
+
+QPalette SvmacGui::red = getPalette(RED);
+
+QPalette SvmacGui::black = getPalette(BLACK);
+
 SvmacGui::SvmacGui(QWidget *parent) {
    setupUi(this);
    
@@ -16,10 +33,12 @@ SvmacGui::SvmacGui(QWidget *parent) {
    connect(stopButton,  SIGNAL(clicked()), this, SLOT(stopJackClient()) );
    connect(aboutButton, SIGNAL(clicked()), this, SLOT(about()) ); 
    connect(quitButton,  SIGNAL(clicked()), this, SLOT(quitApp()) );
-   //connect(client, SIGNAL(eventDetected(EventType)), this, SLOT(highlightEvent(EventType)) );
-
+#ifdef ENABLE_DEBUG
    connect(testButton, SIGNAL(clicked()), this, SLOT(test()) );
-   
+#endif
+#ifndef ENABLE_DEBUG
+   testButton->hide();
+#endif
    client = 0;
 }
 
@@ -89,6 +108,9 @@ void SvmacGui::startJackClient() {
     disableButton(inputCheckBox);
     disableButton(outputCheckBox);
     
+    qRegisterMetaType<Event>("Event");
+    connect( client, SIGNAL(eventDetected(const Event&)), this, SLOT(highlightEvent(const Event&)) );
+    
     textEdit->insertPlainText("started");
     rDebug("started");
 }
@@ -121,36 +143,45 @@ void SvmacGui::stopJackClient() {
     rDebug("stopped");
 }
 
+#ifdef ENABLE_DEBUG
 bool SvmacGui::flag = false;
 
 void SvmacGui::test() {
-	rInfo("test button");
-//TODO QThread: attenzione mutex/semaphore
-	if (flag == false) {
-		QPalette palette(QColor(255,255,255));
-		palette.setColor( QPalette::Text, QColor(255,0,0) );
-		palette.setColor( QPalette::Foreground, QColor(255,0,0) );
-		gunshotLabel->setPalette(palette);
-	} else {
-		QPalette palette2(QColor(255,255,255));
-		palette2.setColor( QPalette::Text, QColor(0,255,0) );
-		palette2.setColor( QPalette::Foreground, QColor(0,255,0) );
-		gunshotLabel->setPalette(palette2);
-	}
-	flag = !flag;
+    rDebug("test button");
+    if (flag == false) {
+        rDebug("text in RED");    
+        gunshotLabel->setPalette(red);
+    } else {
+        rDebug("text in BLACK");
+        gunshotLabel->setPalette(black);
+    }
+    flag = !flag;
 }
+#endif
 
-void SvmacGui::highlightEvent(model::EventType type) {
+void SvmacGui::highlightEvent(const Event& event) {
+    EventType type = event.getType();
     switch(type) {
-    case 1:
+    case 0: //NONE:
+        blackLabel(gunshotLabel);
+        blackLabel(screamLabel);
+        blackLabel(glassLabel);
+        break;
+    case 1: //GUNSHOT:
 	redLabel(gunshotLabel);
+	blackLabel(screamLabel);
+        blackLabel(glassLabel);
 	break;
-    case 2:
+    case 2: //SCREAM:
 	redLabel(screamLabel);
+	blackLabel(gunshotLabel);
+        blackLabel(glassLabel);
 	break;
-    case 3:
+    case 3: //GLASS:
 	redLabel(glassLabel);
-	break;
+	blackLabel(gunshotLabel);
+        blackLabel(screamLabel);
+        break;
     }
 }
 
@@ -171,12 +202,21 @@ void SvmacGui::disableSpinBox(QAbstractSpinBox* spinbox) {
 }
 
 void SvmacGui::redLabel(QLabel* label) {
-// colora rosso, aspetta un secondo e colora nomrmale
-	QPalette palette;
-	palette.setColor( QPalette::Text, QColor( Qt::red ) );
-	label->setPalette(palette);
+    rDebug("text in RED");    
+    /*
+    QPalette palette(QColor(255,255,255));
+    palette.setColor( QPalette::Foreground, QColor(255,0,0) );
+    label->setPalette(palette);
+    */
+    label->setPalette(red);
 }
 
-void SvmacGui::stdLabel(QLabel* label) {
-
+void SvmacGui::blackLabel(QLabel* label) {
+    rDebug("text in BLACK");
+    /*
+    QPalette palette(QColor(255,255,255));
+    palette.setColor( QPalette::Foreground, QColor(0,0,0) );
+    label->setPalette(palette);
+    */
+    label->setPalette(black);
 }

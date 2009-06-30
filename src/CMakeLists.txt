@@ -22,6 +22,7 @@ set(svmacs_HDRS
 	features/hr.h 
 	features/mfcc.h
 	model/classifier.h
+	model/event.h
 	model/svmclassifier.h
 	jack/jackclient.h
 	jack/ringbufferread.h
@@ -38,6 +39,7 @@ set(svmacs_SRCS
 	features/srf.cpp 
 	features/hr.cpp 
 	features/mfcc.cpp
+	model/event.cpp
 	model/svmclassifier.cpp
 	jack/jackclient.cpp
 	jack/ringbufferread.cpp

@@ -9,8 +9,9 @@
 #include "../jack/jackclient.h"
 using jack::JackClient;
 
-#include "../model/classifier.h"
-using model::EventType;
+#include "../model/event.h"
+using model::Event;
+
 
 /** 
 @class SvmacGui
@@ -21,9 +22,16 @@ class SvmacGui : public QWidget, private Ui::SvmacQt {
     Q_OBJECT
     /** Pointer to the Jack client */
     JackClient* client;
-
-    static bool flag;
-protected:
+    /// Enumeration for palette color
+    enum Color { BLACK, RED };
+    /// Build a palette with the given color
+    static QPalette getPalette(Color color);
+    /// The palette with red text foreground
+    static QPalette red;
+    /// The palette with black text foreground
+    static QPalette black;
+    
+protected: //TODO private
     /// Enable the specified button
     void enableButton(QAbstractButton* button);
     /// Disable the specified button
@@ -32,10 +40,10 @@ protected:
     void enableSpinBox(QAbstractSpinBox* spinbox);
     /// Disable the spin box
     void disableSpinBox(QAbstractSpinBox* spinbox);
-    /// Highlight a label using red color
+    /// Set text foreground to red
     void redLabel(QLabel* label);
-    /// Apply standard palette to the label
-    void stdLabel(QLabel* label);
+    /// Set text foreground to black
+    void blackLabel(QLabel* label);
 
 public:
     /** Constructor. */
@@ -52,9 +60,13 @@ public slots:
     void about();
     
     /// Highlight the event label
-    void highlightEvent(EventType type);
+    void highlightEvent(const Event& event);
 
+#ifdef ENABLE_DEBUG
     void test();
+private:    
+    static bool flag;
+#endif
 
 };
 
