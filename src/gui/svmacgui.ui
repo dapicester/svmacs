@@ -174,7 +174,7 @@
    <widget class="QDoubleSpinBox" name="NspinBox" >
     <property name="geometry" >
      <rect>
-      <x>109</x>
+      <x>104</x>
       <y>25</y>
       <width>51</width>
       <height>23</height>
@@ -193,7 +193,7 @@
    <widget class="QSpinBox" name="RspinBox" >
     <property name="geometry" >
      <rect>
-      <x>109</x>
+      <x>104</x>
       <y>65</y>
       <width>51</width>
       <height>23</height>
@@ -206,7 +206,7 @@
    <widget class="QLabel" name="label_3" >
     <property name="geometry" >
      <rect>
-      <x>164</x>
+      <x>159</x>
       <y>25</y>
       <width>21</width>
       <height>23</height>
@@ -219,9 +219,9 @@
    <widget class="QLabel" name="label_4" >
     <property name="geometry" >
      <rect>
-      <x>164</x>
+      <x>159</x>
       <y>65</y>
-      <width>31</width>
+      <width>21</width>
       <height>23</height>
      </rect>
     </property>
@@ -232,7 +232,7 @@
    <widget class="QLabel" name="label_5" >
     <property name="geometry" >
      <rect>
-      <x>15</x>
+      <x>10</x>
       <y>65</y>
       <width>91</width>
       <height>23</height>
@@ -248,7 +248,7 @@
    <widget class="QLabel" name="label_2" >
     <property name="geometry" >
      <rect>
-      <x>15</x>
+      <x>10</x>
       <y>25</y>
       <width>91</width>
       <height>23</height>
@@ -272,7 +272,7 @@
     </rect>
    </property>
    <property name="title" >
-    <string>Output connections</string>
+    <string>Connections</string>
    </property>
    <widget class="QCheckBox" name="inputCheckBox" >
     <property name="geometry" >
@@ -287,7 +287,7 @@
      <string>Line in</string>
     </property>
     <property name="checked" >
-     <bool>true</bool>
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QCheckBox" name="outputCheckBox" >
@@ -295,12 +295,12 @@
      <rect>
       <x>15</x>
       <y>65</y>
-      <width>80</width>
+      <width>111</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text" >
-     <string>Mono out</string>
+     <string>Default out</string>
     </property>
     <property name="checked" >
      <bool>true</bool>

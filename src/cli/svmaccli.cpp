@@ -51,7 +51,7 @@ void SvmacCli::mainLoop(float N, float R) {
         rWarning("WARNING! Not Realtime"); 
     rInfo("Jack client started");
 
-#ifdef ENABLE_DEBUG    
+#ifdef ENABLE_LOG
     // status
     rDebug("inport names:");
     for(unsigned int i = 0; i < client->inPorts(); i++)

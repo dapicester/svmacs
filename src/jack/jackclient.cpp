@@ -36,6 +36,7 @@ JackClient::JackClient(float length, float overlap) :
     
     // instantiate a classifier
     classifier = new SvmClassifier();
+    prev = NONE;
     
     rInfo("create a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
 }
@@ -91,24 +92,28 @@ void JackClient::processFrame() {
         
         vec vframe(frame,N);
         vec ff = processor.process(vframe);
-#ifdef ENABLE_DEBUG
+#ifdef ENABLE_LOG
         rDebug("feature vector:");
         cout << ff << endl;
 #endif
 
 #if 1 // enable the classifier        
         EventType type = classifier->classify(ff);
-        const char* message = "";
-        if (type != NONE) {
-            switch (type) {
-            case GUNSHOT: message = "GUNSHOT"; break;
-            case SCREAM:  message = "SCREAM";  break;
-            case GLASS:   message = "GLASS";   break;
-            } 
-            rInfo("Detected EventType: %s", message);
-         }
-         Event e(type, message);
-         emit eventDetected(e);
+        if (type != prev) {
+            const char* message;
+            if (type != NONE) {
+                switch (type) {
+                case NONE:    message = "none";    break;
+                case GUNSHOT: message = "GUNSHOT"; break;
+                case SCREAM:  message = "SCREAM";  break;
+                case GLASS:   message = "GLASS";   break;
+                } 
+                rInfo("Detected EventType: %s", message);
+            }
+            Event e(type, message);
+            emit eventDetected(e);
+            prev = type;
+        }
 #endif
     } 
 }

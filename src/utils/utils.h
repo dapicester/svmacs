@@ -11,6 +11,12 @@ using itpp::ivec;
 using itpp::to_ivec;
 using itpp::mat;
 
+#if 0
+#include <itpp/signal/sigfun.h>
+using itpp::min;
+using itpp::max;
+#endif
+
 #include <iostream>
 using std::cout;
 using std::cin;
@@ -71,6 +77,27 @@ inline ivec maxima(const vec& input) {
     flags = concat(flags, static_cast<double>(updown[updown.length()-1] > 0));
     return to_ivec(find(flags));
 }
+
+#if 0
+/** Normalize and scale a vector. */
+inline vec normalize(const vec& input, const float coef = 1.0) {
+    double maxVal = max(input);
+    double minVal = min(input);
+    double delta = maxVal - minVal;
+    
+    vec out(input);
+    if (delta != 0.0) {
+        out -= minVal;
+        out *= 2/delta;
+        out -= 1;
+    }
+    
+    if (coef != 1.0)
+        out *= coef;
+        
+    return out;
+}
+#endif
 
 } // namespace utils
 

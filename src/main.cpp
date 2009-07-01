@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     // initialize logging    
     RLogInit(argc, argv);
     StdioNode log;
-#ifdef ENABLE_DEBUG
+#ifdef ENABLE_LOG
     log.subscribeTo( GetGlobalChannel("debug") );
 #endif 
     log.subscribeTo( GetGlobalChannel("info") );

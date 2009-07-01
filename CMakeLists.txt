@@ -3,7 +3,8 @@ project (svmacs)
 cmake_minimum_required(VERSION 2.6.0)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
-#add_definitions(-DENABLE_DEBUG)
+add_definitions(-DENABLE_DEBUG)
+#add_definitions(-DENABLE_LOG)
 
 find_package(Qt4 REQUIRED)
 

@@ -46,13 +46,16 @@ class JackClient : public QObject, public JackCpp::AudioIO {
     /// Audio classifier
     model::Classifier* classifier;
     
-     /// Constructor
+    /// Constructor
     JackClient(float length, float overlap);
      /// Copy-constructor
     JackClient(JackClient&);
     
     /// Initializations
     void init();
+    
+    /// Previous detected event type
+    EventType prev;
     
 public:
     /** Get the Jack client instance
