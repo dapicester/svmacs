@@ -25,7 +25,7 @@ JackClient::JackClient(float length, float overlap) :
                 input(N * 2.0 + 1.0), 
                 processor(getSampleRate()) {
     rDebug("constructor invoked");
-
+    
     // reserve ports
     reserveInPorts(MAX_IN);
     reserveOutPorts(MAX_OUT);
@@ -38,7 +38,7 @@ JackClient::JackClient(float length, float overlap) :
     classifier = new SvmClassifier();
     prev = NONE;
     
-    rInfo("create a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
+    rInfo("created a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
 }
 
 void JackClient::init() {}
@@ -82,7 +82,6 @@ int JackClient::audioCallback(jack_nframes_t nframes,
 void JackClient::processFrame() {
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
-        
         if (R > 0) { // overlapping frames
             input.read(frame, R);    // read the first R samples
             input.peek(frame+R, N-R);// and peek the remaining N-R samples 

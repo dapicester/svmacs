@@ -8,7 +8,6 @@ using namespace cli;
 #define RLOG_COMPONENT "cli"
 #include <rlog/rlog.h>
 
-#include <iostream>
 #include <csignal>
 
 using namespace std;
@@ -20,7 +19,7 @@ SvmacCli::SvmacCli() {
 }
 
 SvmacCli::~SvmacCli() {
-     rDebug("destructor invoked");
+    rDebug("destructor invoked");
 }
 
 SvmacCli* SvmacCli::getInstance() {
@@ -38,10 +37,10 @@ void SvmacCli::mainLoop(float N, float R) {
     client = JackClient::getInstance(N,R);
     if (client == 0) {
         rDebug("client not created");
-        rError("failed!");
         
-        cout << "Could not start the client. "
-                "Please check if the Jackd server is running." << endl;
+	rError("failed!");
+        rError("Could not start the client. ");
+        rError("Please check if the Jackd server is running.");
         exit(1);
     } 
     
@@ -51,7 +50,7 @@ void SvmacCli::mainLoop(float N, float R) {
         rWarning("WARNING! Not Realtime"); 
     rInfo("Jack client started");
 
-#ifdef ENABLE_LOG
+    #ifdef ENABLE_LOG
     // status
     rDebug("inport names:");
     for(unsigned int i = 0; i < client->inPorts(); i++)
@@ -60,11 +59,12 @@ void SvmacCli::mainLoop(float N, float R) {
     rDebug("outport names:");
     for(unsigned int i = 0; i < client->outPorts(); i++)
         rDebug("   %s", client->getOutputPortName(i).c_str());
-#endif
+    #endif
 
     try {
         rDebug("connecting from input port");
         client->connectFromPhysical(0,0);
+        
         rDebug("connecting to output port");
         client->connectToPhysical(0,0);
     } catch (std::runtime_error e){
@@ -79,19 +79,21 @@ void SvmacCli::mainLoop(float N, float R) {
     
     // main loop
     while(true) {
-        //client->getFrame();
         sleep(1); 
     } 
     
-    //sleep(3);
-    cleanup(99);
-    
+    // unreachable code
+    cleanup(99);    
     exit(0);
 }
 
 void SvmacCli::cleanup(int signal) {  
-    if (signal == 99) rDebug("timeout"); 
-    else rDebug("CTRL-C trapped");
+    #ifdef ENABLE_LOG
+    if (signal == 99) 
+        rDebug("timeout"); 
+    else 
+        rDebug("CTRL-C trapped");
+    #endif
     rInfo("quitting ... ");
 
     rDebug("getting client pointer");
@@ -102,7 +104,7 @@ void SvmacCli::cleanup(int signal) {
         client->disconnectInPort(i);
     for(unsigned int i = 0; i < client->outPorts(); i++)
         client->disconnectOutPort(i);
-        
+    
     rDebug("cleaning up");
     client->close();	// stop client.
     delete client;
