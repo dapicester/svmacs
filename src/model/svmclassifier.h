@@ -37,7 +37,6 @@ public:
 private:
     struct svm_model* getDetectionModel(bool useFile);
     struct svm_model* getClassificationModel(bool useFile);
-    void debugModel(const struct svm_model* model);
 };
 
 }

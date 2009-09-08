@@ -30,7 +30,7 @@ svm_model* SvmClassifier::getDetectionModel(bool useFile) {
     struct svm_model* m1;
     
     if (useFile) {
-        rDebug("reading model file: %s", MODEL);
+        rInfo("reading model file: %s", MODEL);
         m1 = svm_load_model(MODEL);
         if (m1 == NULL) {
             std::string message = "Detection model is NULL!";
@@ -38,9 +38,10 @@ svm_model* SvmClassifier::getDetectionModel(bool useFile) {
             throw BadModel(message);
         }
     } else {
-        rDebug("creating model from scratch");
+        rInfo("creating model from scratch");
         //TODO
         m1 = NULL;
+        rError("model is NULL");
     }
     return m1;
 }
@@ -50,7 +51,7 @@ svm_model* SvmClassifier::getClassificationModel(bool useFile) {
     struct svm_model* model;
     
     if (useFile) {
-        rDebug("reading model file: %s", MODEL);
+        rInfo("reading model file: %s", MODEL);
         model = svm_load_model(MODEL);
         if (model == NULL) {
             std::string message = "Classification model is NULL!";
@@ -58,9 +59,10 @@ svm_model* SvmClassifier::getClassificationModel(bool useFile) {
             throw BadModel(message);
         }
     } else {
-        rDebug("creating model from scratch");
+        rInfo("creating model from scratch");
         //TODO
         model = NULL;
+        rError("model is NULL");
     }
     return model;
 }
@@ -102,7 +104,6 @@ EventType SvmClassifier::classify(vec& features) const {
 
 #if 1 // enable classification step
     if (detected == 1) { 
-        //rDebug("classification");
         int type = svm_predict(model, array);
         rDebug("classification = %d", type);
         switch (type) {
@@ -115,6 +116,3 @@ EventType SvmClassifier::classify(vec& features) const {
     return t;
 }
 
-void SvmClassifier::debugModel(const struct svm_model* model) {
-    //TODO
-}
