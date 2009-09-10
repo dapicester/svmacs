@@ -32,7 +32,6 @@ inline vec flipud(const vec& input) {
     for (int i=0, j=len-1; i<len; i++, j--) {
         output(i) = input(j);
     }
-    
     return output;
 }
 
@@ -78,26 +77,14 @@ inline ivec maxima(const vec& input) {
     return to_ivec(find(flags));
 }
 
-#if 0
-/** Normalize and scale a vector. */
-inline vec normalize(const vec& input, const float coef = 1.0) {
-    double maxVal = max(input);
-    double minVal = min(input);
-    double delta = maxVal - minVal;
-    
-    vec out(input);
-    if (delta != 0.0) {
-        out -= minVal;
-        out *= 2/delta;
-        out -= 1;
-    }
-    
-    if (coef != 1.0)
-        out *= coef;
-        
+/** Create a linear vector. */
+inline vec linvec(const int start, const int stop) {
+    const int size = stop - start + 1;
+    vec out(size);
+    for (int i=0, val=start; i<size; i++, val++)
+         out[i] = val;
     return out;
 }
-#endif
 
 } // namespace utils
 

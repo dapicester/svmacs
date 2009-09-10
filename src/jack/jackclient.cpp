@@ -91,9 +91,11 @@ void JackClient::processFrame() {
         
         vec vframe(frame,N);
         vec ff = processor.process(vframe);
+#if 0
 #ifdef ENABLE_LOG
         rDebug("feature vector:");
         cout << ff << endl;
+#endif
 #endif
 
 #if 1 // enable the classifier        
