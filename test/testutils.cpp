@@ -1,4 +1,5 @@
 #include "utils.h"
+#include "convert.h"
 using namespace utils;
 using namespace cli;
 
@@ -58,12 +59,27 @@ void testMaxima(const vec& a) {
     }
 }
 
+void testLinvec(int start, int stop) {
+    vec v = linvec(start, stop);
+    cout << "linvec: " << v << endl;
+}
+
+void testStringify(string start, string stop) {
+    vec v = start + ":" + stop;
+    cout << "string: " << v << endl;
+}
+
 int main(int argc, char** argv) {
     vec a = "0 -1 2 0 4";
     cout << "a        : " << vec2str(a) << endl;
-    
+    /*
     testFlipud(a);
     testFind(a);
     testDiff(a);
     testMaxima(a);
+    */
+    testLinvec(0, 10);
+    testLinvec(1, 10);
+    testStringify("0", "10");
+    testStringify("1", "10");
 }

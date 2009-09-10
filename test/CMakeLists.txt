@@ -9,11 +9,13 @@ set(INCLUDE_DIR
 include_directories(${INCLUDE_DIR})
 
 add_definitions(-ggdb `pkg-config --cflags jack` `itpp-config --cflags`)
-#add_definitions(-DDEBUG)
+add_definitions(-DDEBUG)
 #add_definitions(-DPLOT)
 
 link_directories(${INCLUDE_DIR})
 link_libraries(jack pthread rt itpp fftw3 lapack blas rlog jackcpp)
+
+set(CMAKE_VERBOSE_MAKEFILE ON)
 
 set(RING_BUFFER
     ../src/jack/ringbufferread.h
@@ -53,31 +55,51 @@ set(MFCC testfeatures.h
 set(MODEL ../src/model/range.h
 )
 
-set(EXECUTABLE_OUTPUT_PATH ./bin)
+set(TEST_FEATURES test_features.cpp
+    ../src/features/zcr.h
+    ../src/features/zcr.cpp
+    ../src/features/energy.h
+    ../src/features/energy.cpp
+    ../src/features/ass.h
+    ../src/features/ass.cpp
+    ../src/features/srf.h
+    ../src/features/srf.cpp
+    ../src/features/hr.h
+    ../src/features/hr.cpp
+    ../src/features/mfcc.h
+    ../src/features/mfcc.cpp
+    ../src/features/processor.h
+    ../src/features/processor.cpp;
+)
 
-add_executable(test-fail testfail.cpp)
-add_executable(test-itpp testitpp.cpp)
-add_executable(test-utils testutils.cpp)
-add_executable(test-ringbuffer testringbuffer.cpp)
-add_executable(test-ringbufferread testringbufferread.cpp ${RING_BUFFER})
-add_executable(test-zcr testzcr.cpp ${ZCR})
-add_executable(test-energy testenergy.cpp ${ENERGY})
-add_executable(test-ass testass.cpp ${ASS})
-add_executable(test-srf testsrf.cpp ${SRF})
-add_executable(test-hr testhr.cpp ${HR})
-add_executable(test-mfcc testmfcc.cpp ${MFCC})
-add_executable(test-model testmodel.cpp ${MODEL})
-add_executable(test-libsvm testlibsvm.cpp)
-target_link_libraries(test-libsvm svm)
+#set(EXECUTABLE_OUTPUT_PATH ./bin)
+
+#add_executable(test-fail testfail.cpp)
+#add_executable(test-itpp testitpp.cpp)
+#add_executable(test-utils testutils.cpp)
+#add_executable(test-ringbuffer testringbuffer.cpp)
+#add_executable(test-ringbufferread testringbufferread.cpp ${RING_BUFFER})
+
+#add_executable(test-zcr testzcr.cpp ${ZCR})
+#add_executable(test-energy testenergy.cpp ${ENERGY})
+#add_executable(test-ass testass.cpp ${ASS})
+#add_executable(test-srf testsrf.cpp ${SRF})
+#add_executable(test-hr testhr.cpp ${HR})
+#add_executable(test-mfcc testmfcc.cpp ${MFCC})
+#add_executable(test-model testmodel.cpp ${MODEL})
+#add_executable(test-libsvm testlibsvm.cpp)
+#target_link_libraries(test-libsvm svm)
+
+add_executable(test-features ${TEST_FEATURES})
 
 enable_testing()
 #add_test(00-fail ./bin/test-fail)
 #add_test(00-itpp ./bin/test-itpp)
-add_test(01-test-zcr bin/test-zcr)
-add_test(02-test-energy bin/test-energy)
-add_test(03-test-ass bin/test-ass)
-add_test(04-test-srf bin/test-srf)
-add_test(05-test-hr bin/test-hr)
-add_test(06-test-mfcc bin/test-mfcc)
+#add_test(01-test-zcr bin/test-zcr)
+#add_test(02-test-energy bin/test-energy)
+#add_test(03-test-ass bin/test-ass)
+#add_test(04-test-srf bin/test-srf)
+#add_test(05-test-hr bin/test-hr)
+#add_test(06-test-mfcc bin/test-mfcc)
 #add_test(07-test-model bin/test-model)
-add_test(08-test-libsvm bin/test-libsvm)
+#add_test(08-test-libsvm bin/test-libsvm)

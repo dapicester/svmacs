@@ -24,7 +24,7 @@ int main() {
     test(sx, new SRF(100), featx);
     test(sy, new SRF(100), featy);
     
-    if (featx.size() != 2 || featy.size() != 2)
+    if (featx.size() != 1 || featy.size() != 1)
         exit(1);
 
 #ifdef PLOT
