@@ -42,7 +42,7 @@ Processor::Processor(int sr) : sampleRate(sr) {
     const mat* fb = MFCC::getMelFilters(N_FFT-1, sr, 24); //N_MFCC_FILTERS
     mfcc->setFilterBank(fb);
     features[5] = mfcc;
-     
+    
     rDebug("Processor created");
 }
 

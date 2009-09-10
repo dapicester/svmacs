@@ -6,12 +6,12 @@
 #define FEATURE_H
 
 #include <itpp/base/vec.h>
-using itpp::vec;
-
 #include <string>
-using namespace std;
 
 namespace features {
+
+using itpp::vec;
+using std::string;
 
 /// Type of feature
 enum Type { 

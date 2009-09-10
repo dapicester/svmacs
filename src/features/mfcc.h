@@ -6,10 +6,9 @@
 #define MFCC_H
 
 #include "feature.h"
-using namespace features;
 
 #include <itpp/itbase.h>
-using namespace itpp;
+using itpp::mat;
 
 namespace features {
 

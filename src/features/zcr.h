@@ -6,7 +6,6 @@
 #define ZCR_H
 
 #include "feature.h"
-using namespace features;
 
 namespace features {
 

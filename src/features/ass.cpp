@@ -5,12 +5,9 @@
 #include "ass.h"
 using namespace features;
 
-#include "convert.h"
+#include "utils.h"
 
-#include <itpp/base/math/elem_math.h>
-using itpp::abs;
-#include <itpp/base/matfunc.h>
-using itpp::sum;
+#include <itpp/itbase.h>
 
 #define RLOG_COMPONENT "ass"
 #include <rlog/rlog.h>
@@ -32,7 +29,8 @@ void ASS::extract(const vec& frame, vec& features) const {
 
     double summ = sum(spectrum);
   
-    vec bins("1:" + utils::stringify(len));
+    //vec bins("1:" + utils::stringify(len));
+    vec bins = utils::linvec(1, len);
     
     if (summ == 0.0) {
         vec tmp("0 0");

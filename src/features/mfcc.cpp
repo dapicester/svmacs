@@ -4,6 +4,7 @@
  ***************************************************************************/
 #include "mfcc.h"
 using namespace features;
+using namespace itpp;
 
 #include "convert.h"
 using utils::stringify;

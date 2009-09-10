@@ -5,11 +5,7 @@
 #include "energy.h"
 using namespace features;
 
-#include <itpp/base/math/elem_math.h>
-using itpp::abs;
-using itpp::sqr;
-#include <itpp/base/matfunc.h>
-using itpp::sum;
+#include <itpp/itbase.h>
 
 #define RLOG_COMPONENT "energy"
 #include <rlog/rlog.h>
@@ -26,9 +22,9 @@ inline Type Energy::getType() const { return TEMPORAL; }
 void Energy::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
     
-    vec square = sqr(abs(frame));
+    vec square = itpp::sqr(itpp::abs(frame));
     
-    double energy = sum(square);
+    double energy = itpp::sum(square);
     
     energy = energy / len * getSamplerate();
     

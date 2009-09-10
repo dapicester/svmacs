@@ -7,9 +7,6 @@
 
 #include "feature.h"
 
-#include <itpp/base/vec.h>
-using itpp::vec;
-
 namespace features {
 
 class Processor {

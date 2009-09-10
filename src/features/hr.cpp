@@ -6,10 +6,8 @@
 using namespace features;
 
 #include "utils.h"
-using namespace utils;
 
-#include <itpp/signal/sigfun.h>
-using namespace itpp;
+#include <itpp/itsignal.h>
 
 #define RLOG_COMPONENT "hr"
 #include <rlog/rlog.h>
@@ -26,13 +24,13 @@ inline Type HR::getType() const { return TEMPORAL; }
 void HR::extract(const vec& frame, vec& features) const {
     double out = 0.0;
     
-    if (numel(find(frame)) != 0) { // no silence
+    if (utils::numel(utils::find(frame)) != 0) { // no silence
         vec R = xcorr(frame, -1, "coeff");
         const int rlen = R.length();
         
         R = R.right(rlen-rlen/2);
         
-        ivec idx = maxima(R);
+        ivec idx = utils::maxima(R);
         vec maxval = R(idx);
         
         const int mlen = maxval.length();
