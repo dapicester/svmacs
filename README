@@ -1,0 +1,10 @@
+The following libraries are required (development packages):
+- Qt4
+- itpp
+- svm2
+- rlog
+- fftw3
+- lapack
+- blas
+
+Run JACK with a sample rate of 22050 and NO realtime.
