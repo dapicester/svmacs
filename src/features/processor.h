@@ -11,7 +11,7 @@ namespace features {
 
 class Processor {
     /// Sample rate (from Jackd)
-    uint sampleRate;
+    unsigned int sampleRate;
     
     /// Default window length in seconds (25ms)
     static const double WIN_LEN = 0.025;
@@ -22,9 +22,9 @@ class Processor {
     vec win;
     
     /// Frame length
-    uint M;
+    unsigned int M;
     /// Frame overlap
-    uint R;
+    unsigned int R;
     
     /// Number of frequency bins
     static const int N_FFT = 1024;
@@ -32,12 +32,12 @@ class Processor {
     static const int N_MFCC_FILTERS = 24; 
     
     /// Number of feature extractors
-    static const uint N_EXTRACTORS = 6;
+    static const unsigned int N_EXTRACTORS = 6;
     /// Features extractors 
     Feature* features[N_EXTRACTORS];
     
     /// Number of features
-    static const uint N_FEATURES = 12;
+    static const unsigned int N_FEATURES = 12;
     
 public:
     /// Constructor
