@@ -10,7 +10,7 @@ echo "done."
 
 echo -n "Cleaning up CMake... "
 find . -name "CMake*" | grep -v CMakeLists.txt | xargs rm -Rf
-find . -name "cmake*" | xargs rm -Rf
+find . -name "cmake*" -type f | xargs rm -Rf
 echo "done."
 
 echo -n "Cleaning up CTest... "

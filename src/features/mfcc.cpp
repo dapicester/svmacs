@@ -6,7 +6,7 @@
 using namespace features;
 using namespace itpp;
 
-#include "convert.h"
+#include "utils/convert.h"
 using utils::stringify;
 
 #define RLOG_COMPONENT "mfcc"

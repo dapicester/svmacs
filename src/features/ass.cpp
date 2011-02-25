@@ -5,7 +5,7 @@
 #include "ass.h"
 using namespace features;
 
-#include "utils.h"
+#include "utils/utils.h"
 
 #include <itpp/itbase.h>
 

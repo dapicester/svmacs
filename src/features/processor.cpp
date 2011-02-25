@@ -12,7 +12,7 @@
 #include "mfcc.h"
 using namespace features;
 
-#include "utils.h"
+#include "utils/utils.h"
 using utils::flipud;
 using cli::vec2str;
 using cli::mat2str;
