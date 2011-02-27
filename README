@@ -1,7 +1,7 @@
 The following libraries are required (development packages):
 - Qt4
 - itpp
-- svm2
+- svm3
 - rlog
 - fftw3
 - lapack
