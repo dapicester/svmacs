@@ -1,4 +1,4 @@
-#include "ringbufferread.h"
+#include <jack/ringbufferread.h>
 using namespace jack;
 
 #include <iostream>

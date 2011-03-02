@@ -3,7 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 #include "testfeatures.h"
-#include "zcr.h"
+#include <features/mfcc.h>
 using namespace features;
 
 #ifdef PLOT
@@ -17,17 +17,23 @@ int main() {
     vec x = getSignal(t, 1.0);
     vec y = getSilence(t);
 
-    vec featx, featy;
-    test(x, new ZCR(100), featx);
-    test(y, new ZCR(100), featy);
+    vec sx = abs(fft(to_cvec(x), N_FFT)).left(N_FFT/2);
+    vec sy = abs(fft(to_cvec(y), N_FFT)).left(N_FFT/2);
     
-    if (featx.size() != 1 || featy.size() != 1 )
-//        featx[0] != 1.9905 || featy[0] != 0.0 )
-        exit (1);
+    MFCC* mfcc = new MFCC(100, N_FFT-1, 24);
+        
+    vec featx, featy;
+    test(sx, mfcc, featx);
+    test(sy, mfcc, featy);
+    
+//     if (featx.size() != 2 || featy.size() != 2)
+//         exit(1);
 
 #ifdef PLOT
     Gnuplot* p1 = cli::plot_xy(t, x, "test");
-    Gnuplot* p2 = cli::plot_xy(t, y, "silence");
+    Gnuplot* p2 = cli::plot_x(sx, "abs(spectrum(test))");
+    Gnuplot* p3 = cli::plot_xy(t, y, "silence");
+    Gnuplot* p4 = cli::plot_x(sy, "abs(spectrum(silence))");
     cli::pressKey();
 #endif
 

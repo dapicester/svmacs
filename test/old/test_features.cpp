@@ -4,9 +4,7 @@
  ***************************************************************************/
 #define INPUT_FILE_NAME "test_signal.it"
 #define OUTPUT_FILE_NAME "features.it"
-
 #define TEST_SIGNAL "test_signal"
-
 #define TEST_DOUBLE "double.it"
 
 using namespace std;
@@ -14,13 +12,13 @@ using namespace std;
 #include <itpp/itsignal.h>
 using namespace itpp;
 
-#include "feature.h"
-#include "zcr.h"
-#include "energy.h"
-#include "ass.h"
-#include "srf.h"
-#include "hr.h"
-#include "mfcc.h"
+#include <features/feature.h>
+#include <features/zcr.h>
+#include <features/energy.h>
+#include <features/ass.h>
+#include <features/srf.h>
+#include <features/hr.h>
+#include <features/mfcc.h>
 using namespace features;
 
 int main() {
@@ -44,10 +42,7 @@ int main() {
   features[2] = new ASS(sr); 
   features[3] = new SRF(sr); 
   features[4] = new HR(sr);
-  MFCC* mfcc = new MFCC(sr);
-  const mat* fb = MFCC::getMelFilters(Nfft-1, sr, 24); //N_MFCC_FILTERS
-  mfcc->setFilterBank(fb);
-  features[5] = mfcc;
+  features[5] = new MFCC(sr, Nfft-1, 24);
 
   // extract features
   vec feat;

@@ -7,10 +7,10 @@
 
 #define PRINT(X) cout << #X << ": " << X <<endl;
 
-#include "feature.h"
+#include <features/feature.h>
 using namespace features;
 
-#include "convert.h"
+#include <utils/convert.h>
 using namespace utils;
 
 #include <cmath>
