@@ -2,14 +2,13 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "svmaccli.h"
+#include <cli/svmaccli.h>
 using namespace cli;
 
 #define RLOG_COMPONENT "cli"
 #include <rlog/rlog.h>
 
 #include <csignal>
-
 using namespace std;
 
 SvmacCli* SvmacCli::instance = 0;
@@ -62,11 +61,11 @@ void SvmacCli::mainLoop(float N, float R) {
     #endif
 
     try {
-        rDebug("connecting from input port");
+        rDebug("connecting from input port ...");
         client->connectFromPhysical(0,0);
         
-        rDebug("connecting to output port");
-        client->connectToPhysical(0,0);
+        //rDebug("connecting to output port ...");
+        //client->connectToPhysical(0,0);
     } catch (std::runtime_error e){
         rWarning("WARNING! %s", e.what());
     }

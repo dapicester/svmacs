@@ -2,7 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "event.h"
+#include <model/event.h>
 using model::Event;
 
 Event::Event() : type(NONE), description("") {} 

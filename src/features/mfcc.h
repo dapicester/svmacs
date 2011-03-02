@@ -5,42 +5,45 @@
 #ifndef MFCC_H
 #define MFCC_H
 
-#include "feature.h"
+#include <features/feature.h>
 
 #include <itpp/itbase.h>
 using itpp::mat;
 
 namespace features {
 
-/// Extract the Mel-Frequecy Cepstral Coefficients
+/**
+ * Mel-Frequecy Cepstral Coefficients audio feature.
+ * TODO: definition
+ */
 class MFCC : public Feature {
+  
+  public:
+    
+    MFCC(int samplerate, int nfft, int nfilters);
+    
+    ~MFCC();
+    
+    /// Compute the MFCC for the given spectrum frame
+    void extract(const vec& frame, vec& features) const;
+      
+  private:
+
+    /// Number of frequency bins.
+    int nfft;
+    
+    /// Number of Mel filters
+    int nfilters;
+    
     /// Mel filter bank
     const mat* filterBank;
 
     /// Number of computed MFCCs
     static const int N_MFCC = 6;
-
-public:
-    MFCC(int samplerate, string name = "MFCC");
-    ~MFCC();
     
-    Type getType() const;
-
-    void setFilterBank(const mat* fb);
-
-    /** 
-     * Generate the Mel filter bank
-     * \param Nfft the number of frequency bins
-     * \param Fs the sampling rate
-     * \param NFilters the number of Mel filters
-     */
-    static mat const* getMelFilters(const int& Nfft, const int& Fs, const int& Nfilters); 
+    /// Generate the Mel filter bank
+    mat const* initFilterBank();
     
-    /** 
-     * Compute the MFCC for the given spectrum
-     * \param frame the audio spectrum
-     */
-     void extract(const vec& frame, vec& features) const;
 };
 
 }

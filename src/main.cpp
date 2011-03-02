@@ -2,10 +2,10 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "cli/svmaccli.h"
+#include <cli/svmaccli.h>
 using namespace cli;
 
-#include "gui/svmacgui.h"
+#include <gui/svmacgui.h>
 
 #define RLOG_COMPONENT "main"
 #include <rlog/rlog.h>
@@ -21,6 +21,7 @@ using namespace std;
 using namespace rlog;
 
 void usage(const char* s);
+void initRlog(int argc, char** argv);
 
 /**
  @brief The application entry point.
@@ -31,7 +32,7 @@ void usage(const char* s);
  @author Paolo D'Apice
  */
 int main(int argc, char *argv[]) {
-    // initialize logging    
+    // initialize logging
     RLogInit(argc, argv);
     StdioNode log;
 #ifdef ENABLE_LOG
@@ -102,3 +103,5 @@ void usage(const char* s) {
     cout << "  overlap     percentage of overlapping (R)" << endl;
     cout << endl;
 }
+
+

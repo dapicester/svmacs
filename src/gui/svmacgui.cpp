@@ -2,7 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "svmacgui.h"
+#include <gui/svmacgui.h>
 
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>

@@ -5,13 +5,13 @@
 #ifndef JACKCLIENT_H
 #define JACKCLIENT_H
 
-#include "../features/processor.h"
-#include "../model/classifier.h"
+#include <features/processor.h>
+#include <model/classifier.h>
 using model::EventType;
-#include "../model/event.h"
+#include <model/event.h>
 using model::Event;
 
-#include "ringbufferread.h"
+#include <jack/ringbufferread.h>
 #include <jackaudioio.hpp>
 
 #include <itpp/itsignal.h>

@@ -2,36 +2,33 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "srf.h"
+
+#include <features/srf.h>
 using namespace features;
 
 #include <itpp/base/math/elem_math.h>
-using itpp::sqr;
 #include <itpp/base/matfunc.h>
-using itpp::sum;
 
 #define RLOG_COMPONENT "srf"
 #include <rlog/rlog.h>
 
-SRF::SRF(int samplerate, string name) : Feature() {
-    setSamplerate(samplerate);
-    setName(name);
+SRF::SRF(int samplerate) : Feature(samplerate, SPECTRAL) {
+    setName("SRF");
 }
 
 SRF::~SRF() {}
 
-inline Type SRF::getType() const { return SPECTRAL; }
-
-void SRF::extract(const vec& frame, vec& features) const {
+void
+SRF::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
     
-    vec spectrum2 = sqr(frame);
+    vec spectrum2 = itpp::sqr(frame);
     
-    double threshold = ALPHA * sum(spectrum2);
+    double threshold = ALPHA * itpp::sum(spectrum2);
     
     double K = 0.0;
     for (int k=1; k<len; k++) {
-        double summ = sum(spectrum2.left(k));
+        double summ = itpp::sum(spectrum2.left(k));
         //FIXME va col < (sbagliata la versione matlab)
         //if ( summ > threshold) {
         if ( summ < threshold) {
@@ -39,5 +36,5 @@ void SRF::extract(const vec& frame, vec& features) const {
              break;
         }
     }
-    features = concat(features, K);
+    features = itpp::concat(features, K);
 }

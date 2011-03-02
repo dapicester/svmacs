@@ -5,26 +5,30 @@
 #ifndef SRF_H
 #define SRF_H
 
-#include "feature.h"
+#include <features/feature.h>
 
 namespace features {
 
-/// Extract the Spectral Roll-off
+/**
+ * Spectral Roll-off audio feature.
+ * TODO: definition
+ */
 class SRF : public Feature {
-    /// Roll-off threshold (percentage)
-    static const double ALPHA = 0.93;
+  
+  public:
+  
+    SRF(int samplerate);
     
-public:
-    SRF(int samplerate, string name = "SRF");
     ~SRF();
     
-    Type getType() const;
+    /// Compute the SRF for the given spectrum frame.
+    void extract(const vec& frame, vec& features) const;
     
-    /** 
-     * Compute the SRF for the given spectrum
-     * \param frame the audio spectrum
-     */
-     void extract(const vec& frame, vec& features) const;
+  private:   
+    
+    /// Roll-off threshold (percentage)
+    static const double ALPHA = 0.93;
+  
 };
 
 }

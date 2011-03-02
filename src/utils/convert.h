@@ -5,8 +5,6 @@
 #ifndef CONVERT_H
 #define CONVERT_H
 
-#if 1
-
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -29,4 +27,3 @@ inline std::string stringify(double x) {
 }
 #endif
 
-#endif

@@ -5,24 +5,25 @@
 #ifndef ASS_H
 #define ASS_H
 
-#include "feature.h"
+#include <features/feature.h>
 
 namespace features {
 
-/// Extract the Audio Spectral Spread and the Audio Spectral Centroid
+/**
+ * Audio Spectral Spread and Audio Spectral Centroid audio features.
+ * TODO: definitions
+ */
 class ASS : public Feature {
 
-public:
-    ASS(int samplerate, string name = "ASS");
+  public:
+    
+    ASS(int samplerate);
+    
     ~ASS();
     
-    Type getType() const;
+    /// Compute the ASS and the ASC for the given spectrum frame.
+    void extract(const vec& frame, vec& features) const;
     
-    /** 
-     * Compute the ASS and the ASC for the given spectrum
-     * \param frame the audio spectrum
-     */
-     void extract(const vec& frame, vec& features) const;
 };
 
 }

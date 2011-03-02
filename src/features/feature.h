@@ -13,46 +13,62 @@ namespace features {
 using itpp::vec;
 using std::string;
 
-/// Type of feature
-enum Type { 
-    TEMPORAL, 
-    SPECTRAL 
+/**
+ * Enumeration for feature types.
+ */
+enum Type {
+  
+  /// Feature based on the signal time-representation.
+  TEMPORAL, 
+  
+  /// Feature based on the signal frequency-representation.
+  SPECTRAL 
+  
 };
 
-/** Interface to be implemented. */
+/**
+ * Abstract class for feature extractors. 
+ */
 class Feature {
-private:
-    string name;
-    int samplerate;
-    
-protected:
-    void setName(const string& n) {
-        name = n; 
-    }
-    
-    void setSamplerate(const int& sr) {
-        samplerate = sr;
-    }
+  
+  public:
+        
+    /// Getter for the name property.
+    string getName() const;
 
-public:
-    inline string getName() const { 
-        return name; 
-    }
-    
-    inline int getSamplerate() const {
-        return samplerate;
-    }
+    /// Getter for the type property.
+    Type getType() const;
 
-    virtual Type getType() const = 0;
-
-    /** Process an audio frame and returns its features 
-     \param frame data to be processed
-     \param features features vector to which append data
+    /**
+     * Processes an audio frame and returns the computed features.
+     * \param frame 
+     * 	 data to be processed
+     * \param features 
+     *   features vector to which append the computed feature
      */
     virtual void extract(const vec& frame, vec& features) const = 0;
-
+    
+  protected:
+    
+    /// Constructor.
+    Feature(int sr, Type type);
+    
+    /// Setter for the name property.
+    void setName(const string& n);
+    
+    /// The actual sampleate;
+    int samplerate;
+       
+  private:
+    
+    /// The feature type.
+    Type type;
+    
+    /// The feature name.
+    string name;
+    
 };
-
+    
 }
 
 #endif

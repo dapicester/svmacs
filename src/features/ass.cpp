@@ -2,44 +2,42 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "ass.h"
+#include <features/ass.h>
 using namespace features;
 
-#include "utils/utils.h"
+#include <utils/utils.h>
 
 #include <itpp/itbase.h>
 
 #define RLOG_COMPONENT "ass"
 #include <rlog/rlog.h>
 
-ASS::ASS(int samplerate, string name) : Feature() {
-    setSamplerate(samplerate);
-    setName(name);
+ASS::ASS(int samplerate) : Feature(samplerate, SPECTRAL) {
+    setName("ASS & ASC");
 }
 
 ASS::~ASS() {}
 
-inline Type ASS::getType() const { return SPECTRAL; }
-
-void ASS::extract(const vec& frame, vec& features) const {
+void 
+ASS::extract(const vec& frame, vec& features) const {
     const int len = frame.length() - 1;
     
     // discard the 0-bin frequency
     vec spectrum = abs(frame.right(len));
 
-    double summ = sum(spectrum);
+    double summ = itpp::sum(spectrum);
   
     //vec bins("1:" + utils::stringify(len));
     vec bins = utils::linvec(1, len);
     
     if (summ == 0.0) {
         vec tmp("0 0");
-        features = concat(features, tmp);
+        features = itpp::concat(features, tmp);
     } else {
-        double centroid = sum(elem_mult(bins,spectrum))/summ;
-        double spread = sum(elem_mult(sqr(bins-centroid), spectrum))/summ;
+        double centroid = itpp::sum( itpp::elem_mult(bins,spectrum) )/summ;
+        double spread = itpp::sum( itpp::elem_mult( itpp::sqr(bins-centroid), spectrum ) )/summ;
         
-        features = concat(features, spread);
-        features = concat(features, centroid);
+        features = itpp::concat(features, spread);
+        features = itpp::concat(features, centroid);
     }
 }

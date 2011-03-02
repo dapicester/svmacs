@@ -61,7 +61,6 @@ endif()
 ###########
 
 set(svmacs_HDRS
-	features/processor.h
 	features/feature.h
 	features/zcr.h
 	features/energy.h
@@ -69,6 +68,7 @@ set(svmacs_HDRS
 	features/srf.h 
 	features/hr.h 
 	features/mfcc.h
+	features/processor.h
 	model/classifier.h
 	model/event.h
 	model/svmclassifier.h
@@ -83,13 +83,14 @@ set(svmacs_HDRS
 ###########
 
 set(svmacs_SRCS
-	features/processor.cpp
+	features/feature.cpp
 	features/zcr.cpp
 	features/energy.cpp
 	features/ass.cpp
 	features/srf.cpp 
 	features/hr.cpp 
 	features/mfcc.cpp
+	features/processor.cpp
 	model/event.cpp
 	model/svmclassifier.cpp
 	jack/jackclient.cpp
@@ -147,34 +148,36 @@ add_custom_command(
 # check if doxygen is even installed
 find_package(Doxygen)
 if (DOXYGEN_FOUND STREQUAL "NO")
-    message(FATAL_ERROR "Doxygen not found!")
-endif (DOXYGEN_FOUND STREQUAL "NO")
+    message(STATUS "Doxygen not found, not generating documentation!")
+else()
+    message(STATUS "Generating documentation")
 
-# prepare doxygen configuration file
-#configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${PROJECT_SOURCE_DIR}/Doxyfile)
+    # prepare doxygen configuration file
+    #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${PROJECT_SOURCE_DIR}/Doxyfile)
 
-# add doxygen as target
-add_custom_target(doxygen ${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxyfile)
+    # add doxygen as target
+    add_custom_target(doxygen ${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxyfile)
 
-# cleanup $build/api-doc on "make clean"
-set_property(DIRECTORY APPEND PROPERTY
-             ADDITIONAL_MAKE_CLEAN_FILES doc)
+    # cleanup $build/api-doc on "make clean"
+    set_property(DIRECTORY APPEND PROPERTY
+		ADDITIONAL_MAKE_CLEAN_FILES doc)
 
-# add doxygen as dependency to doc-target
-get_target_property(DOC_TARGET doc TYPE)
-if(NOT DOC_TARGET)
-        add_custom_target(doc)
-endif()
-add_dependencies(doc doxygen)
+    # add doxygen as dependency to doc-target
+    get_target_property(DOC_TARGET doc TYPE)
+    if(NOT DOC_TARGET)
+	    add_custom_target(doc)
+    endif()
+    add_dependencies(doc doxygen)
 
-# install HTML API documentation and manual pages
-set(DOC_PATH "share/doc/${CPACK_PACKAGE_NAME}-${VERSION}")
+    # install HTML API documentation and manual pages
+    set(DOC_PATH "share/doc/${CPACK_PACKAGE_NAME}-${VERSION}")
 
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html
-         DESTINATION ${DOC_PATH}
-       )
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html
+	    DESTINATION ${DOC_PATH}
+	  )
 
-# install man pages into packages, scope is now project root..
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/man/man3
-         DESTINATION share/man/man3/
-       )
+    # install man pages into packages, scope is now project root..
+    install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/man/man3
+	    DESTINATION share/man/man3/
+	  )
+endif(DOXYGEN_FOUND STREQUAL "NO")

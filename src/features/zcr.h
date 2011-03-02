@@ -5,23 +5,25 @@
 #ifndef ZCR_H
 #define ZCR_H
 
-#include "feature.h"
+#include <features/feature.h>
 
 namespace features {
 
-/// Extract the Zero-Crossing-Rate
+/**
+ * Zero-Crossing-Rate audio feature.
+ * TODO: definition
+ */
 class ZCR : public Feature {
-
-public:
-    ZCR(int samplerate, string name = "ZCR");
+  
+  public:
+  
+    ZCR(int samplerate);
+    
     ~ZCR();
     
-    Type getType() const;
-    
-    /** Compute the ZCR for the given frame
-     * \param frame the audio samples
-     */
+    /// Compute the ZCR for the given frame.
     void extract(const vec& frame, vec& features) const;
+    
 };
 
 }

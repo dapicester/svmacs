@@ -2,7 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "ringbufferread.h"
+#include <jack/ringbufferread.h>
 using namespace jack;
 
 #define RLOG_COMPONENT "ringbufferread"

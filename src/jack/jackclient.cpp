@@ -2,10 +2,10 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include"jackclient.h"
+#include <jack/jackclient.h>
 using namespace jack;
 
-#include "../model/svmclassifier.h"
+#include <model/svmclassifier.h>
 using model::SvmClassifier;
 
 #define MIN(x,y) ((x) < (y) ? (x) : (y))
@@ -88,9 +88,12 @@ void JackClient::processFrame() {
         } else { // no overlapping frames
             input.read(frame, N);
         }
-        
+
+#if 1 // enable input processing
         vec vframe(frame,N);
         vec ff = processor.process(vframe);
+#endif
+
 #if 0
 #ifdef ENABLE_LOG
         rDebug("feature vector:");
@@ -98,7 +101,7 @@ void JackClient::processFrame() {
 #endif
 #endif
 
-#if 1 // enable the classifier        
+#if 0 // enable the classifier        
         EventType type = classifier->classify(ff);
         if (type != prev) {
             const char* message;

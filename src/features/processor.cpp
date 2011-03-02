@@ -2,34 +2,29 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "processor.h"
-#include "feature.h"
-#include "zcr.h"
-#include "energy.h"
-#include "ass.h"
-#include "srf.h"
-#include "hr.h"
-#include "mfcc.h"
+#include <features/processor.h>
+#include <features/feature.h>
+#include <features/zcr.h>
+#include <features/energy.h>
+#include <features/ass.h>
+#include <features/srf.h>
+#include <features/hr.h>
+#include <features/mfcc.h>
 using namespace features;
 
-#include "utils/utils.h"
-using utils::flipud;
-using cli::vec2str;
-using cli::mat2str;
+#include <utils/utils.h>
 
 #include <itpp/itsignal.h>
-using namespace itpp;
 #include <itpp/stat/misc_stat.h>
-using itpp::mean;
 
 #define RLOG_COMPONENT "processor"
 #include <rlog/rlog.h>
 
 Processor::Processor(int sr) : sampleRate(sr) {
     // define windows
-    M = floor(WIN_LEN * sr);
-    R = floor(WIN_OVL * M);
-    win = hamming(M);
+    M = itpp::floor_i(WIN_LEN * sr);
+    R = itpp::floor_i(WIN_OVL * M);
+    win = itpp::hamming(M);
     
     // initialize feature extractors
     features[0] = new ZCR(sr);
@@ -37,48 +32,44 @@ Processor::Processor(int sr) : sampleRate(sr) {
     features[2] = new ASS(sr); 
     features[3] = new SRF(sr); 
     features[4] = new HR(sr);
-    
-    MFCC* mfcc = new MFCC(sr);
-    const mat* fb = MFCC::getMelFilters(N_FFT-1, sr, 24); //N_MFCC_FILTERS
-    mfcc->setFilterBank(fb);
-    features[5] = mfcc;
+    features[5] = new MFCC(sr, N_FFT - 1, N_MFCC_FILTERS);
     
     rDebug("Processor created");
 }
 
 Processor::~Processor() {
-    //delete []features;
+    //delete features;
     rDebug("Processor destructed");
 }
 
 vec Processor::process(const vec& frame) {
     rDebug("process called ...");
     
-    double L = frame.length();
+    uint L = frame.length();
     //rDebug("L: %5.0f", L);
     
-    double Nframes = floor((L-R)/(M-R));
+    uint Nframes = itpp::floor_i( (L-R) / (M-R) );
     //rDebug("Nframes: %3.0f", Nframes);
     
-    vec pframe = concat(frame, flipud(frame.right(R)));
+    vec pframe = itpp::concat(frame, utils::flipud(frame.right(R)));
     //rDebug("frame padded to length %d", pframe.length());
        
     mat mfeatures(Nframes, N_FEATURES);
     //for (uint i=0, counter=0; i<L-M-1; i+=R, counter++) {
-    for (uint i=0, counter=0; counter < Nframes; i+=R, counter++) {
+    for (uint i = 0, counter = 0; counter < Nframes; i += R, counter++) {
         //rDebug("reading samples with index [%d,%d]", i, i+R-1);
         //rDebug("current counter  [%d]", counter);
         
-        vec tmp = pframe.get(i, i+M-1);
+        vec tmp = pframe.get(i, i + M - 1);
         //rDebug("read %d samples", tmp.length());
         
-        vec current = elem_mult(tmp, win);
-        vec spectrum = abs(fft(to_cvec(current), N_FFT)).left(N_FFT/2);
+        vec current = itpp::elem_mult(tmp, win);
+        vec spectrum = itpp::abs( itpp::fft( itpp::to_cvec(current), N_FFT ) ).left(N_FFT/2);
         
         //rDebug("extracting ...");
         vec feat;
-        for (uint j=0; j<N_EXTRACTORS; j++) {
-            //rDebug("extracting: %s ...",features[j]->getName().c_str());
+        for (uint j = /*0*/0; j < /*N_EXTRACTORS*/4 ; j++) {
+	    //rDebug("extracting: %s ...",features[j]->getName().c_str());
             switch (features[j]->getType()) {
             case TEMPORAL:
                 features[j]->extract(current, feat); 
@@ -86,6 +77,8 @@ vec Processor::process(const vec& frame) {
             case SPECTRAL: 
                 features[j]->extract(spectrum, feat); 
                 break;
+            default:
+                rError("unknown feature type: (%i)", features[j]->getType());
             }
         }
         //rDebug("feature vector: %s", vec2str(feat));
@@ -95,9 +88,10 @@ vec Processor::process(const vec& frame) {
     
     // data reduction
     vec vout(N_FEATURES);
-    for (uint i=0; i<N_FEATURES; i++) {
-        vout.set(i, mean(mfeatures.get_col(i)) );
+    for (uint i = 0; i < N_FEATURES; i++) {
+        vout.set(i, itpp::mean(mfeatures.get_col(i)) );
     }
+    
     //rDebug("feature vector: %s", vec2str(vout));
     //cout << vout << endl;
     return vout;

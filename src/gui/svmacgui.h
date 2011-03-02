@@ -6,12 +6,11 @@
 #define SVMACS_GUI_H
 
 #include "ui_svmacgui.h"
-#include "../jack/jackclient.h"
+#include <jack/jackclient.h>
 using jack::JackClient;
 
-#include "../model/event.h"
+#include <model/event.h>
 using model::Event;
-
 
 /** 
 @class SvmacGui

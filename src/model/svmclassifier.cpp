@@ -2,10 +2,10 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "svmclassifier.h"
+#include <model/svmclassifier.h>
 using namespace model;
 
-#include "range.h"
+#include <model/range.h>
 
 #include <itpp/itbase.h>
 using namespace itpp;

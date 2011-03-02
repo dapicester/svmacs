@@ -5,7 +5,7 @@
 #ifndef SVM_CLASSIFIER_H
 #define SVM_CLASSIFIER_H
 
-#include "classifier.h"
+#include <model/classifier.h>
 using namespace model;
 
 #include <libsvm/svm.h>

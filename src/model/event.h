@@ -5,7 +5,7 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include "classifier.h"
+#include <model/classifier.h>
 using model::EventType;
 
 namespace model {

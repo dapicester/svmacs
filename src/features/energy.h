@@ -5,24 +5,25 @@
 #ifndef ENERGY_H
 #define ENERGY_H
 
-#include "feature.h"
+#include <features/feature.h>
 
 namespace features {
 
-/// Extract the energy
+/**
+ * Energy audio feature.
+ * TODO: definition
+ */
 class Energy : public Feature {
-
-public:
-    Energy(int samplerate, string name = "Energy");
+  
+  public:
+    
+    Energy(int samplerate);
+    
     ~Energy();
     
-    Type getType() const;
-    
-    /**
-     * Compute the energy for the given frame
-     * \param frame the audio samples
-     */
+    /// Compute the energy for the given frame.
     void extract(const vec& frame, vec& features) const;
+    
 };
 
 }

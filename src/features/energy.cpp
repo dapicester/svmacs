@@ -2,7 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include "energy.h"
+#include <features/energy.h>
 using namespace features;
 
 #include <itpp/itbase.h>
@@ -10,23 +10,21 @@ using namespace features;
 #define RLOG_COMPONENT "energy"
 #include <rlog/rlog.h>
 
-Energy::Energy(int samplerate, string name) : Feature() {
-    setSamplerate(samplerate);
-    setName(name);
+Energy::Energy(int samplerate) : Feature(samplerate, TEMPORAL) {
+    setName("Energy");
 }
 
 Energy::~Energy() {}
 
-inline Type Energy::getType() const { return TEMPORAL; }
-
-void Energy::extract(const vec& frame, vec& features) const {
+void 
+Energy::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
     
     vec square = itpp::sqr(itpp::abs(frame));
     
     double energy = itpp::sum(square);
     
-    energy = energy / len * getSamplerate();
+    energy = energy / len * samplerate;
     
-    features = concat(features, energy);
+    features = itpp::concat(features, energy);
 }

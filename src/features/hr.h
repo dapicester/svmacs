@@ -5,24 +5,25 @@
 #ifndef HR_H
 #define HR_H
 
-#include "feature.h"
+#include <features/feature.h>
 
 namespace features {
 
-/// Extract the Harmonic Ratio
+/**
+ * Harmonic Ratio audio feature.
+ * TODO: definition
+ */
 class HR : public Feature {
+  
+  public:
     
-public:
-    HR(int samplerate, string name = "HR");
+    HR(int samplerate);
+    
     ~HR();
     
-    Type getType() const;
+    /// Compute the HR for the given audio frame.
+    void extract(const vec& frame, vec& features) const;
     
-    /** 
-     * Compute the HR for the given frame
-     * \param frame the audio samples
-     */
-     void extract(const vec& frame, vec& features) const;
 };
 
 }
