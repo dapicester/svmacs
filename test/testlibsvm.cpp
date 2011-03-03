@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-#include <libsvm-2.0/libsvm/svm.h>
+#include <libsvm/svm.h>
 
 void test_model(const svm_model* model) {
     cout << (model == NULL ? "null" : "not null") << endl;
