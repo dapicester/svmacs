@@ -13,7 +13,7 @@ using itpp::mat;
 namespace features {
 
 /**
- * Mel-Frequecy Cepstral Coefficients audio feature.
+ * Mel-Frequency Cepstral Coefficients audio feature.
  * TODO: definition
  */
 class MFCC : public Feature {
@@ -36,13 +36,13 @@ class MFCC : public Feature {
     int nfilters;
     
     /// Mel filter bank
-    const mat* filterBank;
+    mat filterBank;
 
     /// Number of computed MFCCs
     static const int N_MFCC = 6;
     
     /// Generate the Mel filter bank
-    mat const* initFilterBank();
+    void initFilterBank();
     
 };
 
