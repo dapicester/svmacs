@@ -21,12 +21,12 @@ set(LIBS ${LIBS} ${CPPUNIT_LIBRARIES})
 # cppunit tests #
 #################
 
-file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "features/*Test.cpp" )
+file(GLOB_RECURSE UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*Test.cpp" "Test*.cpp")
 # add_executable(UnitTester testRunner.cpp ${UNITTESTS_SRCS})
 # target_link_libraries(UnitTester cppunit itpp)
 foreach(TEST ${UNITTESTS_SRCS})
+  message(STATUS "* adding test: ${TEST}")
   get_filename_component(TestName ${TEST} NAME_WE)
-  message(STATUS "* adding test: ${TestName}")
   add_executable(${TestName} testRunner.cpp ${TEST})
   target_link_libraries(${TestName} cppunit itpp)
   add_test(NAME ${TestName} COMMAND ${TestName})

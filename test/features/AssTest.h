@@ -1,10 +1,9 @@
 #ifndef ASS_TEST_H
 #define ASS_TEST_H
 
-#include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class AssTest : public CppUnit::TestFixture {
+class AssTest : public CPPUNIT_NS::TestFixture {
   
   CPPUNIT_TEST_SUITE( AssTest );
   CPPUNIT_TEST ( runTest );
@@ -14,7 +13,7 @@ class AssTest : public CppUnit::TestFixture {
     void setUp();
     void tearDown();
   
-  //protected:   
+  protected:   
     void runTest();
   
 };
