@@ -21,16 +21,78 @@ set(LIBS ${LIBS} ${CPPUNIT_LIBRARIES})
 # cppunit tests #
 #################
 
-file(GLOB_RECURSE UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "*Test.cpp" "Test*.cpp")
-# add_executable(UnitTester testRunner.cpp ${UNITTESTS_SRCS})
-# target_link_libraries(UnitTester cppunit itpp)
-foreach(TEST ${UNITTESTS_SRCS})
-  message(STATUS "* adding test: ${TEST}")
-  get_filename_component(TestName ${TEST} NAME_WE)
-  add_executable(${TestName} testRunner.cpp ${TEST})
-  target_link_libraries(${TestName} cppunit itpp)
-  add_test(NAME ${TestName} COMMAND ${TestName})
-endforeach(TEST)
+set(SOURCE_DIR
+    ${CMAKE_SOURCE_DIR}/src)
+
+set(INCLUDE_DIR 
+    ${CMAKE_SOURCE_DIR}/include 
+    ${SOURCE_DIR})
+include_directories(${INCLUDE_DIR})
+
+add_definitions(`pkg-config --cflags jack` `itpp-config --cflags`)
+#add_definitions(-DPLOT)
+
+set(LIBRARY_DIR
+    ${CMAKE_SOURCE_DIR}/lib)
+link_directories(${LIBRARY_DIR})
+link_libraries(itpp rlog cppunit)
+
+#file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/features "features/*Test.cpp")
+#foreach(TEST ${UNITTESTS_SRCS})
+#  message(STATUS "* adding test: ${TEST}")
+#  get_filename_component(TestName ${TEST} NAME_WE)
+#  add_executable(${TestName} ${TEST})
+#  target_link_libraries(${TestName} cppunit itpp)
+#  add_test(NAME ${TestName} COMMAND ${TestName})
+#endforeach(TEST)
+
+set(TEST_FEATURES 
+    testRunner.cpp 
+    features/FeatureTester.cpp 
+    utils/testUtils.cpp
+    ${SOURCE_DIR}/features/feature.cpp)
+
+add_executable(ZcrTest 
+  features/ZcrTest.cpp
+  ${SOURCE_DIR}/features/zcr.cpp
+  ${TEST_FEATURES})
+add_test(NAME zcr COMMAND ZcrTest)
+message(STATUS "* added test ZcrTest")
+
+add_executable(EnergyTest 
+  features/EnergyTest.cpp
+  ${SOURCE_DIR}/features/energy.cpp
+  ${TEST_FEATURES})
+add_test(NAME energy COMMAND EnergyTest)
+message(STATUS "* added test EnergyTest")
+
+add_executable(AssTest 
+  features/AssTest.cpp
+  ${SOURCE_DIR}/features/ass.cpp
+  ${TEST_FEATURES})
+add_test(NAME ass COMMAND AssTest)
+message(STATUS "* added test AssTest")
+
+add_executable(SrfTest 
+  features/SrfTest.cpp
+  ${SOURCE_DIR}/features/srf.cpp
+  ${TEST_FEATURES})
+add_test(NAME srf COMMAND SrfTest)
+message(STATUS "* added test SrfTest")
+
+add_executable(HrTest 
+  features/HrTest.cpp
+  ${SOURCE_DIR}/features/hr.cpp
+  ${TEST_FEATURES})
+add_test(NAME hr COMMAND HrTest)
+message(STATUS "* added test HrTest")
+
+add_executable(MfccTest 
+  features/MfccTest.cpp
+  ${SOURCE_DIR}/features/mfcc.cpp
+  ${TEST_FEATURES})
+add_test(NAME mfcc COMMAND MfccTest)
+message(STATUS "* added test MfccTest")
 
 #############
 # OLD TESTS #
@@ -40,22 +102,6 @@ set(ENABLE_OLD_TEST FALSE)
 
 if (ENABLE_OLD_TEST)
     message(STATUS "Enabling old tests")
-    set(SOURCE_DIR
-	${CMAKE_SOURCE_DIR}/src)
-
-    set(INCLUDE_DIR 
-	${CMAKE_SOURCE_DIR}/include 
-	${SOURCE_DIR})
-    include_directories(${INCLUDE_DIR})
-
-    add_definitions(`pkg-config --cflags jack` `itpp-config --cflags`)
-    #add_definitions(-DPLOT)
-    set(LIBRARY_DIR
-	${CMAKE_SOURCE_DIR}/lib)
-    link_directories(${LIBRARY_DIR})
-    link_libraries(itpp rlog cppunit)
-
-    set(CMAKE_VERBOSE_MAKEFILE ON)
 
     add_executable(test-fail testfail.cpp)
     add_executable(test-itpp testitpp.cpp)

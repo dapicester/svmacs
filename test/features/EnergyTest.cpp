@@ -1,7 +1,7 @@
 #include "FeatureTester.h"
-#include <features/ass.h>
+#include <features/energy.h>
 
 features::Feature*
 FeatureTest::setFeature() {
-    return new features::ASS(SAMPLE_RATE);
+    return new features::Energy(SAMPLE_RATE);
 }
