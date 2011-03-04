@@ -37,14 +37,14 @@ set(LIBRARY_DIR
 link_directories(${LIBRARY_DIR})
 link_libraries(itpp rlog cppunit)
 
-#file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/features "features/*Test.cpp")
-#foreach(TEST ${UNITTESTS_SRCS})
-#  message(STATUS "* adding test: ${TEST}")
-#  get_filename_component(TestName ${TEST} NAME_WE)
-#  add_executable(${TestName} ${TEST})
-#  target_link_libraries(${TestName} cppunit itpp)
-#  add_test(NAME ${TestName} COMMAND ${TestName})
-#endforeach(TEST)
+file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "core/*Test.cpp")
+foreach(TEST ${UNITTESTS_SRCS})
+  message(STATUS "* added test: ${TEST}")
+  get_filename_component(TestName ${TEST} NAME_WE)
+  add_executable(${TestName} testRunner.cpp ${TEST})
+  target_link_libraries(${TestName} cppunit itpp)
+  add_test(NAME ${TestName} COMMAND ${TestName})
+endforeach(TEST)
 
 set(TEST_FEATURES 
     testRunner.cpp 
@@ -57,42 +57,42 @@ add_executable(ZcrTest
   ${SOURCE_DIR}/features/zcr.cpp
   ${TEST_FEATURES})
 add_test(NAME zcr COMMAND ZcrTest)
-message(STATUS "* added test ZcrTest")
+message(STATUS "* added test: features/ZcrTest")
 
 add_executable(EnergyTest 
   features/EnergyTest.cpp
   ${SOURCE_DIR}/features/energy.cpp
   ${TEST_FEATURES})
 add_test(NAME energy COMMAND EnergyTest)
-message(STATUS "* added test EnergyTest")
+message(STATUS "* added test: features/EnergyTest")
 
 add_executable(AssTest 
   features/AssTest.cpp
   ${SOURCE_DIR}/features/ass.cpp
   ${TEST_FEATURES})
 add_test(NAME ass COMMAND AssTest)
-message(STATUS "* added test AssTest")
+message(STATUS "* added test: features/AssTest")
 
 add_executable(SrfTest 
   features/SrfTest.cpp
   ${SOURCE_DIR}/features/srf.cpp
   ${TEST_FEATURES})
 add_test(NAME srf COMMAND SrfTest)
-message(STATUS "* added test SrfTest")
+message(STATUS "* added test: features/SrfTest")
 
 add_executable(HrTest 
   features/HrTest.cpp
   ${SOURCE_DIR}/features/hr.cpp
   ${TEST_FEATURES})
 add_test(NAME hr COMMAND HrTest)
-message(STATUS "* added test HrTest")
+message(STATUS "* added test: features/HrTest")
 
 add_executable(MfccTest 
   features/MfccTest.cpp
   ${SOURCE_DIR}/features/mfcc.cpp
   ${TEST_FEATURES})
 add_test(NAME mfcc COMMAND MfccTest)
-message(STATUS "* added test MfccTest")
+message(STATUS "* added test: features/MfccTest")
 
 add_executable(ProcessorTest
   testRunner.cpp 
@@ -107,7 +107,15 @@ add_executable(ProcessorTest
   ${SOURCE_DIR}/features/mfcc.cpp
   utils/testUtils.cpp)
 add_test(NAME processor COMMAND ProcessorTest)
-message(STATUS "* added test ProcessorTest")
+message(STATUS "* added test: features/ProcessorTest")
+
+add_executable(ScaleTest
+  testRunner.cpp
+  model/ScaleTest.cpp
+  ${SOURCE_DIR}/model/range.h
+  utils/testUtils.cpp)
+add_test(NAME scale COMMAND ScaleTest)
+message(STATUS "* added test: model/ScaleTest")
 
 #############
 # OLD TESTS #

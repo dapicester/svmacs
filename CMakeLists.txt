@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 set(CMAKE_VERBOSE_MAKEFILE ON)
 # add_definitions(-DENABLE_DEBUG)
 set (DEBUG ON)
-add_definitions(-DENABLE_LOG)
+# add_definitions(-DENABLE_LOG)
 
 # The macro below forces the build directory to be different from source directory:
 #include(MacroOutOfSourceBuild)

@@ -7,14 +7,16 @@ class itppTest : public CPPUNIT_NS::TestCase {
     
     CPPUNIT_TEST_SUITE(itppTest);
 
-    CPPUNIT_TEST(test_a);
-    CPPUNIT_TEST(test_b);
+    CPPUNIT_TEST(testMatrix);
+    CPPUNIT_TEST(testVector);
+    CPPUNIT_TEST(testEquals);
 
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    void test_a();
-    void test_b();
+    void testMatrix();
+    void testVector();
+    void testEquals();
 };
 
 

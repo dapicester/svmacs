@@ -1,19 +1,9 @@
-/***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
- *   dapicester@gmail.com                                                  *
- ***************************************************************************/
-#include "svmclassifier.h"
-#include "range.h"
-using namespace model;
+#include "ScaleTest.h"
+#include <model/range.h>
 
-#include <libsvm/svm.h>
+CPPUNIT_TEST_SUITE_REGISTRATION(ScaleTest);
 
-#include <iostream>
-using namespace std;
-
-#define PRINT(X) cout << #X << "\n" << X << endl; 
-
-void testScaleData() {
+void ScaleTest::testScaleData() {
     mat input = 
     "0.2500    0.5000    0.7500    1.0000    1.2500    1.5000    1.7500    2.0000;"
     "2.2500    2.0000    1.7500    1.5000    1.2500    1.0000    0.7500    0.5000;"
@@ -38,55 +28,19 @@ void testScaleData() {
    "-0.6000   -0.2000    0.2000    0.6000    1.0000    1.4000    1.8000    2.2000;"
    " 2.6000    2.2000    1.8000    1.4000    1.0000    0.6000    0.2000   -0.2000";
 
-   mat scaled = scaleData(input,range);
-   PRINT(expected);
-   PRINT(scaled);
-    
-//  if (expected != scaled)
-//     exit(1);
-
-    vec vscaled = scaleData(input.get_row(0), range);
-    PRINT(vscaled);
-
-//   if (expected.get_row(0) != vscaled)
-//      exit(1);
-
-}
-
-void testNode() {
-    vec uno = "1 0 1 0";
-    PRINT(uno);
-
-    PRINT(sizeof(svm_node));
-    PRINT(sizeof(svm_node*));
-
-    svm_node array[4];
-    for (int i=0; i<uno.length(); +i++) {
-	array[i].index = i;
-	array[i].value = uno[i];
-    }
-    
-    
-    for (int i=0; i<uno.length(); +i++) {
-	int index = array[i].index;
-	double val = array[i].value;
-	cout << index << ":" << val << " ";
-	if (i==uno.length()-1) cout << endl; 
-    }
-
-    svm_node* ptr = array;
-    for(int i = 0; i<uno.length(); i++) {
-	cout << ptr->index << ":" << ptr->value << " ";
-	ptr++;
-	//if (i==uno.length()-1) cout << endl; 
-    }
-    
-}
-
-int main() {
-    //PRINT(getRange());
-    
-    //testScaleData();
-
-    testNode();
+   // scale vector
+   for (int i = 0; i < input.rows(); i++) {
+        vec vscaled = model::scaleData(input.get_row(i), range);
+        CPPUNIT_ASSERT_EQUAL(expected.get_row(i), vscaled);
+   }
+   
+   // scale matrix
+   mat scaled = model::scaleData(input, range);
+   const double delta = 0.000001;
+   for (int i = 0; i < expected.size(); i++) {
+       CPPUNIT_ASSERT_DOUBLES_EQUAL(expected.get(i), scaled.get(i), delta);
+   }
+   // FIXME: capire perché il seguente test fallisce (itpp?)
+   //CPPUNIT_ASSERT_EQUAL(expected, scaled);
+   
 }
