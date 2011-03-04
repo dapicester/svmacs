@@ -94,6 +94,21 @@ add_executable(MfccTest
 add_test(NAME mfcc COMMAND MfccTest)
 message(STATUS "* added test MfccTest")
 
+add_executable(ProcessorTest
+  testRunner.cpp 
+  features/ProcessorTest.cpp
+  ${SOURCE_DIR}/features/processor.cpp
+  ${SOURCE_DIR}/features/feature.cpp
+  ${SOURCE_DIR}/features/zcr.cpp
+  ${SOURCE_DIR}/features/energy.cpp
+  ${SOURCE_DIR}/features/ass.cpp
+  ${SOURCE_DIR}/features/srf.cpp
+  ${SOURCE_DIR}/features/hr.cpp
+  ${SOURCE_DIR}/features/mfcc.cpp
+  utils/testUtils.cpp)
+add_test(NAME processor COMMAND ProcessorTest)
+message(STATUS "* added test ProcessorTest")
+
 #############
 # OLD TESTS #
 #############
