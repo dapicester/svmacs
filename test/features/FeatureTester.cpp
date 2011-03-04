@@ -25,12 +25,12 @@ void
 FeatureTest::testSignal() {
   itpp::vec result;
   feature->extract(signal, result);
-  print(result);
+  print("result", result);
 }
 
 void 
 FeatureTest::testSilence() {
   itpp::vec result;
   feature->extract(silence, result);
-  print(result);
+  print("result", result);
 }

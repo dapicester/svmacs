@@ -1,8 +1,13 @@
 #include "testUtils.h"
 
 void
-print(const itpp::vec& input) {
-  std::cout << "\nvec: " << input << std::endl;
+print(const std::string& name, const itpp::vec& input) {
+  std::cout << "\n" << name << ": " << input << std::endl;
+}
+
+void
+print(const std::string& name, const itpp::mat& input) {
+  std::cout << "\n" << name << ": " << input << std::endl;
 }
 
 const int DEFAULT_LENGTH = 128;

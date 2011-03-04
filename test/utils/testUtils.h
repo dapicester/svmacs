@@ -3,11 +3,17 @@
 
 #include "utils/convert.h"
 #include <itpp/itbase.h>
+#include <iostream>
 
 /**
  * Print on standard output the content of a vector. 
  */
-void print(const itpp::vec& input);
+void print(const std::string& name, const itpp::vec& input);
+
+/**
+ * Print on standard output the content of a matrix. 
+ */
+void print(const std::string& name, const itpp::mat& input);
 
 /**
  * Get a linear vector to be used as a time vector.

@@ -18,11 +18,11 @@ ProcessorTest::tearDown() {
 void
 ProcessorTest::testSilence() {
     itpp::vec result = processor->process(silence);
-    print(result);
+    print("feature vector", result);
 }
 
 void
 ProcessorTest::testSignal() {
     itpp::vec result = processor->process(signal);
-    print(result);
+    print("feature vector", result);
 }
