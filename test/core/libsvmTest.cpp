@@ -7,12 +7,14 @@ using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(libsvmTest);
 
+static const string PATH = "/home/paolo/NetBeansProjects/svmacs/";
+
 void libsvmTest::testModelNovelty() {
-    modelInfo("/bin/m1");
+    modelInfo(PATH + "src/model/m1");
 }
 
 void libsvmTest::testModelClassification() {
-    modelInfo("/bin/model");
+    modelInfo(PATH + "src/model/model");
 }
 
 void libsvmTest::modelInfo(const std::string fileName) {
@@ -20,6 +22,7 @@ void libsvmTest::modelInfo(const std::string fileName) {
     CPPUNIT_ASSERT (model != NULL);
     
     // model info
+    cout << endl;
     cout << "svm_type: " << svm_get_svm_type(model) << endl;
     cout << "nr_class: " << svm_get_nr_class(model) << endl;
 }
