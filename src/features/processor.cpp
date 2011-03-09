@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include <features/processor.h>
 #include <features/feature.h>
 #include <features/zcr.h>
@@ -11,6 +12,7 @@
 #include <features/hr.h>
 #include <features/mfcc.h>
 using namespace features;
+using itpp::vec;
 
 #include <utils/utils.h>
 
@@ -19,6 +21,21 @@ using namespace features;
 
 #define RLOG_COMPONENT "processor"
 #include <rlog/rlog.h>
+
+/// Default window length in seconds (25ms)
+static const double WIN_LEN = 0.025;
+/// Default percentage of windows overlap (50%)
+static const double WIN_OVL = 0.5;
+    
+/// Number of frequency bins
+static const int N_FFT = 1024;
+/// Number of MFCC filters
+static const int N_MFCC_FILTERS = 24; 
+/// Number of MFCC coefficients
+static const int N_MFCC_COEFFS = 6;
+
+/// Number of features
+static const unsigned int N_FEATURES = 12;
 
 Processor::Processor(int sr) : sampleRate(sr) {
     // define windows
@@ -32,17 +49,18 @@ Processor::Processor(int sr) : sampleRate(sr) {
     features[2] = new ASS(sr); 
     features[3] = new SRF(sr); 
     features[4] = new HR(sr);
-    features[5] = new MFCC(sr, N_FFT - 1, N_MFCC_FILTERS);
+    features[5] = new MFCC(sr, N_FFT - 1, N_MFCC_FILTERS, N_MFCC_COEFFS);
     
     rDebug("Processor created");
 }
 
 Processor::~Processor() {
-    //delete features;
-    rDebug("Processor destructed");
+    delete[] features;
+    rDebug("Processor destroyed");
 }
 
-vec Processor::process(const vec& frame) {
+vec 
+Processor::process(const vec& frame) {
     rDebug("process called ...");
     
     uint L = frame.length();

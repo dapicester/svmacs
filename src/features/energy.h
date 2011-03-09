@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef ENERGY_H
 #define ENERGY_H
 
@@ -14,16 +15,12 @@ namespace features {
  * TODO: definition
  */
 class Energy : public Feature {
-  
-  public:
-    
+public:
     Energy(int samplerate);
-    
     ~Energy();
     
     /// Compute the energy for the given frame.
-    void extract(const vec& frame, vec& features) const;
-    
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 }

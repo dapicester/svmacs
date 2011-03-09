@@ -4,28 +4,27 @@
  *   Code taken from the class JackCpp::RingBuffer by Alex Norman
  ***************************************************************************/
 
-#ifndef JACK_RING_BUFFER_READ_CLASS_H
-#define JACK_RING_BUFFER_READ_ CLASS_H
+#ifndef RINGBUFFERREAD_H
+#define RINGBUFFERREAD_H
 
 extern "C" {
 #include <jack/ringbuffer.h>
 }
+
 #include <string.h>
 
 namespace jack {
 
+/**
+ * Class modeling a read-only ring buffer.
+ */
 class RingBufferRead {
-private:
-    /** Poiter to the Jack Ring Buffer. */
-    jack_ringbuffer_t *mRingBufferPtr;
-    size_t mLength;
-    
-    /// Size
-    //static const int float_size = sizeof(float);
-    static const int double_size = sizeof(double);
-    
 public:
-    /** Constructor */
+    /** 
+     * Constructor.
+     * @param size the actual buffer size
+     * @param mlock memory lock (default to false)
+     */
     RingBufferRead(size_t size, bool mlock = false);
     
     /** Destructor */
@@ -61,6 +60,14 @@ public:
     /** Reset the read and write pointers, effectively making the ring buffer empty (not threadsafe) */
     void reset();
 
+private:
+    /// Pointer to the Jack Ring Buffer.
+    jack_ringbuffer_t *mRingBufferPtr;
+    /// Size of the Jack buffer.
+    size_t mLength;
+    
+    /// Size
+    static const int double_size = sizeof(double);
 };
 
 }

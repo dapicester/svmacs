@@ -2,10 +2,10 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include <model/svmclassifier.h>
-using namespace model;
 
 #include <model/range.h>
+#include <model/svmclassifier.h>
+using namespace model;
 
 #include <itpp/itbase.h>
 using namespace itpp;
@@ -13,62 +13,40 @@ using namespace itpp;
 #define RLOG_COMPONENT "svmclassifier"
 #include <rlog/rlog.h>
 
+static const std::string M1 = "m1";
+static const std::string MC = "model";
+
 SvmClassifier::SvmClassifier() : Classifier() {
     rDebug("constructor invoked");
     
-    rDebug("loading Detection model ...");
-    m1 = getDetectionModel(true);
+    rDebug("loading Detection model %s ...", M1.c_str());
+    m1 = readModel(M1);
     
-    rDebug("loading Classification model ...");
-    model = getClassificationModel(true);
+    rDebug("loading Classification model %s ...", MC.c_str());
+    model = readModel(MC);
     
     rDebug("SvmClassifier created");
 }
 
-svm_model* SvmClassifier::getDetectionModel(bool useFile) {
-    const char* MODEL = "m1";
-    struct svm_model* m1;
+SvmClassifier::~SvmClassifier(){
+    rDebug("destructor invoked");
     
-    if (useFile) {
-        rInfo("reading model file: %s", MODEL);
-        m1 = svm_load_model(MODEL);
-        if (m1 == NULL) {
-            std::string message = "Detection model is NULL!";
-            rError("%s", message.c_str());
-            throw BadModel(message);
-        }
-    } else {
-        rInfo("creating model from scratch");
-        //TODO
-        m1 = NULL;
-        rError("model is NULL");
-    }
-    return m1;
+    delete m1;
+    delete model;
+    
+    rDebug("SvmClassifier destroyed");
 }
 
-svm_model* SvmClassifier::getClassificationModel(bool useFile) {
-    const char* MODEL  = "model";
-    struct svm_model* model;
-    
-    if (useFile) {
-        rInfo("reading model file: %s", MODEL);
-        model = svm_load_model(MODEL);
-        if (model == NULL) {
-            std::string message = "Classification model is NULL!";
-            rError("%s", message.c_str());
-            throw BadModel(message);
-        }
-    } else {
-        rInfo("creating model from scratch");
-        //TODO
-        model = NULL;
-        rError("model is NULL");
+svm_model*
+SvmClassifier::readModel(const std::string& name) {
+    rInfo("reading model file: %s", name.c_str());
+    struct svm_model* model = svm_load_model(name.c_str());
+    if (model == NULL) {
+        std::string message = "Model " + name + " is NULL!";
+        rError("%s", message.c_str());
+        throw BadModel(message);
     }
     return model;
-}
-
-SvmClassifier::~SvmClassifier(){
-    rDebug("SvmClassifier destructed");
 }
 
 EventType SvmClassifier::classify(vec& features) const { 

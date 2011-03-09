@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include <gui/svmacgui.h>
 
 #define RLOG_COMPONENT "gui"
@@ -9,7 +10,8 @@
 
 #include <QtGui>
 
-QPalette SvmacGui::getPalette(Color color) {
+QPalette 
+SvmacGui::getPalette(Color color) {
     rDebug("getting palette ");
     if (color == BLACK) {
         QPalette palette(QColor(255,255,255));
@@ -22,9 +24,11 @@ QPalette SvmacGui::getPalette(Color color) {
     }
 }
 
-QPalette SvmacGui::red = getPalette(RED);
+QPalette 
+SvmacGui::red = getPalette(RED);
 
-QPalette SvmacGui::black = getPalette(BLACK);
+QPalette 
+SvmacGui::black = getPalette(BLACK);
 
 SvmacGui::SvmacGui(QWidget *parent) {
    setupUi(this);
@@ -42,13 +46,19 @@ SvmacGui::SvmacGui(QWidget *parent) {
    client = 0;
 }
 
-void SvmacGui::about() {
+SvmacGui::~SvmacGui() {
+    delete client;
+}
+
+void 
+SvmacGui::about() {
       QMessageBox::about(this, "About",
             "This is the <b>SVM Audio Classification GUI</b>\n\n"
             "Copyright 2008-2009 Paolo D'Apice - dapicester@gmail.com");
 }
 
-void SvmacGui::quitApp() {
+void 
+SvmacGui::quitApp() {
     rDebug("quitting");
     textEdit->append("quitting");
     
@@ -58,7 +68,8 @@ void SvmacGui::quitApp() {
     qApp->quit();
 }
 
-void SvmacGui::startJackClient() {
+void 
+SvmacGui::startJackClient() {
     rDebug("starting the Jack client ...");
     textEdit->append("starting the Jack client...");
     
@@ -69,7 +80,7 @@ void SvmacGui::startJackClient() {
     rInfo("overlapping  R = %f percent", R);
        
     rInfo("Starting the Jack client ... ");
-    client = JackClient::getInstance(N,R);
+    client = jack::JackClient::getInstance(N,R);
     if (client == 0) {
         rDebug("client not created");
         textEdit->insertPlainText("failed");
@@ -108,14 +119,15 @@ void SvmacGui::startJackClient() {
     disableButton(inputCheckBox);
     disableButton(outputCheckBox);
     
-    qRegisterMetaType<Event>("Event");
-    connect( client, SIGNAL(eventDetected(const Event&)), this, SLOT(highlightEvent(const Event&)) );
+    qRegisterMetaType<model::Event>("Event");
+    connect( client, SIGNAL(eventDetected(const model::Event&)), this, SLOT(highlightEvent(const model::Event&)) );
     
     textEdit->insertPlainText("started");
     rDebug("started");
 }
 
-void SvmacGui::stopJackClient() {
+void 
+SvmacGui::stopJackClient() {
     rDebug("stopping the Jack client ...");
     textEdit->append("stopping the Jack client...");
     
@@ -150,7 +162,8 @@ void SvmacGui::stopJackClient() {
 #ifdef ENABLE_DEBUG
 bool SvmacGui::flag = false;
 
-void SvmacGui::test() {
+void 
+SvmacGui::test() {
     rDebug("test button");
     if (flag == false) {
         rDebug("text in RED");    
@@ -163,8 +176,9 @@ void SvmacGui::test() {
 }
 #endif
 
-void SvmacGui::highlightEvent(const Event& event) {
-    EventType type = event.getType();
+void 
+SvmacGui::highlightEvent(const model::Event& event) {
+    model::EventType type = event.getType();
     switch(type) {
     case 0: //NONE:
         blackLabel(gunshotLabel);

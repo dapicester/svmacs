@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef ASS_H
 #define ASS_H
 
@@ -14,16 +15,12 @@ namespace features {
  * TODO: definitions
  */
 class ASS : public Feature {
-
-  public:
-    
+public:
     ASS(int samplerate);
-    
     ~ASS();
     
     /// Compute the ASS and the ASC for the given spectrum frame.
-    void extract(const vec& frame, vec& features) const;
-    
+    void extract(const itpp::vec& frame, itpp::vec& features) const;    
 };
 
 }

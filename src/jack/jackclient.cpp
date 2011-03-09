@@ -2,24 +2,22 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include <jack/jackclient.h>
 using namespace jack;
 
 #include <model/svmclassifier.h>
-using model::SvmClassifier;
-
-#define MIN(x,y) ((x) < (y) ? (x) : (y))
+using namespace model;
 
 #define RLOG_COMPONENT "jackclient"
 #include <rlog/rlog.h>
 
 #include <cmath>
-
 #include <iostream>
 using namespace std;
 
 JackClient::JackClient(float length, float overlap) : 
-                JackCpp::AudioIO("svm-acs", NUM_INPUT, NUM_OUTPUT, false),
+                JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false),
                 N(floor(length * getSampleRate())),
                 R(floor(N * overlap)), 
                 input(N * 2.0 + 1.0), 
@@ -41,18 +39,16 @@ JackClient::JackClient(float length, float overlap) :
     rInfo("created a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
 }
 
-void JackClient::init() {}
-
 JackClient::~JackClient() {
-    //delete classifier;
     rDebug("destructor called");
+    delete[] frame;
+    delete classifier;
 }
 
 JackClient* JackClient::getInstance(float length, float overlap) {
     JackClient* client = 0;
     try {
         client = new JackClient(length, overlap);
-        client->init();
         rInfo("sample rate: %5.0f", (float) client->getSampleRate());
     } catch (std::runtime_error) {
         rWarning("Could not create the client: Jackd not running!");
@@ -60,10 +56,11 @@ JackClient* JackClient::getInstance(float length, float overlap) {
     return client;
 }
 
-/** Jack Audio callback. */
-int JackClient::audioCallback(jack_nframes_t nframes, 
-                              audioBufVector inBufs,
-                              audioBufVector outBufs) {
+// Jack Audio callback.
+int 
+JackClient::audioCallback(jack_nframes_t nframes, 
+                          audioBufVector inBufs,
+                          audioBufVector outBufs) {
     //rDebug("callback");
     for(uint i = 0; i < inBufs.size(); i++) {
         for(uint j = 0; j < nframes; j++) {
@@ -79,7 +76,8 @@ int JackClient::audioCallback(jack_nframes_t nframes,
     return 0;
 }
 
-void JackClient::processFrame() {
+void 
+JackClient::processFrame() {
     if (input.getReadSpace() >= N) {
         rDebug("there are %d samples in the input buffer", N);
         if (R > 0) { // overlapping frames
@@ -90,8 +88,8 @@ void JackClient::processFrame() {
         }
 
 #if 1 // enable input processing
-        vec vframe(frame,N);
-        vec ff = processor.process(vframe);
+        itpp::vec vframe(frame,N);
+        itpp::vec ff = processor.process(vframe);
 #endif
 
 #if 0
@@ -101,7 +99,7 @@ void JackClient::processFrame() {
 #endif
 #endif
 
-#if 0 // enable the classifier        
+#if 1 // enable the classifier        
         EventType type = classifier->classify(ff);
         if (type != prev) {
             const char* message;

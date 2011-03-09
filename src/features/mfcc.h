@@ -2,13 +2,11 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef MFCC_H
 #define MFCC_H
 
 #include <features/feature.h>
-
-#include <itpp/itbase.h>
-using itpp::mat;
 
 namespace features {
 
@@ -17,33 +15,28 @@ namespace features {
  * TODO: definition
  */
 class MFCC : public Feature {
-  
-  public:
-    
-    MFCC(int samplerate, int nfft, int nfilters);
-    
+public:
+    MFCC(int samplerate, int nfft, int nfilters, int ncoeffs);
     ~MFCC();
     
     /// Compute the MFCC for the given spectrum frame
-    void extract(const vec& frame, vec& features) const;
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
       
-  private:
-
+private:
     /// Number of frequency bins.
     int nfft;
     
     /// Number of Mel filters
     int nfilters;
     
-    /// Mel filter bank
-    mat filterBank;
-
-    /// Number of computed MFCCs
-    static const int N_MFCC = 6;
+    /// Number of coefficients;
+    int ncoeffs;
     
+    /// Mel filter bank
+    itpp::mat filterBank;
+
     /// Generate the Mel filter bank
     void initFilterBank();
-    
 };
 
 }

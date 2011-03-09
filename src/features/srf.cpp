@@ -5,12 +5,16 @@
 
 #include <features/srf.h>
 using namespace features;
+using itpp::vec;
 
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/matfunc.h>
 
 #define RLOG_COMPONENT "srf"
 #include <rlog/rlog.h>
+
+/// Roll-off threshold (percentage)
+static const double ALPHA = 0.93;
 
 SRF::SRF(int samplerate) : Feature(samplerate, SPECTRAL) {
     setName("SRF");

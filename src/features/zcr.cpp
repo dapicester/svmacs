@@ -5,6 +5,7 @@
 
 #include <features/zcr.h>
 using namespace features;
+using itpp::vec;
 
 #include <itpp/base/math/elem_math.h>
 

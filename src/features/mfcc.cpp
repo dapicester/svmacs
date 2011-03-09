@@ -2,15 +2,19 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include <features/mfcc.h>
 using namespace features;
+using itpp::vec;
+using itpp::mat;
 
 #include <utils/convert.h>
 
 #define RLOG_COMPONENT "mfcc"
 #include <rlog/rlog.h>
 
-MFCC::MFCC(int samplerate, int n, int nf) : Feature(samplerate, SPECTRAL), nfft(n), nfilters(nf) {
+MFCC::MFCC(int samplerate, int n, int nf, int nc) : Feature(samplerate, SPECTRAL), 
+                                                    nfft(n), nfilters(nf), ncoeffs(nc) {
   setName("MFCC");
   initFilterBank();
 }
@@ -19,7 +23,7 @@ MFCC::~MFCC() {}
 
 void 
 MFCC::initFilterBank() {
-//  const double freqMin = double(0);
+  const double freqMin = double(0);
   const double freqMax = double(samplerate/2);
   mat wts(nfilters, nfft); 
  
@@ -29,8 +33,8 @@ MFCC::initFilterBank() {
   vec fft_freqs = "0 : " + utils::stringify(nfft - 1);
   fft_freqs *= static_cast<double>(samplerate)/nfft;
    
-//  double melMin = 2595 * itpp::logb(10, 1 + freqMin/700 );
-  double melMin = double(0);
+  double melMin = 2595 * itpp::logb(10, 1 + freqMin/700 );
+  //double melMin = double(0);
   double melMax = 2595 * itpp::logb(10, 1 + freqMax/700 );
   
   vec bin_freqs = 700 * ( itpp::pow10( (melMin + tmp / (nfilters + 1) * (melMax - melMin)) / 2595 ) - 1 );
@@ -39,7 +43,7 @@ MFCC::initFilterBank() {
   for (int i = 0; i < nfilters; i++) {
     itpp::ivec idx = "0 1 2";
     vec freqs = bin_freqs(idx + i); 
-    // vec freqs = bins(idx + i); FIXME: verificare che bins non serva;
+    //vec freqs = bins(idx + i); FIXME: verificare che bins non serva;
     
     // lower and upper slopes for all bins
     vec loslope = (fft_freqs - freqs[0])/(freqs[1] - freqs[0]); 
@@ -68,11 +72,11 @@ MFCC::extract(const vec& frame, vec& features) const {
     
     int numFilters = filterBank.rows();
     
-    mat a = "0 : " + utils::stringify(N_MFCC); 
+    mat a = "0 : " + utils::stringify(ncoeffs); 
     mat b = "1 : " + utils::stringify(numFilters); 
     mat c = (a.hermitian_transpose() * (b - 0.5)); 
     mat d = itpp::log10(energy); 
     mat coeffs = itpp::cos(c * (itpp::pi/numFilters)) * d;
     
-    features = itpp::concat(features, coeffs.get_col(0).right(N_MFCC));
+    features = itpp::concat(features, coeffs.get_col(0).right(ncoeffs));
 }

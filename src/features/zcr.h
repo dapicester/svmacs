@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef ZCR_H
 #define ZCR_H
 
@@ -14,16 +15,12 @@ namespace features {
  * TODO: definition
  */
 class ZCR : public Feature {
-  
-  public:
-  
+public:
     ZCR(int samplerate);
-    
     ~ZCR();
     
     /// Compute the ZCR for the given frame.
-    void extract(const vec& frame, vec& features) const;
-    
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 }

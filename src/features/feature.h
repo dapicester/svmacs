@@ -2,39 +2,35 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef FEATURE_H
 #define FEATURE_H
 
-#include <itpp/base/vec.h>
+#include <itpp/itbase.h>
 #include <string>
 
 namespace features {
-
-using itpp::vec;
-using std::string;
 
 /**
  * Enumeration for feature types.
  */
 enum Type {
-  
   /// Feature based on the signal time-representation.
   TEMPORAL, 
-  
   /// Feature based on the signal frequency-representation.
   SPECTRAL 
-  
 };
 
 /**
- * Abstract class for feature extractors. 
+ * Abstract base class for feature extractors. 
  */
 class Feature {
-  
-  public:
-        
+public:
+    Feature(int sr, Type type);
+    virtual ~Feature();
+    
     /// Getter for the name property.
-    string getName() const;
+    std::string getName() const;
 
     /// Getter for the type property.
     Type getType() const;
@@ -46,27 +42,21 @@ class Feature {
      * \param features 
      *   features vector to which append the computed feature
      */
-    virtual void extract(const vec& frame, vec& features) const = 0;
+    virtual void extract(const itpp::vec& frame, itpp::vec& features) const = 0;
     
-  protected:
-    
-    /// Constructor.
-    Feature(int sr, Type type);
-    
+protected:
     /// Setter for the name property.
-    void setName(const string& n);
+    void setName(const std::string& n);
     
-    /// The actual sampleate;
+    /// The actual sample rate;
     int samplerate;
        
-  private:
-    
+private:
     /// The feature type.
     Type type;
     
     /// The feature name.
-    string name;
-    
+    std::string name;  
 };
     
 }

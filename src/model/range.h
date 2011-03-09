@@ -2,48 +2,51 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef RANGE_H
 #define RANGE_H
 
-#include <itpp/base/vec.h>
-using itpp::mat;
-#include <itpp/base/mat.h>
-using itpp::vec;
+#include <itpp/itbase.h>
 #include <itpp/base/operators.h>
 
 namespace model {
 
 /// Linearly scale data to be whithin a given range.
-inline mat scaleData(const mat& input, const mat& range) {
+// FIXME: unit test fails!!
+inline 
+itpp::mat 
+scaleData(const itpp::mat& input, const itpp::mat& range) {
     int R = input.rows();
     int C = input.cols();
     
-    mat scaled(R,C);
+    itpp::mat scaled(R,C);
     scaled.zeros();
     
     // scale data to be within [mi,Mi]
-    for(int i=0; i<C; i++) {
-        vec col = input.get_col(i);
+    for(int i = 0; i < C; i++) {
+        itpp::vec col = input.get_col(i);
         
         double mi = range(0,i);
         double Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
-            vec value = 2 * (col - mi ) / (Mi - mi) - 1; 
+            itpp::vec value = 2 * (col - mi ) / (Mi - mi) - 1; 
             scaled.set_col(i, value);
         }
     }
     return scaled;
 }
 
-/// Linearly scale data to be whithin a given range.
-inline vec scaleData(const vec& input, const mat& range) {
+/// Linearly scale data to be within a given range.
+inline 
+itpp::vec 
+scaleData(const itpp::vec& input, const itpp::mat& range) {
     const int len = input.length();
     
-    vec scaled(len);
+    itpp::vec scaled(len);
     scaled.zeros();
     
     // scale data to be within [mi,Mi]
-    for(int i=0; i<len; i++) {
+    for(int i = 0; i < len; i++) {
         double mi = range(0,i);
         double Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
@@ -53,8 +56,10 @@ inline vec scaleData(const vec& input, const mat& range) {
     return scaled;
 }
 
-inline const mat getRange() {
-    const mat range = //TODO: salvare in un file IT++
+inline 
+const itpp::mat 
+getRange() {
+    const itpp::mat range = //TODO: salvare in un file IT++
     " 677.1070780399273871807963587343692779541015625 "
     " 171.124029237493601840469636954367160797119140625 "
     "2600.723774908210543799214065074920654296875 "

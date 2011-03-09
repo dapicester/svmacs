@@ -2,12 +2,12 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include <features/ass.h>
 using namespace features;
+using itpp::vec;
 
 #include <utils/utils.h>
-
-#include <itpp/itbase.h>
 
 #define RLOG_COMPONENT "ass"
 #include <rlog/rlog.h>

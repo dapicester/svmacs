@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef SRF_H
 #define SRF_H
 
@@ -14,21 +15,12 @@ namespace features {
  * TODO: definition
  */
 class SRF : public Feature {
-  
-  public:
-  
+public:
     SRF(int samplerate);
-    
     ~SRF();
     
     /// Compute the SRF for the given spectrum frame.
-    void extract(const vec& frame, vec& features) const;
-    
-  private:   
-    
-    /// Roll-off threshold (percentage)
-    static const double ALPHA = 0.93;
-  
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 }

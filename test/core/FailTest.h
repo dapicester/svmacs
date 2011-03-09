@@ -12,7 +12,7 @@ class FailTest : public CPPUNIT_NS::TestCase {
 
     CPPUNIT_TEST_SUITE_END();
 
-public:
+private:
     void testSuccessMethod();
     void testFailedMethod();
 };

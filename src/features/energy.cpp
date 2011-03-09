@@ -2,8 +2,10 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include <features/energy.h>
 using namespace features;
+using itpp::vec;
 
 #include <itpp/itbase.h>
 

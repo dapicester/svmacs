@@ -2,25 +2,27 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef SVMACS_GUI_H
 #define SVMACS_GUI_H
 
 #include "ui_svmacgui.h"
 #include <jack/jackclient.h>
-using jack::JackClient;
-
 #include <model/event.h>
-using model::Event;
+
+#include <QObject>
 
 /** 
-@class SvmacGui
-@brief GUI interface for the SVM Audio Classifier. 
-@author Paolo D'Apice
-*/
+ * @class SvmacGui
+ * @brief GUI interface for the SVM Audio Classifier. 
+ * @author Paolo D'Apice
+ */
 class SvmacGui : public QWidget, private Ui::SvmacQt {
+    
     Q_OBJECT
+    
     /** Pointer to the Jack client */
-    JackClient* client;
+    jack::JackClient* client;
     /// Enumeration for palette color
     enum Color { BLACK, RED };
     /// Build a palette with the given color
@@ -45,8 +47,10 @@ protected: //TODO private
     void blackLabel(QLabel* label);
 
 public:
-    /** Constructor. */
+    /// Constructor.
     SvmacGui(QWidget *parent = 0);
+    /// Destructor
+    ~SvmacGui();
 
 public slots:
     /// Start the Jack client
@@ -59,7 +63,7 @@ public slots:
     void about();
     
     /// Highlight the event label
-    void highlightEvent(const Event& event);
+    void highlightEvent(const model::Event& event);
 
 #ifdef ENABLE_DEBUG
     void test();

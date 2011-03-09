@@ -2,6 +2,7 @@
  *   Copyright (C) 2009 by Paolo D'Apice                                   *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef HR_H
 #define HR_H
 
@@ -14,16 +15,12 @@ namespace features {
  * TODO: definition
  */
 class HR : public Feature {
-  
-  public:
-    
+public:
     HR(int samplerate);
-    
     ~HR();
     
     /// Compute the HR for the given audio frame.
-    void extract(const vec& frame, vec& features) const;
-    
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 }

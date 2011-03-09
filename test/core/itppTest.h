@@ -13,7 +13,7 @@ class itppTest : public CPPUNIT_NS::TestCase {
 
     CPPUNIT_TEST_SUITE_END();
 
-public:
+private:
     void testMatrix();
     void testVector();
     void testEquals();
