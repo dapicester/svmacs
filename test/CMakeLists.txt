@@ -15,7 +15,13 @@ if ( NOT CPPUNIT_FOUND )
 endif( NOT CPPUNIT_FOUND )
 include_directories(${CPPUNIT_INCLUDE_DIRS})
 
-set(LIBS ${LIBS} ${CPPUNIT_LIBRARIES})
+find_package(LibSVM REQUIRED)
+if ( NOT LIBSVM_FOUND )
+  message(FATAL_ERROR "Package LibSVM required, but not found!")
+endif( NOT LIBSVM_FOUND )
+include_directories(${LIBSVM_INCLUDE_DIRS})
+
+set(LIBS ${LIBS} ${CPPUNIT_LIBRARIES} ${LIBSVM_LIBRARIES})
 
 #################
 # cppunit tests #
@@ -35,7 +41,7 @@ add_definitions(`pkg-config --cflags jack` `itpp-config --cflags`)
 set(LIBRARY_DIR
     ${CMAKE_SOURCE_DIR}/lib)
 link_directories(${LIBRARY_DIR})
-link_libraries(itpp rlog cppunit)
+link_libraries(itpp rlog cppunit svm)
 
 file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "core/*Test.cpp")
 foreach(TEST ${UNITTESTS_SRCS})
