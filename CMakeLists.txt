@@ -5,7 +5,7 @@ cmake_minimum_required(VERSION 2.6.0)
 # find modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 # add_definitions(-DENABLE_DEBUG)
 set (DEBUG ON)
 # add_definitions(-DENABLE_LOG)
@@ -16,7 +16,7 @@ set (DEBUG ON)
 
 add_subdirectory(src)
 
-set (ENABLE_TESTING TRUE)
+#set (ENABLE_TESTING TRUE)
 if (ENABLE_TESTING)
     add_subdirectory(test)
     enable_testing()
