@@ -1,14 +1,12 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
 #ifndef ENERGY_H
 #define ENERGY_H
 
-#include <features/feature.h>
-
-namespace features {
+#include "feature.h"
 
 /**
  * Energy audio feature.
@@ -22,7 +20,5 @@ public:
     /// Compute the energy for the given frame.
     void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
-
-}
     
 #endif

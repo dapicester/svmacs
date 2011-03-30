@@ -1,9 +1,10 @@
 #include "libsvmTest.h"
 
-using namespace std;
 #include <libsvm/svm.h>
-#include <cppunit/TestAssert.h>
-#include <string>
+
+using std::string;
+using std::cout;
+using std::endl;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(libsvmTest);
 

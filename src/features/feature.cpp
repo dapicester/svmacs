@@ -1,26 +1,16 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <features/feature.h>
-using namespace features;
+#include "feature.h"
 
 Feature::Feature(int sr, Type t) : samplerate(sr), type(t) {}
 
 Feature::~Feature() {}
 
-std::string 
-Feature::getName() const { 
-  return name; 
+inline
+std::ostream& operator<<(std::ostream& os, const Feature& feature) {
+  os << feature.getName() << std::endl;
+  return os;
 }
-
-Type
-Feature::getType() const {
-  return type;
-}
-
-void 
-Feature::setName(const std::string& n) {
-  name = n; 
-} 

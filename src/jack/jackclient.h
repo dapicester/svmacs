@@ -1,78 +1,61 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
 #ifndef JACKCLIENT_H
 #define JACKCLIENT_H
 
-#include <features/processor.h>
-#include <model/classifier.h>
-#include <model/event.h>
-#include <jack/ringbufferread.h>
+class RingBufferRead;
+class Engine;
+
 #include <jackaudioio.hpp>
 
-#include <itpp/itsignal.h>
-#include <QObject>
-
-namespace jack {
+#include <itpp/base/vec.h>
+#include <boost/noncopyable.hpp>
+//#include <boost/signals2.hpp>
 
 /**
  * This class implement a Jack client, providing the implementation
  * of the Jack callback function.
  */
-class JackClient : public QObject, public JackCpp::AudioIO {
-
-    Q_OBJECT
+class JackClient 
+        : public JackCpp::AudioIO , boost::noncopyable {
 
 public:
-
     /**
-     * Factory method.
-     * Get the Jack client instance.
-     * \param length frame length in seconds (defaults to 1 second)
-     * \param overlap percentage of frame overlap (defaults to 0)
+     * Instantiate a new Jack client.
+     * @param length
+     *          frame length (seconds)
+     * @param overlap
+     *          frame overlapping ratio
      */
-    static JackClient* getInstance(float length = 0.5, float overlap = 0.25);
-
-    JackClient(float length, float overlap);
-    JackClient(JackClient&);
+    JackClient(float length, float overlap, Engine* engine);
     ~JackClient();
+    
+    /**
+     * Automatically connect input/output ports.
+     */
+    void connect();
+    
+    /**
+     * disconnect all input/output ports.
+     */
+    void disconnect();
 
-signals:
-
-    /// Signal emitted on event detection.
-    void eventDetected(const model::Event&);
+    /// Signals raised when input audio data are ready for processing
+    //boost::signals2::signal<void (const itpp::vec&)> gotInputData;
 
 private:
-
-    /// Maximum number of input ports
-    static const uint MAX_IN = 1;
-    /// Maximum number of output ports
-    static const uint MAX_OUT = 1;
-    /// Number of input ports 
-    static const uint NUM_INPUT = 1; // mono input
-    /// Number of output ports 
-    static const uint NUM_OUTPUT = 1; // monitor output
-
-    /// Frame length in samples
-    uint N;
-    /// Frame overlap in samples
-    uint R;
-
-    /// Input buffer
-    RingBufferRead input;
-    /// Current frame
+    /// frame length (samples)
+    unsigned int length;
+    /// frame overlap (samples)
+    unsigned int overlap;
+    
+    /// The input ring buffer.
+    RingBufferRead* input;
+    /// The current frame.
     double* frame;
-
-    /// Audio frame processor
-    features::Processor processor;
-
-    /// Audio classifier
-    model::Classifier* classifier;
-
-    /// Previous detected event type
-    model::EventType prev;
 
     /** 
      * Audio callback. 
@@ -81,12 +64,11 @@ private:
     int audioCallback(jack_nframes_t nframes,
             audioBufVector inBufs,
             audioBufVector outBufs);
-
-    /// Process samples from the input buffer
-    void processFrame();
-
+    
+    /// access data in buffer and eventually send a signal
+    void checkData();    
+    
+    Engine* engine;
 };
-
-}
 
 #endif // JACKCLIENT_H

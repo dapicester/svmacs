@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
@@ -8,8 +8,6 @@
 
 #include <itpp/itbase.h>
 #include <itpp/base/operators.h>
-
-namespace model {
 
 /// Linearly scale data to be whithin a given range.
 // FIXME: unit test fails!!
@@ -86,8 +84,6 @@ getRange() {
     "    2.75483162225700795033844769932329654693603515625 "
     "    2.1050579205616930522637630929239094257354736328125 ";
     return range;
-}
-
 }
 
 #endif

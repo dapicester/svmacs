@@ -1,43 +1,45 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <features/ass.h>
-using namespace features;
-using itpp::vec;
+#include "ass.h"
+#include "utils/utils.h"
 
-#include <utils/utils.h>
+#include <itpp/itbase.h>
+using itpp::vec;
 
 #define RLOG_COMPONENT "ass"
 #include <rlog/rlog.h>
 
 ASS::ASS(int samplerate) : Feature(samplerate, SPECTRAL) {
-    setName("ASS & ASC");
+    name = "ASS and ASC";
 }
 
 ASS::~ASS() {}
 
-void 
-ASS::extract(const vec& frame, vec& features) const {
-    const int len = frame.length() - 1;
+static const int INDEX = 2;
+
+void ASS::extract(const vec& spectrum, vec& features) const {
+    const int len = spectrum.length() - 1;
     
     // discard the 0-bin frequency
-    vec spectrum = abs(frame.right(len));
+    vec aspectrum = abs(spectrum.right(len));
 
-    double summ = itpp::sum(spectrum);
-  
-    //vec bins("1:" + utils::stringify(len));
-    vec bins = utils::linvec(1, len);
+    double summ = itpp::sum(aspectrum);
+    vec bins = linvec(1, len);
     
-    if (summ == 0.0) {
-        vec tmp("0 0");
-        features = itpp::concat(features, tmp);
-    } else {
-        double centroid = itpp::sum( itpp::elem_mult(bins,spectrum) )/summ;
-        double spread = itpp::sum( itpp::elem_mult( itpp::sqr(bins-centroid), spectrum ) )/summ;
-        
-        features = itpp::concat(features, spread);
-        features = itpp::concat(features, centroid);
+    double centroid = 0.0;
+    double spread = 0.0;
+    if (summ > 0.0) {
+        centroid = itpp::sum( 
+                              itpp::elem_mult(bins, aspectrum) 
+                          ) / summ;
+        spread = itpp::sum( 
+                            itpp::elem_mult( itpp::sqr(bins - centroid), aspectrum) 
+                        )/summ;
     }
+    
+    features[INDEX] = centroid;
+    features[INDEX + 1] = spread;
 }

@@ -1,113 +1,63 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include <cli/svmaccli.h>
-using namespace cli;
+
+#include "svmaccli.h"
+
+#include "engine/engine.h"
+#include "exceptions/exceptions.h"
 
 #define RLOG_COMPONENT "cli"
 #include <rlog/rlog.h>
 
+#include <boost/bind.hpp>
+#include <cstdlib>
 #include <csignal>
-using namespace std;
-
-SvmacCli* SvmacCli::instance = 0;
 
 SvmacCli::SvmacCli() {
-    rDebug("constructor invoked");
+    engine = 0; // FIXME engine init qui
+    rInfo("CLI ready");
 }
 
 SvmacCli::~SvmacCli() {
-    rDebug("destructor invoked");
+    delete engine;
+    rInfo("CLI correctly closed");
 }
 
-SvmacCli* SvmacCli::getInstance() {
-    if (instance == 0) {
-        rDebug("instantiating singleton ...");
-        instance = new SvmacCli();
-    } 
-    return instance;
-}
+bool SvmacCli::flag = true;
 
-void SvmacCli::mainLoop(float N, float R) {
+void SvmacCli::start(float length, float overlap) {
+    // FIXME: engine.start()
     rDebug("starting CLI main loop");
     
-    rInfo("Starting the Jack client ... ");
-    client = JackClient::getInstance(N,R);
-    if (client == 0) {
-        rDebug("client not created");
-        
-	rError("failed!");
-        rError("Could not start the client. ");
-        rError("Please check if the Jackd server is running.");
-        exit(1);
-    } 
-    
-    // setup & start
-    client->start();
-    if (!client->isRealTime())
-        rWarning("WARNING! Not Realtime"); 
-    rInfo("Jack client started");
-
-    #ifdef ENABLE_LOG
-    // status
-    rDebug("inport names:");
-    for(unsigned int i = 0; i < client->inPorts(); i++)
-        rDebug("   %s", client->getInputPortName(i).c_str());
-    
-    rDebug("outport names:");
-    for(unsigned int i = 0; i < client->outPorts(); i++)
-        rDebug("   %s", client->getOutputPortName(i).c_str());
-    #endif
-
+    rInfo("initializing Engine ... ");
     try {
-        rDebug("connecting from input port ...");
-        client->connectFromPhysical(0,0);
-        
-        //rDebug("connecting to output port ...");
-        //client->connectToPhysical(0,0);
-    } catch (std::runtime_error e){
-        rWarning("WARNING! %s", e.what());
+        engine = new Engine(length, overlap);
+        engine->start();
+    } catch (JackException& e) {
+        rError(e.what());
+        return;
     }
     
     // trap signals
     rInfo("use CTRL-C to quit");
-    //signal(SIGABRT, &cleanup);
     signal(SIGTERM, &cleanup);
     signal(SIGINT, &cleanup);
+    //signal(SIGABRT, &cleanup);
+    //signal(SIGTERM, boost::bind<void>(&SvmacCli::cleanup, this, _1, _2));
+    //signal(SIGINT, boost::bind<void>(&SvmacCli::cleanup, this, _1, _2));
     
     // main loop
-    while(true) {
+    while(flag) {
         sleep(1); 
     } 
     
-    // unreachable code
-    cleanup(99);    
-    exit(0);
+    engine->stop();
+    rInfo("quitting ... ");
 }
 
-void SvmacCli::cleanup(int signal) {  
-    #ifdef ENABLE_LOG
-    if (signal == 99) 
-        rDebug("timeout"); 
-    else 
-        rDebug("CTRL-C trapped");
-    #endif
-    rInfo("quitting ... ");
-
-    rDebug("getting client pointer");
-    JackClient* client = SvmacCli::getInstance()->client;
-    
-    rDebug("disconnecting ports");
-    for(unsigned int i = 0; i < client->inPorts(); i++)
-        client->disconnectInPort(i);
-    for(unsigned int i = 0; i < client->outPorts(); i++)
-        client->disconnectOutPort(i);
-    
-    rDebug("cleaning up");
-    client->close();	// stop client.
-    delete client;
-    
-    rInfo("done.\n");
-    exit(0);
+void SvmacCli::cleanup(int) {
+    rDebug("CTRL-C trapped");
+    flag = false;
 }

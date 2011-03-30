@@ -1,14 +1,12 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
 #ifndef ZCR_H
 #define ZCR_H
 
-#include <features/feature.h>
-
-namespace features {
+#include "feature.h"
 
 /**
  * Zero-Crossing-Rate audio feature.
@@ -23,6 +21,4 @@ public:
     void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
-}
-    
 #endif

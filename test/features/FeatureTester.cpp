@@ -1,36 +1,31 @@
 #include "FeatureTester.h"
-#include <utils/testUtils.h>
+#include "features/feature.h"
+#include "../utils/testUtils.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION( FeatureTest );
+CPPUNIT_TEST_SUITE_REGISTRATION(FeatureTest);
 
-FeatureTest::FeatureTest() {
-  feature = setFeature();
+void FeatureTest::setUp() {
+    feature = setFeature();
 }
 
-FeatureTest::~FeatureTest() {
-  delete feature;
+void FeatureTest::tearDown() {
+     delete feature;
 }
 
-void 
-FeatureTest::setUp(){
-  silence = getSilence();
-  signal = getSignal();
+static const int FEATURES = 12;
+
+void FeatureTest::testSignal() {
+    itpp::vec result = itpp::zeros(FEATURES);
+    feature->extract(getSignal(), result);
+    print("result", result);
 }
 
-void 
-FeatureTest::tearDown() {
+void FeatureTest::testSilence() {
+    itpp::vec result = itpp::zeros(FEATURES);
+    feature->extract(getSilence(), result);
+    print("result", result);
 }
 
-void 
-FeatureTest::testSignal() {
-  itpp::vec result;
-  feature->extract(signal, result);
-  print("result", result);
-}
-
-void 
-FeatureTest::testSilence() {
-  itpp::vec result;
-  feature->extract(silence, result);
-  print("result", result);
+void FeatureTest::testRegression() {
+    doRegressionTest();
 }

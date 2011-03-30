@@ -1,13 +1,12 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <model/event.h>
-using namespace model;
+#include "event.h"
 
 Event::Event() : type(NONE), description("") {} 
-Event::Event(const EventType t, const char* desc) : type(t), description(desc) {}
+Event::Event(const EventType& t, const std::string& desc) : type(t), description(desc) {}
 
 Event::Event(const Event& e) : type(e.getType()), description(e.getDescription()) {}
 

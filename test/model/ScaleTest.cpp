@@ -1,5 +1,5 @@
 #include "ScaleTest.h"
-#include <model/range.h>
+#include "model/range.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(ScaleTest);
 
@@ -30,12 +30,12 @@ void ScaleTest::testScaleData() {
 
    // scale vector
    for (int i = 0; i < input.rows(); i++) {
-        itpp::vec vscaled = model::scaleData(input.get_row(i), range);
+        itpp::vec vscaled = scaleData(input.get_row(i), range);
         CPPUNIT_ASSERT_EQUAL(expected.get_row(i), vscaled);
    }
    
    // scale matrix
-   itpp::mat scaled = model::scaleData(input, range);
+   itpp::mat scaled = scaleData(input, range);
    const double delta = 0.000001;
    for (int i = 0; i < expected.size(); i++) {
        CPPUNIT_ASSERT_DOUBLES_EQUAL(expected.get(i), scaled.get(i), delta);

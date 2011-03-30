@@ -1,12 +1,8 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include <jack/ringbufferread.h>
-using namespace jack;
-
-#define RLOG_COMPONENT "ringbufferread"
-#include <rlog/rlog.h>
+#include "jack/ringbufferread.h"
 
 #ifndef NULL
 #define NULL 0

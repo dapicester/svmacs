@@ -1,14 +1,12 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
 #ifndef ASS_H
 #define ASS_H
 
-#include <features/feature.h>
-
-namespace features {
+#include "feature.h"
 
 /**
  * Audio Spectral Spread and Audio Spectral Centroid audio features.
@@ -22,7 +20,5 @@ public:
     /// Compute the ASS and the ASC for the given spectrum frame.
     void extract(const itpp::vec& frame, itpp::vec& features) const;    
 };
-
-}
 
 #endif

@@ -1,36 +1,35 @@
 #ifndef ASS_TEST_H
 #define ASS_TEST_H
 
-#include <features/feature.h>
+class Feature;
+
 #include <cppunit/extensions/HelperMacros.h>
 
 class FeatureTest : public CPPUNIT_NS::TestFixture {
-  
-  CPPUNIT_TEST_SUITE( FeatureTest );
-  CPPUNIT_TEST( testSilence );
-  CPPUNIT_TEST( testSignal );
-  CPPUNIT_TEST_SUITE_END();
-  
-  public:
-    FeatureTest();
-    ~FeatureTest();
+    CPPUNIT_TEST_SUITE(FeatureTest);
+    CPPUNIT_TEST(testSilence);
+    CPPUNIT_TEST(testSignal);
+    CPPUNIT_TEST(testRegression);
+    CPPUNIT_TEST_SUITE_END();
+
+public:
     void setUp();
     void tearDown();
-  
-  protected:   
+
+protected:
     void testSilence();
     void testSignal();
-  
-  private:
-    /// Default sample rate
-    static const int SAMPLE_RATE = 1024;  
+    void testRegression();
     
-    features::Feature* feature;
-    itpp::vec silence;
-    itpp::vec signal;
-      
+    static const int SAMPLE_RATE = 1024;
+
+private:
+    Feature* feature;
+    
     /// Obtain a pointer to a concrete feature extractor
-    features::Feature* setFeature();
+    Feature* setFeature();
+    /// Perform regression test on actual feature extractor
+    void doRegressionTest();
 };
 
 #endif

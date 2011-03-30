@@ -1,7 +1,10 @@
 #include "FeatureTester.h"
-#include <features/hr.h>
+#include "features/hr.h"
 
-features::Feature*
-FeatureTest::setFeature() {
-    return new features::HR(SAMPLE_RATE);
+Feature* FeatureTest::setFeature() {
+    return new HR(SAMPLE_RATE);
+}
+
+void FeatureTest::doRegressionTest() {
+    // TODO compare C++ and Matlab
 }

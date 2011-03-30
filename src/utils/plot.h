@@ -10,8 +10,6 @@
 #include <string>
 using std::string;
 
-namespace cli {
-
 Gnuplot* plot_x(const vec& x, const string& title = "") {
     Gnuplot* p = new Gnuplot("test");
     p->set_grid();
@@ -28,8 +26,6 @@ Gnuplot* plot_xy(const vec& x, const vec& y, const string& title = "") {
     p->plot_xy(x, y, title);
     p->showonscreen();
     return p;
-}
-
 }
 
 #endif

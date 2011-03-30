@@ -1,7 +1,6 @@
 #ifndef TESTUTILS_H
 #define	TESTUTILS_H
 
-#include "utils/convert.h"
 #include <itpp/itbase.h>
 #include <iostream>
 
@@ -21,7 +20,7 @@ void print(const std::string& name, const itpp::mat& input);
  * @param end the end value
  * @param step step size
  */
-itpp::vec getTime(const double start, const double end, const double step);
+itpp::vec getTime(const double start, const double end, const double step = 1.0);
 
 /**
  * Get a silence signal.
@@ -49,5 +48,9 @@ itpp::vec getSignal(const itpp::vec& time);
  */
 itpp::vec getSignal();
 
-#endif	/* TESTUTILS_H */
+/**
+ * Test for arrays equality.
+ */
+bool equals(double a[], double b[], int length);
 
+#endif	/* TESTUTILS_H */

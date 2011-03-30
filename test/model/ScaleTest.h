@@ -14,4 +14,3 @@ private:
 };
 
 #endif	/* MODELTEST_H */
-

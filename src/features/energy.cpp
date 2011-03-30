@@ -1,32 +1,29 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <features/energy.h>
-using namespace features;
-using itpp::vec;
+#include "energy.h"
 
 #include <itpp/itbase.h>
+using itpp::vec;
 
 #define RLOG_COMPONENT "energy"
 #include <rlog/rlog.h>
 
 Energy::Energy(int samplerate) : Feature(samplerate, TEMPORAL) {
-    setName("Energy");
+    name = "Energy";
 }
 
 Energy::~Energy() {}
 
-void 
-Energy::extract(const vec& frame, vec& features) const {
+static const int INDEX = 1;
+
+void Energy::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
     
     vec square = itpp::sqr(itpp::abs(frame));
+    double energy = itpp::sum(square) / len * samplerate;
     
-    double energy = itpp::sum(square);
-    
-    energy = energy / len * samplerate;
-    
-    features = itpp::concat(features, energy);
+    features[INDEX] = energy;
 }

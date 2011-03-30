@@ -1,3 +1,9 @@
+#define RLOG_COMPONENT "main"
+#include <rlog/rlog.h>
+#include <rlog/StdioNode.h>
+#include <rlog/RLogChannel.h>
+using namespace rlog;
+
 #include <cppunit/TestRunner.h>
 #include <cppunit/TestResult.h>
 #include <cppunit/TestResultCollector.h>
@@ -5,27 +11,35 @@
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 
-int main(int ac, char** av)
-{
-  // Create the event manager and test controller
-  CPPUNIT_NS::TestResult controller;
+int main(int argc, char** argv) {
 
-  // Add a listener that colllects test result
-  CPPUNIT_NS::TestResultCollector result;
-  controller.addListener( &result );        
+    // initialize logging
+    RLogInit(argc, argv);
+    StdioNode log;
+    log.subscribeTo(GetGlobalChannel("debug"));
+    log.subscribeTo(GetGlobalChannel("info"));
+    log.subscribeTo(GetGlobalChannel("warning"));
+    log.subscribeTo(GetGlobalChannel("error"));
 
-  // Add a listener that print dots as test run.
-  CPPUNIT_NS::BriefTestProgressListener progress;
-  controller.addListener( &progress );      
+    // Create the event manager and test controller
+    CPPUNIT_NS::TestResult controller;
 
-  // Add the top suite to the test runner
-  CPPUNIT_NS::TestRunner runner;
-  runner.addTest( CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest() );
-  runner.run( controller );
-  
-  // Print test in a compiler compatible format.
-  CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
-  outputter.write();
+    // Add a listener that colllects test result
+    CPPUNIT_NS::TestResultCollector result;
+    controller.addListener(&result);
 
-  return result.wasSuccessful() ? 0 : 1;
+    // Add a listener that print dots as test run.
+    CPPUNIT_NS::BriefTestProgressListener progress;
+    controller.addListener(&progress);
+
+    // Add the top suite to the test runner
+    CPPUNIT_NS::TestRunner runner;
+    runner.addTest(CPPUNIT_NS::TestFactoryRegistry::getRegistry().makeTest());
+    runner.run(controller);
+
+    // Print test in a compiler compatible format.
+    CPPUNIT_NS::CompilerOutputter outputter(&result, CPPUNIT_NS::stdCOut());
+    outputter.write();
+
+    return result.wasSuccessful() ? 0 : 1;
 }

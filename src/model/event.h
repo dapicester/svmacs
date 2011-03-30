@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
@@ -8,8 +8,6 @@
 
 #include <string>
 
-namespace model {
-    
 /** 
  * Type of detected event.
  */    
@@ -23,7 +21,7 @@ enum EventType {
 class Event { 
 public:
     Event();
-    Event(const EventType t, const char* desc = "");
+    Event(const EventType& t, const std::string& desc = "");
     Event(const Event& e);
     ~Event();
     
@@ -37,7 +35,5 @@ private:
     EventType type;
     const std::string description;
 };
-
-}
 
 #endif

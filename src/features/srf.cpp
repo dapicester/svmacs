@@ -1,14 +1,12 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <features/srf.h>
-using namespace features;
-using itpp::vec;
+#include "srf.h"
 
-#include <itpp/base/math/elem_math.h>
-#include <itpp/base/matfunc.h>
+#include <itpp/itbase.h>
+using itpp::vec;
 
 #define RLOG_COMPONENT "srf"
 #include <rlog/rlog.h>
@@ -17,28 +15,28 @@ using itpp::vec;
 static const double ALPHA = 0.93;
 
 SRF::SRF(int samplerate) : Feature(samplerate, SPECTRAL) {
-    setName("SRF");
+    name = "SRF";
 }
 
 SRF::~SRF() {}
 
-void
-SRF::extract(const vec& frame, vec& features) const {
-    const int len = frame.length();
+static const int INDEX = 4;
+
+void SRF::extract(const vec& spectrum, vec& features) const {
+    const int len = spectrum.length();
     
-    vec spectrum2 = itpp::sqr(frame);
-    
+    vec spectrum2 = itpp::sqr(itpp::abs(spectrum)); // TODO togliere abs?
     double threshold = ALPHA * itpp::sum(spectrum2);
     
     double K = 0.0;
-    for (int k=1; k<len; k++) {
+    for (int k = 1; k < len; k++) {
         double summ = itpp::sum(spectrum2.left(k));
-        //FIXME va col < (sbagliata la versione matlab)
         //if ( summ > threshold) {
-        if ( summ < threshold) {
+        if (summ < threshold) {
              K = k;
              break;
         }
     }
-    features = itpp::concat(features, K);
+    
+    features[4] = K;
 }

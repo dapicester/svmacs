@@ -1,121 +1,135 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <jack/jackclient.h>
-using namespace jack;
-
-#include <model/svmclassifier.h>
-using namespace model;
+#include "jackclient.h"
+#include "jack/ringbufferread.h"
+#include "engine/engine.h"
 
 #define RLOG_COMPONENT "jackclient"
 #include <rlog/rlog.h>
 
 #include <cmath>
 #include <iostream>
-using namespace std;
 
-JackClient::JackClient(float length, float overlap) : 
-                JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false),
-                N(floor(length * getSampleRate())),
-                R(floor(N * overlap)), 
-                input(N * 2.0 + 1.0), 
-                processor(getSampleRate()) {
-    rDebug("constructor invoked");
+/// Maximum number of input ports
+static const unsigned int MAX_IN = 1;
+/// Maximum number of output ports
+static const unsigned int MAX_OUT = 1;
+
+/// Number of input ports 
+static const unsigned int NUM_INPUT = 1; // mono input
+/// Number of output ports 
+static const unsigned int NUM_OUTPUT = 1; // monitor output
+
+/// Client name
+static const char* CLIENT_NAME = "svmacs";
+
+JackClient::JackClient(float len, float olap, Engine* e) : 
+        JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false) {
+    rInfo("initializing JackClient ...");
     
-    // reserve ports
     reserveInPorts(MAX_IN);
     reserveOutPorts(MAX_OUT);
     rDebug("reserved ports: %d IN, %d OUT", MAX_IN, MAX_OUT); 
     
-    // allocate buffer for current frame
-    frame = new double[N];
+    // init attributes
+    length = std::floor(len * getSampleRate());
+    overlap = std::floor(length * olap/100);
+    rDebug("frame length set to %d samples with %d overlapping samples", length, overlap);
+            
+    rDebug("initializing input buffer");
+    input = new RingBufferRead(length * 2 + 1);
+    // allocating buffer for current frame
+    frame = new double[static_cast<int>(length)];
     
-    // instantiate a classifier
-    classifier = new SvmClassifier();
-    prev = NONE;
+    rWarning("Jack %s running in realtime mode", isRealTime() ? "is" : "is not"); 
     
-    rInfo("created a Jack client named %s with #in=%d and #out=%d","svn-acs", NUM_INPUT, NUM_OUTPUT);
+    rDebug("input port names:");
+    for(unsigned int i = 0; i < inPorts(); i++)
+        rDebug("   [%s]", getInputPortName(i).c_str());
+    
+    rDebug("output port names:");
+    for(unsigned int i = 0; i < outPorts(); i++)
+        rDebug("   [%s]", getOutputPortName(i).c_str());
+    
+    rDebug("saving pointer to Engine");
+    engine = e;
+    
+    rInfo("JackClient [%s] created (#in=%d, #out=%d)", CLIENT_NAME, NUM_INPUT, NUM_OUTPUT);
 }
 
 JackClient::~JackClient() {
-    rDebug("destructor called");
+    rDebug("closing JackClient ...");
+    close();
+    
     delete[] frame;
-    delete classifier;
+    delete input;
+    
+    rInfo("JackClient correctly destroyed");
 }
 
-JackClient* JackClient::getInstance(float length, float overlap) {
-    JackClient* client = 0;
+void JackClient::connect() {
     try {
-        client = new JackClient(length, overlap);
-        rInfo("sample rate: %5.0f", (float) client->getSampleRate());
-    } catch (std::runtime_error) {
-        rWarning("Could not create the client: Jackd not running!");
+        rDebug("connecting from input port ...");
+        connectFromPhysical(0, 0);
+        
+        //rDebug("connecting to output port ...");
+        //connectToPhysical(0, 0);
+    } catch (std::runtime_error e){
+        rWarning(e.what());
+        //throw e; // continue processing?
     }
-    return client;
+}
+
+void JackClient::disconnect() {
+    rDebug("disconnecting ports");
+    
+    for(unsigned int i = 0; i < inPorts(); i++)
+        disconnectInPort(i);
+    
+    for(unsigned int i = 0; i < outPorts(); i++)
+        disconnectOutPort(i);
 }
 
 // Jack Audio callback.
-int 
-JackClient::audioCallback(jack_nframes_t nframes, 
+int JackClient::audioCallback(jack_nframes_t nframes, 
                           audioBufVector inBufs,
                           audioBufVector outBufs) {
-    //rDebug("callback");
-    for(uint i = 0; i < inBufs.size(); i++) {
-        for(uint j = 0; j < nframes; j++) {
+    for(unsigned int i = 0; i < inBufs.size(); i++) {
+        for(unsigned int j = 0; j < nframes; j++) {
             // fill the buffer
-            input.write(inBufs[i][j]);
+            input->write(inBufs[i][j]);
             // copy to output
             outBufs[i][j] = inBufs[i][j];
             
-            processFrame();
+            checkData();
         }
     }
+                    
+    
+
     //0 on success
     return 0;
 }
 
-void 
-JackClient::processFrame() {
-    if (input.getReadSpace() >= N) {
-        rDebug("there are %d samples in the input buffer", N);
-        if (R > 0) { // overlapping frames
-            input.read(frame, R);    // read the first R samples
-            input.peek(frame+R, N-R);// and peek the remaining N-R samples 
-        } else { // no overlapping frames
-            input.read(frame, N);
-        }
-
-#if 1 // enable input processing
-        itpp::vec vframe(frame,N);
-        itpp::vec ff = processor.process(vframe);
-#endif
-
-#if 0
-#ifdef ENABLE_LOG
-        rDebug("feature vector:");
-        cout << ff << endl;
-#endif
-#endif
-
-#if 1 // enable the classifier        
-        EventType type = classifier->classify(ff);
-        if (type != prev) {
-            const char* message;
-            if (type != NONE) {
-                switch (type) {
-                case NONE:    message = "none";    break;
-                case GUNSHOT: message = "GUNSHOT"; break;
-                case SCREAM:  message = "SCREAM";  break;
-                case GLASS:   message = "GLASS";   break;
-                } 
-                rInfo("Detected EventType: %s", message);
-            }
-            Event e(type, message);
-            emit eventDetected(e);
-            prev = type;
-        }
-#endif
+void JackClient::checkData() {
+    if (input->getReadSpace() < length) {
+        //rDebug("not enough samples in the input buffer (%d)", input->getReadSpace());
+        return;
     } 
+    
+    //rDebug("there are enough samples in the input buffer (%d)", input->getReadSpace());
+    if (overlap > 0) { // overlapping frames
+        input->read(frame, length - overlap);      // read the first (R - N) non overlapping samples
+        input->peek(frame + overlap, overlap);     // and peek the remaining overlapping (R) samples 
+    } else {           // non overlapping frames
+        input->read(frame, length);
+    }
+
+    // send signal
+    itpp::vec data(frame, length);
+    //gotInputData(data);
+    engine->processFrame(data);
 }

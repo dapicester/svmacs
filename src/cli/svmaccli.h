@@ -1,14 +1,12 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #ifndef SVMACS_CLI_H
 #define SVMACS_CLI_H
 
-#include <jack/jackclient.h>
-using jack::JackClient;
-
-namespace cli {
+class Engine;
 
 /** 
  * @class SvmacCli
@@ -16,37 +14,29 @@ namespace cli {
  * @author Paolo D'Apice
  */
 class SvmacCli {
-  
-  public:
-    
+public:
+    SvmacCli();
     ~SvmacCli();
-    
-    /// @return the singleton instance
-    static SvmacCli* getInstance();
+
+    // TODO: usare threads
     
     /** 
-     * CLI main loop. 
-     * @param N frame length in seconds
-     * @param R percentage of frame overlap     
+     * Start the client. 
+     * @param length
+     *          frame length (in seconds)
+     * @param overlap
+     *          frame overlapping ratio (percentage)
      */
-    void mainLoop(float N, float R);
+    void start(float length, float overlap);
+
+private:
+    /// pointer to the engine
+    Engine* engine;
     
-  private:
-    
-    /// Singleton instance.
-    static SvmacCli* instance;
-    
-    /// Private constructor. 
-    SvmacCli(); 
-        
-    /// Signal handler function.
+    /// signal handler
     static void cleanup(int);
-
-    /// Pointer to the Jack client.
-    JackClient* client;
-    
+    /// running flag
+    static bool flag;
 };
-
-}
 
 #endif // SVMACS_CLI_H

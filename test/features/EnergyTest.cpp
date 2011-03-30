@@ -1,7 +1,10 @@
 #include "FeatureTester.h"
-#include <features/energy.h>
+#include "features/energy.h"
 
-features::Feature*
-FeatureTest::setFeature() {
-    return new features::Energy(SAMPLE_RATE);
+Feature* FeatureTest::setFeature() {
+    return new Energy(SAMPLE_RATE);
+}
+
+void FeatureTest::doRegressionTest() {
+    // TODO compare C++ and Matlab
 }

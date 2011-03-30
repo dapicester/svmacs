@@ -1,8 +1,10 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice 
+ *   Copyright (C) 2009-2011 by Paolo D'Apice 
  *   dapicester@gmail.com   
  *   Code taken from the class JackCpp::RingBuffer by Alex Norman
  ***************************************************************************/
+
+// TODO ereditare da JackCpp::RingBuffer
 
 #ifndef RINGBUFFERREAD_H
 #define RINGBUFFERREAD_H
@@ -12,8 +14,6 @@ extern "C" {
 }
 
 #include <string.h>
-
-namespace jack {
 
 /**
  * Class modeling a read-only ring buffer.
@@ -69,7 +69,5 @@ private:
     /// Size
     static const int double_size = sizeof(double);
 };
-
-}
 
 #endif

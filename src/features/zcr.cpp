@@ -1,36 +1,40 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include <features/zcr.h>
-using namespace features;
-using itpp::vec;
+#include "zcr.h"
 
-#include <itpp/base/math/elem_math.h>
+#include <itpp/itbase.h>
+using itpp::vec;
 
 #define RLOG_COMPONENT "zcr"
 #include <rlog/rlog.h>
 
 ZCR::ZCR(int samplerate) : Feature(samplerate, TEMPORAL) {
-    setName("ZCR");
+    name = "ZCR";
 }
 
 ZCR::~ZCR() {}
+
+static const int INDEX = 0;
 
 void 
 ZCR::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
 
-    vec sgn = itpp::sign(frame); 
+    // get the sign
+    vec sign = itpp::sign(frame); 
     
-    double cont = 0;
+    // differentiate
+    int cont = 0;
     for (int  i = 0; i < len - 2; i++) {
-        if ( (sgn[i+1] - sgn[i]) != 0 )
+        int diff = sign[i] - sign[i + 1];
+        // count non-zero elements
+        if (diff != 0)
              cont++;
     }
 
-    double zcr = cont / len * samplerate;
-    
-    features = itpp::concat(features, zcr); 
+    double zcr = static_cast<double>(cont) / len * samplerate;
+    features[INDEX] = zcr; 
 }

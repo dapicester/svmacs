@@ -1,37 +1,26 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Paolo D'Apice                                   *
+ *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
-#include <cli/svmaccli.h>
-using namespace cli;
 
-#include <gui/svmacgui.h>
+#include "cli/svmaccli.h"
 
 #define RLOG_COMPONENT "main"
 #include <rlog/rlog.h>
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
-
-#include <QApplication>
-
-#include <iostream>
-#include <string>
-
-using namespace std;
 using namespace rlog;
 
-void usage(const char* s);
-void initRlog(int argc, char** argv);
+#include <boost/program_options.hpp>
+namespace po = boost::program_options;
+
+#include <iostream>
 
 /**
- @brief The application entry point.
- 
- It sets up the loggers, parse the command line arguments 
- and instantiate either the CLI or the GUI.
- 
- @author Paolo D'Apice
+ *  @brief The application CLI.
+ *  @author Paolo D'Apice
  */
-int main(int argc, char *argv[]) {
+int main(int argc, char** argv) {
     // initialize logging
     RLogInit(argc, argv);
     StdioNode log;
@@ -41,67 +30,60 @@ int main(int argc, char *argv[]) {
     log.subscribeTo( GetGlobalChannel("info") );
     log.subscribeTo( GetGlobalChannel("warning") );
     log.subscribeTo( GetGlobalChannel("error") );
+    
+    // Declare the supported options.
+    float length = 1.0;
+    float overlap = 0.0;
+
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help", "produce help message\n")
+        ("length,N", po::value<float>(), //(&length)->default_value(1.0), 
+                   "set frame length (in seconds),\ndefaults to 1 second\n")
+        ("overlap,R", po::value<float>(), //(&overlap)->default_value(0.0),
+                    "set frames overlapping ratio (percentage),\ndefaults to 0 %%\n")
+    ;
+    
+    // parsing command line
+    po::variables_map vm;
+    try {
+        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::notify(vm);
+    } catch (po::error& e) {
+        rError("Error: %s@", e.what());
+        return 1;
+    }
+    
+    if (vm.count("help")) {
+        std::cout << desc << std::endl;
+        return 1;
+    }
+
+    // TODO check arguments
+    if (vm.count("length")) {
+        length = vm["length"].as<float>();
+        rInfo("frame length set to %.2f seconds", length);
+    } else {
+        rInfo("using default frame length: %.2f seconds", length);
+    }
+    
+    if (vm.count("overlap")) {
+        overlap = vm["overlap"].as<float>();
+        rInfo("frames overlap set to %.2f %%", overlap);
+    } else {
+        rInfo("using default frame overlap: %.2f %%", overlap);
+    }
      
-    // check arguments 
-    if (argc > 4) {
-        rDebug("too many arguments (%i)", argc);
-        usage(argv[0]); 
-        exit(1);
+    rInfo("Launching the CLI interface ...");
+    SvmacCli* cli = new SvmacCli;
+    try {
+        cli->start(length, overlap);
+    } catch (std::runtime_error& e) {
+        rError("Error: %s", e.what());
     }
+  
+    delete cli;
+    rInfo("Bye!");
     
-    string interface; 
-    if (argc == 1) {
-        rDebug("no arguments");
-        interface = "cli";
-    } else {
-        interface = argv[1]; 
-    }
-    
-    if ((interface.compare("gui") != 0) && (interface.compare("cli") != 0)) {
-        rDebug("wrong argument ('%s')", argv[1]);
-        usage(argv[0]); 
-        exit(1);
-    }
-    
-    // launch the application
-    if (interface.compare("cli") == 0) {
-        /* CLI */
-        float N = 0.5, R = 0.25;
-        if (argc > 2) {
-            N = atof(argv[2]);
-            if (argc > 3) {
-                R = atof(argv[3]);
-            }
-        }
-        rInfo("frame length N = %f seconds", N);
-        rInfo("overlapping  R = %f percent", R*100);
-        
-        rInfo("Launching the CLI interface ...");
-        SvmacCli* cli = SvmacCli::getInstance();
-        cli->mainLoop(N,R);
-        return 0;
-    } else {
-        /* GUI */
-        rInfo("Launching the GUI interface ...");
-        Q_INIT_RESOURCE(application);
-        QApplication app(argc, argv);
-        SvmacGui* gui = new SvmacGui;
-        gui->show();
-        return app.exec();
-    }
+    return 0;
 };
-
-/// Print the launching parameters
-void usage(const char* s) {
-//TODO usare opzioni del tipo [-r overlap -n size]
-    cout << "Usage: " << s << " [interface] [size] [overlap]" << endl;
-    cout << "Arguments" << endl;
-    cout << "  interface   select the user interface, values are:" << endl;
-    cout << "                gui  " << endl;
-    cout << "                cli  [default]" << endl;
-    cout << "  size        frame length in seconds (N)" << endl;
-    cout << "  overlap     percentage of overlapping (R)" << endl;
-    cout << endl;
-}
-
-
