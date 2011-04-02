@@ -24,19 +24,19 @@ static const int INDEX = 4;
 
 void SRF::extract(const vec& spectrum, vec& features) const {
     const int len = spectrum.length();
-    
+
     vec spectrum2 = itpp::sqr(itpp::abs(spectrum)); // TODO togliere abs?
     double threshold = ALPHA * itpp::sum(spectrum2);
-    
+
     double K = 0.0;
     for (int k = 1; k < len; k++) {
         double summ = itpp::sum(spectrum2.left(k));
-        //if ( summ > threshold) {
+        //if ( summ > threshold) { XXX: this is correct
         if (summ < threshold) {
              K = k;
              break;
         }
     }
-    
+
     features[4] = K;
 }

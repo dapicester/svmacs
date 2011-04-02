@@ -22,24 +22,24 @@ static const int INDEX = 2;
 
 void ASS::extract(const vec& spectrum, vec& features) const {
     const int len = spectrum.length() - 1;
-    
+
     // discard the 0-bin frequency
     vec aspectrum = abs(spectrum.right(len));
 
     double summ = itpp::sum(aspectrum);
     vec bins = linvec(1, len);
-    
+
     double centroid = 0.0;
     double spread = 0.0;
     if (summ > 0.0) {
-        centroid = itpp::sum( 
-                              itpp::elem_mult(bins, aspectrum) 
+        centroid = itpp::sum(
+                              itpp::elem_mult(bins, aspectrum)
                           ) / summ;
-        spread = itpp::sum( 
-                            itpp::elem_mult( itpp::sqr(bins - centroid), aspectrum) 
+        spread = itpp::sum(
+                            itpp::elem_mult( itpp::sqr(bins - centroid), aspectrum)
                         )/summ;
     }
-    
-    features[INDEX] = centroid;
-    features[INDEX + 1] = spread;
+
+    features[INDEX] = spread;
+    features[INDEX + 1] = centroid;
 }
