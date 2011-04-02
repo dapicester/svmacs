@@ -36,9 +36,11 @@ private:
     /** Extract data. */
     itpp::vec extract(const testData& input) const;
 
+#ifdef ENABLE_REGRESSION
     /** Perform regression test on actual feature extractor. */
     void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const;
-
+#endif
+    
     double sampleRate;
     double nfft;
     testData signal;

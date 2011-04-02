@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-message (STATUS "Tests")
+message (STATUS "Tests:")
 enable_testing()
 
 set(CMAKE_VERBOSE_MAKEFILE OFF)
@@ -56,6 +56,7 @@ link_libraries(cppunit rlog itpp svm jackcpp jack rt pthread ${Boost_LIBRARIES})
 #set(ENABLE_LIB_TEST true)
 #set(ENABLE_CORE_TEST true)
 #set(ENABLE_FEATURE_TEST true)
+#set(ENABLE_REGRESSION_TEST true)
 #set(ENABLE_MATLAB_TEST)
 
 #file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "core/*Test.cpp")
@@ -138,12 +139,19 @@ endif()
 if (ENABLE_FEATURE_TEST)
     message(STATUS "features tests enabled")
 
+    if (ENABLE_REGRESSION_TEST)
+        message(STATUS "features regression tests enabled")
+        add_definitions(-DENABLE_REGRESSION)
+    else()
+        message(STATUS "features regression tests disabled")
+    endif()
+
     set(TEST_FEATURES
-        testRunner.cpp
-        features/FeatureTester.cpp
-        utils/testUtils.cpp
-        ${SOURCE_DIR}/features/feature.cpp
-        ${SOURCE_DIR}/utils/utils.cpp)
+      testRunner.cpp
+      features/FeatureTester.cpp
+      utils/testUtils.cpp
+      ${SOURCE_DIR}/features/feature.cpp
+      ${SOURCE_DIR}/utils/utils.cpp)
 
     add_executable(ZcrTest
       features/ZcrTest.cpp
@@ -191,12 +199,12 @@ else()
 endif()
 
 if (ENABLE_MATLAB_TEST)
-    message(STATUS "features regression tests enabled")
+    message(STATUS "matlab test tool enabled")
 
     add_executable(testSignal
       matlab/testSignal.cpp
       utils/testUtils.cpp
       ${SOURCE_DIR}/utils/utils.cpp)
 else()
-    message(STATUS "skipping features regression tests")
+    message(STATUS "matlab test tool not enabled")
 endif()

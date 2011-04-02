@@ -1,18 +1,21 @@
 #include "FeatureTester.h"
 #include "features/feature.h"
 #include "utils/testUtils.h"
-#include "utils/path.h"
 
-using namespace itpp;
+#ifdef ENABLE_REGRESSION
+    #include "utils/path.h"
+    const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
+    const std::string SIGNAL_FILE = PATH + "test/matlab/signal.it";
+#else
+    #include "utils/utils.h"
+#endif
 
 CPPUNIT_TEST_SUITE_REGISTRATION(FeatureTest);
 
-const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
-const std::string SIGNAL_FILE = PATH + "test/matlab/signal.it";
+using namespace itpp;
 
 void FeatureTest::setUp() {
-    feature = setFeature();
-
+#ifdef ENABLE_REGRESSION
     it_file file;
 
     file.open(SIGNAL_FILE);
@@ -28,6 +31,19 @@ void FeatureTest::setUp() {
     file >> Name("featuresSignal") >> signal.expected;
     file >> Name("featuresSilence") >> silence.expected;
     file.close();
+#else
+    sampleRate = 22050;
+    nfft = 1024;
+
+    vec time = getTime(0, 2 - 1/nfft, 1/nfft);
+    silence.samples = getSilence(time);
+    silence.spectrum = getSpectrum(silence.samples, nfft);
+
+    signal.samples = getSignal(time, 3.5, 2.0);
+    signal.spectrum = getSpectrum(signal.samples, nfft);
+#endif
+
+    feature = setFeature();
 }
 
 void FeatureTest::tearDown() {
@@ -38,12 +54,16 @@ static const int FEATURES = 12;
 
 void FeatureTest::testSignal() {
     vec data = extract(signal);
+#ifdef ENABLE_REGRESSION
     doRegressionTest(signal.expected, data);
+#endif
 }
 
 void FeatureTest::testSilence() {
     vec data = extract(silence);
+#ifdef ENABLE_REGRESSION
     doRegressionTest(silence.expected, data);
+#endif
 }
 
 vec FeatureTest::extract(const testData& input) const {

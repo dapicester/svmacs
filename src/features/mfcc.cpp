@@ -29,7 +29,7 @@ static const int INDEX = 6;
 void MFCC::initFilterBank() {
     const double freqMin = double(0);
     const double freqMax = double(samplerate / 2);
-    
+
     mat wts(nfilters, nfft);
     wts.zeros();
 
@@ -45,13 +45,13 @@ void MFCC::initFilterBank() {
     vec bin_freqs = 700 * ( itpp::pow10((
                                       melMin + tmp / (nfilters + 1) * (melMax - melMin)
                                 ) / 2595 ) - 1 );
-    
+
     //vec bins = itpp::round(bin_freqs / samplerate * (nfft - 1)); FIXME: verificare
 
     for (int i = 0; i < nfilters; i++) {
         itpp::ivec idx = "0 1 2";
         vec freqs = bin_freqs(idx + i);
-        
+
         // lower and upper slopes for all bins
         vec loslope = (fft_freqs - freqs[0]) / (freqs[1] - freqs[0]);
         vec hislope = (freqs[2] - fft_freqs) / (freqs[2] - freqs[1]);
@@ -76,7 +76,7 @@ void MFCC::initFilterBank() {
             wts.set(i, j, 0.0);
         }
     }
-    
+
     filterBank = wts;
 }
 
