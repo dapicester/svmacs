@@ -1,10 +1,17 @@
 #include "FeatureTester.h"
 #include "features/ass.h"
 
+#include <itpp/itcomm.h>
+using namespace itpp;
+
 Feature* FeatureTest::setFeature() {
-    return new ASS(SAMPLE_RATE);
+    return new ASS(sampleRate);
 }
 
-void FeatureTest::doRegressionTest() {
-    // TODO compare C++ and Matlab
+static const int INDEX = 2;
+
+void FeatureTest::doRegressionTest(const vec& expected, const vec& data) const {
+    CPPUNIT_ASSERT_EQUAL(expected[INDEX], data[INDEX]);
+    CPPUNIT_ASSERT_EQUAL(expected[INDEX + 1], data[INDEX + 1]);
 }
+

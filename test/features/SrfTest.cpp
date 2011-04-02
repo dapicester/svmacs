@@ -2,9 +2,11 @@
 #include "features/srf.h"
 
 Feature* FeatureTest::setFeature() {
-    return new SRF(SAMPLE_RATE);
+    return new SRF(sampleRate);
 }
 
-void FeatureTest::doRegressionTest() {
-    // TODO compare C++ and Matlab
+static const int INDEX = 4;
+
+void FeatureTest::doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const {
+    CPPUNIT_ASSERT_EQUAL(expected[INDEX], data[INDEX]);
 }

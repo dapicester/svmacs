@@ -3,13 +3,19 @@
 
 class Feature;
 
+#include <itpp/itbase.h>
 #include <cppunit/extensions/HelperMacros.h>
+
+typedef struct {
+    itpp::vec samples;
+    itpp::vec spectrum;
+    itpp::vec expected;
+} testData;
 
 class FeatureTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(FeatureTest);
     CPPUNIT_TEST(testSilence);
     CPPUNIT_TEST(testSignal);
-    CPPUNIT_TEST(testRegression);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -19,17 +25,24 @@ public:
 protected:
     void testSilence();
     void testSignal();
-    void testRegression();
-    
-    static const int SAMPLE_RATE = 1024;
 
 private:
+    /** Pointer to the actual feature extractor */
     Feature* feature;
-    
-    /// Obtain a pointer to a concrete feature extractor
+
+    /** Obtain a pointer to a concrete feature extractor. */
     Feature* setFeature();
-    /// Perform regression test on actual feature extractor
-    void doRegressionTest();
+
+    /** Extract data. */
+    itpp::vec extract(const testData& input) const;
+
+    /** Perform regression test on actual feature extractor. */
+    void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const;
+
+    double sampleRate;
+    double nfft;
+    testData signal;
+    testData silence;
 };
 
 #endif

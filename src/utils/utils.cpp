@@ -5,15 +5,15 @@
 
 #include "utils.h"
 
-#include <itpp/itbase.h>
+#include <itpp/itsignal.h>
 #include <iostream>
 
-/** 
- * Return a mirrored copy of the input vector. 
+/**
+ * Return a mirrored copy of the input vector.
  */
-//inline 
+//inline
 itpp::vec flipud(const itpp::vec& input) {
-    const int len = input.length(); 
+    const int len = input.length();
     itpp::vec output(len);
     for (int i = 0, j = len - 1; i<len; i++, j--) {
         output(i) = input(j);
@@ -22,50 +22,50 @@ itpp::vec flipud(const itpp::vec& input) {
 }
 
 /**
- * Find indices of nonzero elements. 
+ * Find indices of nonzero elements.
  */
-//inline 
+//inline
 itpp::ivec find(const itpp::vec& input) {
-    const int len = input.length(); 
+    const int len = input.length();
     itpp::ivec idx;
     for (int i = 0; i < len; i++) {
         if (input[i] != 0.0) {
-            idx = concat(idx, i);
+            idx = itpp::concat(idx, i);
         }
     }
     return idx;
 }
 
-/** 
- * Return difference and approximate derivative. 
+/**
+ * Return difference and approximate derivative.
  */
-//inline 
+//inline
 itpp::vec diff(const itpp::vec& input) {
-    const int len = input.length() - 1; 
+    const int len = input.length() - 1;
     itpp::vec out(len);
     for (int i = 0; i < len; i++)
         out[i] = input[i + 1] - input[i];
     return out;
 }
 
-/** 
+/**
  * Find local maxima indices.
  */
-//inline 
+//inline
 itpp::ivec maxima(const itpp::vec& input) {
-    itpp::vec updown = sign(diff(input));
-    
-    itpp::vec flags; 
-    flags = concat(flags, static_cast<double>(updown[0] < 0));
-    flags = concat(flags, to_vec(diff(updown) < 0));
-    flags = concat(flags, static_cast<double>(updown[updown.length() - 1] > 0));
+    itpp::vec updown = itpp::sign(diff(input));
+
+    itpp::vec flags;
+    flags = itpp::concat(flags, static_cast<double>(updown[0] < 0));
+    flags = itpp::concat(flags, itpp::to_vec(diff(updown) < 0));
+    flags = itpp::concat(flags, static_cast<double>(updown[updown.length() - 1] > 0));
     return itpp::to_ivec(find(flags));
 }
 
-/** 
- * Create a linear vector. 
+/**
+ * Create a linear vector.
  */
-//inline 
+//inline
 itpp::vec linvec(const int start, const int stop) {
     const int size = stop - start + 1;
     itpp::vec out(size);
@@ -74,18 +74,7 @@ itpp::vec linvec(const int start, const int stop) {
     return out;
 }
 
-/*
-inline 
-const std::string vec2str(const itpp::vec& input) {
-    std::ostringstream os(std::ostringstream::out);
-    os << input;
-    return os.str();
+//inline
+itpp::vec getSpectrum(const itpp::vec& input, const int& nfft) {
+    return itpp::abs( itpp::fft( itpp::to_cvec(input), nfft) ).left(nfft/2);
 }
-
-inline 
-const std::string mat2str(const itpp::mat& input) {
-    std::ostringstream os(std::ostringstream::out);
-    os << input;
-    return os.str();
-}
- */

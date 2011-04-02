@@ -10,6 +10,7 @@ class libitppTest : public CPPUNIT_NS::TestCase {
     CPPUNIT_TEST(testEquals);
     CPPUNIT_TEST(testWriteFile);
     CPPUNIT_TEST(testReadFile);
+    //CPPUNIT_TEST(testRead);
     CPPUNIT_TEST_SUITE_END();
 
 private:
@@ -18,6 +19,7 @@ private:
     void testEquals();
     void testWriteFile();
     void testReadFile();
+    void testRead();
 };
 
 
