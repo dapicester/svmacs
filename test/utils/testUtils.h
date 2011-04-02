@@ -5,14 +5,16 @@
 #include <iostream>
 
 /**
- * Print on standard output the content of a vector. 
+ * Print on standard output the content of a vector.
  */
-void print(const std::string& name, const itpp::vec& input);
+void print(const std::string& name,
+           const itpp::vec& input);
 
 /**
- * Print on standard output the content of a matrix. 
+ * Print on standard output the content of a matrix.
  */
-void print(const std::string& name, const itpp::mat& input);
+void print(const std::string& name,
+           const itpp::mat& input);
 
 /**
  * Get a linear vector to be used as a time vector.
@@ -20,7 +22,9 @@ void print(const std::string& name, const itpp::mat& input);
  * @param end the end value
  * @param step step size
  */
-itpp::vec getTime(const double start, const double end, const double step = 1.0);
+itpp::vec getTime(const double& start,
+                  const double& end,
+                  const double& step = 1.0);
 
 /**
  * Get a silence signal.
@@ -40,13 +44,16 @@ itpp::vec getSilence(const itpp::vec& time);
  * @param time the time vector
  * @return a vector representing a test signal
  */
-itpp::vec getSignal(const itpp::vec& time);
+itpp::vec getSignal(const itpp::vec& time,
+                    const double& frequency = 1.0,
+                    const double& noise = 0.0);
 
 /**
  * Get a test signal.
  * @return a vector representing a test signal
  */
-itpp::vec getSignal();
+itpp::vec getSignal(const double& frequency = 1.0,
+                    const double& noise = 0.0);
 
 /**
  * Test for arrays equality.

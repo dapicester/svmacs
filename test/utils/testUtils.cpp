@@ -13,17 +13,19 @@ print(const std::string& name, const itpp::mat& input) {
 
 const int DEFAULT_LENGTH = 128;
 
-itpp::vec getTime(const double start, const double end, const double step) {
+itpp::vec getTime(const double& start,
+                  const double& end,
+                  const double& step) {
     std::string s;
     if (step != 1.0) {
-        s = boost::lexical_cast<std::string>(start) 
-          + ":" + boost::lexical_cast<std::string>(step) 
+        s = boost::lexical_cast<std::string>(start)
+          + ":" + boost::lexical_cast<std::string>(step)
           + ":" + boost::lexical_cast<std::string>(end) ;
     } else {
-        s = boost::lexical_cast<std::string>(start) 
+        s = boost::lexical_cast<std::string>(start)
           + ":" + boost::lexical_cast<std::string>(end) ;
     }
-    
+
     itpp::vec out(s);
     return out;
 }
@@ -40,14 +42,14 @@ itpp::vec getSilence(const itpp::vec& time) {
     return silence;
 }
 
-itpp::vec getSignal() {
+itpp::vec getSignal(const double& frequency, const double& noise) {
     const itpp::vec time = getTime(0, DEFAULT_LENGTH);
-    return getSignal(time);
+    return getSignal(time, frequency, noise);
 }
 
-itpp::vec getSignal(const itpp::vec& time) {
-    const double noise = 0.0;
-    const double frequency = 1.0;
+itpp::vec getSignal(const itpp::vec& time,
+                    const double& frequency,
+                    const double& noise) {
     return itpp::sin(itpp::m_2pi * frequency * time ) + sqrt(noise) * itpp::randn(time.length());
 }
 
