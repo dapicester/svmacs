@@ -2,6 +2,11 @@
 #include "boost/lexical_cast.hpp"
 
 void
+print(const std::string& msg) {
+  std::cout << msg << std::endl;
+}
+
+void
 print(const std::string& name, const itpp::vec& input) {
   std::cout << "\n" << name << ": " << input << std::endl;
 }

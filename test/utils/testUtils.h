@@ -5,6 +5,11 @@
 #include <iostream>
 
 /**
+ * Print a message on standard output.
+ */
+void print(const std::string& msg);
+
+/**
  * Print on standard output the content of a vector.
  */
 void print(const std::string& name,
