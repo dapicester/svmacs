@@ -41,8 +41,8 @@ include_directories(${Boost_INCLUDE_DIRS})
 set(SOURCE_DIR
     ${CMAKE_SOURCE_DIR}/src)
 
-set(INCLUDE_DIR 
-    ${CMAKE_SOURCE_DIR}/include 
+set(INCLUDE_DIR
+    ${CMAKE_SOURCE_DIR}/include
     ${SOURCE_DIR})
 include_directories(${INCLUDE_DIR})
 
@@ -53,8 +53,15 @@ set(LIBRARY_DIR ${CMAKE_SOURCE_DIR}/lib ${PROJECT_SOURCE_DIR}/lib)
 link_directories(${LIBRARY_DIR})
 link_libraries(cppunit rlog itpp svm jackcpp jack rt pthread ${Boost_LIBRARIES})
 
-set(ENABLE_CORE_TEST true)
-set(ENABLE_FEATURE_TEST true)
+if(NOT ENABLE_CORE_TEST)
+    set(ENABLE_CORE_TEST true)
+endif()
+if(NOT ENABLE_FEATURE_TEST)
+    set(ENABLE_FEATURE_TEST true)
+endif()
+IF(NOT ENABLE_FEATURE_REGRESSION_TEST)
+    set(ENABLE_FEATURE_REGRESSION_TEST)
+endif()
 
 #file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "core/*Test.cpp")
 #foreach(TEST ${UNITTESTS_SRCS})
@@ -66,18 +73,20 @@ set(ENABLE_FEATURE_TEST true)
 #endforeach(TEST)
 
 if (ENABLE_CORE_TEST)
+    message(STATUS "core tests enabled")
+
     add_executable(CaseTest core/CaseTest.cpp testRunner.cpp)
     add_test(NAME Case COMMAND CaseTest)
     message(STATUS "* added test: core/CaseTest")
-    
+
     add_executable(FixtureTest core/FixtureTest.cpp testRunner.cpp)
     add_test(NAME Fixture COMMAND FixtureTest)
     message(STATUS "* added test: core/FixtureTest")
-    
+
     add_executable(libitppTest core/libitppTest.cpp testRunner.cpp utils/testUtils.cpp)
     add_test(NAME libitpp COMMAND libitppTest)
     message(STATUS "* added test: core/libitppTest.cpp")
-    
+
     add_executable(libsvmTest core/libsvmTest.cpp testRunner.cpp)
     add_test(NAME libsvm COMMAND libsvmTest)
     message(STATUS "* added test: core/libsvmTest.cpp")
@@ -85,11 +94,11 @@ if (ENABLE_CORE_TEST)
     add_executable(signalsTest core/signalsTest.cpp testRunner.cpp)
     add_test(NAME signals COMMAND signalsTest)
     message(STATUS "* added test: core/signalsTest.cpp")
-    
+
     add_executable(JackRingBufferTest core/JackRingBufferTest.cpp testRunner.cpp)
     add_test(NAME JackRingBuffer COMMAND JackRingBufferTest)
     message(STATUS "* added test: core/JackRingBufferTest.cpp")
-    
+
     add_executable(RingBufferReadTest core/RingBufferReadTest.cpp testRunner.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp utils/testUtils.cpp)
     add_test(NAME RingBufferRead COMMAND RingBufferReadTest)
     message(STATUS "* added test: core/RingBufferReadTest.cpp")
@@ -102,49 +111,51 @@ else()
 endif()
 
 if (ENABLE_FEATURE_TEST)
-    set(TEST_FEATURES 
-        testRunner.cpp 
+    message(STATUS "features tests enabled")
+
+    set(TEST_FEATURES
+        testRunner.cpp
         features/FeatureTester.cpp
         utils/testUtils.cpp
         ${SOURCE_DIR}/features/feature.cpp
         ${SOURCE_DIR}/utils/utils.cpp)
 
-    add_executable(ZcrTest 
+    add_executable(ZcrTest
       features/ZcrTest.cpp
       ${SOURCE_DIR}/features/zcr.cpp
       ${TEST_FEATURES})
     add_test(NAME zcr COMMAND ZcrTest)
     message(STATUS "* added test: features/ZcrTest")
 
-    add_executable(EnergyTest 
+    add_executable(EnergyTest
       features/EnergyTest.cpp
       ${SOURCE_DIR}/features/energy.cpp
       ${TEST_FEATURES})
     add_test(NAME energy COMMAND EnergyTest)
     message(STATUS "* added test: features/EnergyTest")
 
-    add_executable(AssTest 
+    add_executable(AssTest
       features/AssTest.cpp
       ${SOURCE_DIR}/features/ass.cpp
       ${TEST_FEATURES})
     add_test(NAME ass COMMAND AssTest)
     message(STATUS "* added test: features/AssTest")
 
-    add_executable(SrfTest 
+    add_executable(SrfTest
       features/SrfTest.cpp
       ${SOURCE_DIR}/features/srf.cpp
       ${TEST_FEATURES})
     add_test(NAME srf COMMAND SrfTest)
     message(STATUS "* added test: features/SrfTest")
 
-    add_executable(HrTest 
+    add_executable(HrTest
       features/HrTest.cpp
       ${SOURCE_DIR}/features/hr.cpp
       ${TEST_FEATURES})
     add_test(NAME hr COMMAND HrTest)
     message(STATUS "* added test: features/HrTest")
 
-    add_executable(MfccTest 
+    add_executable(MfccTest
       features/MfccTest.cpp
       ${SOURCE_DIR}/features/mfcc.cpp
       ${TEST_FEATURES})
@@ -154,8 +165,20 @@ else()
     message(STATUS "skipping features tests")
 endif()
 
+if (ENABLE_FEATURE_REGRESSION_TEST)
+    message(STATUS "features regression tests enabled")
+
+    add_executable(testSignal
+      matlab/testSignal.cpp
+      utils/testUtils.cpp)
+else()
+    message(STATUS "skipping features regression tests")
+endif()
+
+# TODO: gruppi processor test e classification test
+
 add_executable(ProcessorTest
-  testRunner.cpp 
+  testRunner.cpp
   processor/ProcessorTest.cpp
   utils/testUtils.cpp
   ${SOURCE_DIR}/processor/processor.cpp
