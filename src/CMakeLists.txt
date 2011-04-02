@@ -9,8 +9,8 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # dependencies #
 ################
 
-include_directories("${PROJECT_SOURCE_DIR}/lib")
-link_directories("${PROJECT_SOURCE_DIR}/lib")
+include_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
+link_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
 set(JackCpp_LIBRARIES "jackcpp")
 
 find_package( Boost 1.46.0 COMPONENTS signals program_options REQUIRED )

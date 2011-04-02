@@ -1,4 +1,4 @@
-project (svmacs)
+project (svmacs CXX)
 
 cmake_minimum_required(VERSION 2.8.0)
 
@@ -12,8 +12,8 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 #include(MacroOutOfSourceBuild)
 #macro_ensure_out_of_source_build("${PROJECT_NAME} requires an out of source build.")
 
-# build jackcpp
-add_subdirectory(lib)
+# build libjackcpp
+add_subdirectory(libjackcpp)
 
 # build svmacs
 add_subdirectory(src)
