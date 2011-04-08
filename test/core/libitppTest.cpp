@@ -34,6 +34,8 @@ void libitppTest::testEquals() {
     mat c = "1 2; 3 4";
 
     CPPUNIT_ASSERT ( a == a);
+    CPPUNIT_ASSERT_EQUAL(a, a);
+
     CPPUNIT_ASSERT_ASSERTION_FAIL( CPPUNIT_ASSERT( a == b) );
     CPPUNIT_ASSERT_ASSERTION_PASS( CPPUNIT_ASSERT( a == c) );
 }
@@ -75,10 +77,17 @@ void libitppTest::testReadFile() {
 static const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
 
 void libitppTest::testRead() {
-    vec sig;
-    vec sil;
+    vec sig, sil;
+    mat wts;
 
-    it_file file(MATLAB_FILE);
+    it_file file;
+    file.open(MATLAB_FILE);
+    std::cout << "\n* file " << MATLAB_FILE<< " opened" << std::endl;
+
     file >> Name("featuresSignal") >> sig;
     file >> Name("featuresSilence") >> sil;
+    std::cout << "* feature vectors ok" << std::endl;
+
+    file >> Name("wts") >> wts;
+    std::cout << "* filter-bank matrix ok" << std::endl;
 }
