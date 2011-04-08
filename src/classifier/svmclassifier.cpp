@@ -18,10 +18,10 @@ static const std::string MC = "model";
 SvmClassifier::SvmClassifier() : Classifier() {
     rDebug("loading Detection model ...");
     m1 = readModel(M1);
-    
+
     rDebug("loading Classification model ...");
     model = readModel(MC);
-    
+
     rInfo("SvmClassifier created");
 }
 
@@ -42,7 +42,7 @@ svm_model* SvmClassifier::readModel(const std::string& name) throw (BadModel) {
     return model;
 }
 
-EventType SvmClassifier::classify(itpp::vec& features) const { 
+EventType SvmClassifier::classify(itpp::vec& features) const {
     //rDebug("feature vector: %s", itpp::to_str(features).c_str());
 
     //rDebug("scaling data");
@@ -69,26 +69,26 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
        rDebug("array[%d]:  index=%d  value=%f", i, array[i].index, array[i].value);
     }
 #endif
-    
-#if 1 // enable/disable detection step
+
+#if 1 /* enable/disable detection step */
     int detected = svm_predict(m1, array);
-    rDebug("detection = %d", detected);
-#else // classification without detection
+    rDebug("detection = %s", (detected == 1) ? "yes" : "no");
+#else /* classification without detection */
     int detected = 1;
 #endif
 
     EventType t = NONE;
-#if 1 // enable/disable classification step
-    if (detected == 1) { 
+#if 1 /* enable/disable classification step */
+    if (detected == 1) {
         int type = svm_predict(model, array);
         rDebug("classification = %d", type);
         switch (type) {
         case GUNSHOT: t = GUNSHOT; break;
         case SCREAM:  t = SCREAM;  break;
         case GLASS:   t = GLASS;   break;
-        } 
+        }
     }
 #endif
-    
+
     return t;
 }
