@@ -78,9 +78,10 @@ set(svmacs_SRCS
     features/zcr.cpp
     features/energy.cpp
     features/ass.cpp
-    features/srf.cpp 
-    features/hr.cpp 
+    features/srf.cpp
+    features/hr.cpp
     features/mfcc.cpp
+    features/melfb.cpp
     processor/processor.cpp
     model/event.cpp
     classifier/svmclassifier.cpp
@@ -89,7 +90,7 @@ set(svmacs_SRCS
     engine/engine.cpp
     cli/svmaccli.cpp
     utils/utils.cpp
-    main.cpp 
+    main.cpp
 )
 
 ###############

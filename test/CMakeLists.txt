@@ -121,6 +121,7 @@ if (ENABLE_CORE_TEST)
       ${SOURCE_DIR}/features/srf.cpp
       ${SOURCE_DIR}/features/hr.cpp
       ${SOURCE_DIR}/features/mfcc.cpp
+      ${SOURCE_DIR}/features/melfb.cpp
       ${SOURCE_DIR}/utils/utils.cpp)
     add_test(NAME processor COMMAND ProcessorTest)
     message(STATUS "* added test: processor/ProcessorTest")
@@ -191,6 +192,7 @@ if (ENABLE_FEATURE_TEST)
     add_executable(MfccTest
       features/MfccTest.cpp
       ${SOURCE_DIR}/features/mfcc.cpp
+      ${SOURCE_DIR}/features/melfb.cpp
       ${TEST_FEATURES})
     add_test(NAME mfcc COMMAND MfccTest)
     message(STATUS "* added test: features/MfccTest")

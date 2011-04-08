@@ -17,7 +17,7 @@ typedef struct {
 
 class FeatureTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(FeatureTest);
-    CPPUNIT_TEST(testSilence);
+    //CPPUNIT_TEST(testSilence);
     CPPUNIT_TEST(testSignal);
     CPPUNIT_TEST_SUITE_END();
 
@@ -25,11 +25,12 @@ public:
     void setUp();
     void tearDown();
 
+    /** for double equality */
+    static const double DELTA;
+
 protected:
     void testSilence();
     void testSignal();
-
-    static const double DELTA;
 
 private:
     /** Pointer to the actual feature extractor */
@@ -50,6 +51,7 @@ private:
     double nfft;
     testData signal;
     testData silence;
+    itpp::mat filterBank; /* MFCC only */
 };
 
 #endif

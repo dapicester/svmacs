@@ -35,6 +35,7 @@ void FeatureTest::setUp() {
     file >> Name("featuresSignal") >> signal.expected;
     //file >> Name("featuresSilence") >> silence.expected; // FIXME: wrong type?
     silence.expected = zeros(1,12);
+    file >> Name("wts") >> filterBank;
     file.close();
 #else
     sampleRate = 22050;
