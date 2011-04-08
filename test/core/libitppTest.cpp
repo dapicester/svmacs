@@ -72,12 +72,13 @@ void libitppTest::testReadFile() {
     CPPUNIT_ASSERT_EQUAL(mat("1 2 3; 1 2 3"), m);
 }
 
-static const std::string MATLAB_FILE = PATH + "test/matlab/prova.it";
+static const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
 
-void libitppTest::testRead() { // FIXME: bug itpp?
-    double val;
+void libitppTest::testRead() {
+    vec sig;
+    vec sil;
 
     it_file file(MATLAB_FILE);
-    file >> Name("prova") >> val;
-
+    file >> Name("featuresSignal") >> sig;
+    file >> Name("featuresSilence") >> sil;
 }
