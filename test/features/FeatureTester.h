@@ -6,6 +6,9 @@ class Feature;
 #include <itpp/itbase.h>
 #include <cppunit/extensions/HelperMacros.h>
 
+#define RLOG_COMPONENT "featureTester"
+#include <rlog/rlog.h>
+
 typedef struct {
     itpp::vec samples;
     itpp::vec spectrum;
@@ -40,7 +43,7 @@ private:
     /** Perform regression test on actual feature extractor. */
     void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const;
 #endif
-    
+
     double sampleRate;
     double nfft;
     testData signal;

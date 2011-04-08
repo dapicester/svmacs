@@ -18,18 +18,21 @@ void FeatureTest::setUp() {
 #ifdef ENABLE_REGRESSION
     it_file file;
 
+    rDebug("loading signal file ...");
     file.open(SIGNAL_FILE);
     file >> Name("sampleRate") >> sampleRate;
     file >> Name("nfft") >> nfft;
     file >> Name("silence") >> silence.samples;
     file >> Name("silenceSpectrum") >> silence.spectrum;
     file >> Name("signal") >> signal.samples;
-    file >> Name("signalSpectrum") >> signal.samples;
+    file >> Name("signalSpectrum") >> signal.spectrum;
     file.close();
 
+    rDebug("loading features file ...");
     file.open(MATLAB_FILE);
     file >> Name("featuresSignal") >> signal.expected;
-    file >> Name("featuresSilence") >> silence.expected;
+    //file >> Name("featuresSilence") >> silence.expected; // FIXME: wrong type?
+    silence.expected = zeros(1,12);
     file.close();
 #else
     sampleRate = 22050;
@@ -53,15 +56,19 @@ void FeatureTest::tearDown() {
 static const int FEATURES = 12;
 
 void FeatureTest::testSignal() {
+    rDebug("extracting on signal ...");
     vec data = extract(signal);
 #ifdef ENABLE_REGRESSION
+    rDebug("regression test on signal ...");
     doRegressionTest(signal.expected, data);
 #endif
 }
 
 void FeatureTest::testSilence() {
+    rDebug("extracting on silence ...");
     vec data = extract(silence);
 #ifdef ENABLE_REGRESSION
+    rDebug("regression test on silence ...");
     doRegressionTest(silence.expected, data);
 #endif
 }
