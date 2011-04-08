@@ -13,7 +13,7 @@ static const int INDEX = 6;
 
 void FeatureTest::doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const {
     for (int i = 0; i < NCOEFF; i++) {
-        CPPUNIT_ASSERT_EQUAL(expected[INDEX + i], data[INDEX + i]);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX + i], data[INDEX + i], DELTA);
     }
 }
 #endif

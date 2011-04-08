@@ -12,8 +12,8 @@ Feature* FeatureTest::setFeature() {
 static const int INDEX = 2;
 
 void FeatureTest::doRegressionTest(const vec& expected, const vec& data) const {
-    CPPUNIT_ASSERT_EQUAL(expected[INDEX], data[INDEX]);
-    CPPUNIT_ASSERT_EQUAL(expected[INDEX + 1], data[INDEX + 1]);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX], data[INDEX], DELTA);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX + 1], data[INDEX + 1], DELTA);
 }
 
 #endif

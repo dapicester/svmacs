@@ -14,6 +14,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION(FeatureTest);
 
 using namespace itpp;
 
+const double FeatureTest::DELTA = 1e-9;
+
 void FeatureTest::setUp() {
 #ifdef ENABLE_REGRESSION
     it_file file;

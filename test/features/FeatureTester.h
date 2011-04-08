@@ -29,6 +29,8 @@ protected:
     void testSilence();
     void testSignal();
 
+    static const double DELTA;
+
 private:
     /** Pointer to the actual feature extractor */
     Feature* feature;
