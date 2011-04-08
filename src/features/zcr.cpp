@@ -19,22 +19,24 @@ ZCR::~ZCR() {}
 
 static const int INDEX = 0;
 
-void 
+void
 ZCR::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
 
     // get the sign
-    vec sign = itpp::sign(frame); 
-    
+    vec sign = itpp::sign(frame);
+    vec shft = itpp::concat(sign[0], sign.left(len - 1));
+
     // differentiate
     int cont = 0;
-    for (int  i = 0; i < len - 2; i++) {
-        int diff = sign[i] - sign[i + 1];
+    for (int  i = 0; i < len; i++) {
+        int diff = sign[i] - shft[i];
         // count non-zero elements
-        if (diff != 0)
-             cont++;
+        if (diff != 0) {
+            cont++;
+        }
     }
 
     double zcr = static_cast<double>(cont) / len * samplerate;
-    features[INDEX] = zcr; 
+    features[INDEX] = zcr;
 }
