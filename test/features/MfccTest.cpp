@@ -23,8 +23,8 @@ void testFilterBank(MFCC* mfcc, const itpp::mat& filterBank) {
     CPPUNIT_ASSERT_EQUAL_MESSAGE("cols", filterBank.cols(), wts.cols());
     CPPUNIT_ASSERT_EQUAL_MESSAGE("size", filterBank.size(), wts.size());
 
-    //CPPUNIT_ASSERT_EQUAL(filterBank, wts);
 #if 1
+    /* element-wise assertion */
     for (int r = 0; r < filterBank.rows(); r++) {
         for (int c = 0; c < filterBank.cols(); c++) {
             register string msg = "element (" + lexical_cast<string>(r) +
@@ -35,14 +35,20 @@ void testFilterBank(MFCC* mfcc, const itpp::mat& filterBank) {
                                              FeatureTest::DELTA);
         }
     }
+#else
+    /* matrix-wise assertion */
+    CPPUNIT_ASSERT_EQUAL(filterBank, wts);
 #endif
 }
 
 void FeatureTest::doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const {
     testFilterBank(dynamic_cast<MFCC*>(feature), filterBank);
-#if 0
+#if 1
     for (int i = 0; i < NCOEFF; i++) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX + i], data[INDEX + i], DELTA);
+        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("coeff" + lexical_cast<string>(i+1),
+                                        expected[INDEX + i],
+                                        data[INDEX + i],
+                                        DELTA);
     }
 #endif
 }

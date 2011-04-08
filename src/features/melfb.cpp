@@ -18,7 +18,20 @@ using boost::lexical_cast;
 static const int MEL_COEFF = 2595;
 static const int MEL_DEN = 700;
 
+#define LOAD_FILE
+
 void MFCC::initFilterBank() {
+#ifdef LOAD_FILE
+    std::string file_path = "/home/paolo/NetBeansProjects/svmacs/"
+                            "src/model/melfb.it";
+    rInfo("loading Mel FilterBank from file %s ...", file_path.c_str());
+
+    itpp::it_file file;
+    file.open(file_path);
+    file >> itpp::Name("wts") >> filterBank;
+    file.close();
+    rInfo("done");
+#else
     const double freqMin = double(0);
     const double freqMax = double(samplerate/2);
 
@@ -61,8 +74,11 @@ void MFCC::initFilterBank() {
         m2.set_row(1, itpp::min(m1));
 
         const vec row = itpp::max(m2);
+        //rDebug("row:\n%s", itpp::to_str(row).c_str());
+
         wts.set_row(i, row);
     }
     /* use only the 1st half of FFT */
     filterBank = wts.get_cols(0, nfft/2 - 1);
+#endif
 }

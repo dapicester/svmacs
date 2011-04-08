@@ -34,9 +34,9 @@ void MFCC::extract(const vec& spectrum, vec& features) const {
 
     /* declared as matrices but actually vectors */
     mat a = "0 : " + lexical_cast<std::string > (ncoeffs);
-    mat b = vec("1 : " + lexical_cast<std::string >(nfilters)) - 0.5;
+    mat b = "1 : " + lexical_cast<std::string >(nfilters);
 
-    mat arg = a.hermitian_transpose() * b * (itpp::pi / nfilters);
+    mat arg = a.transpose() * (b - 0.5) * (itpp::pi / nfilters);
     mat coeffs = itpp::cos(arg) * itpp::log10(energy);
 
     vec mfcc = coeffs.get_col(0);
