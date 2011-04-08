@@ -1,6 +1,7 @@
 #include "ProcessorTest.h"
 #include "processor/processor.h"
 #include "utils/testUtils.h"
+#include "utils/path.h"
 
 #include <itpp/itbase.h>
 using namespace itpp;
@@ -9,10 +10,10 @@ using namespace itpp;
 #include <rlog/rlog.h>
 
 /// Default sample rate
-static const int SAMPLE_RATE = 1024;      
-    
+static const int SAMPLE_RATE = 1024;
+
 CPPUNIT_TEST_SUITE_REGISTRATION( ProcessorTest );
-        
+
 void ProcessorTest::setUp() {
     processor = new Processor(SAMPLE_RATE);
 }
@@ -33,15 +34,14 @@ void ProcessorTest::testSignal() {
     print("feature vector", result);
 }
 
-static const std::string TEST_FILE = "/home/paolo/NetBeansProjects/svmacs2"
-                                     "/test/processor/test_signal.it";
+static const std::string TEST_FILE = PATH + "test/processor/test_signal.it";
 
 void ProcessorTest::testOnline() {
     it_file file(TEST_FILE);
     vec signal;
     file >> Name("test_signal") >> signal;
     CPPUNIT_ASSERT(signal.length() > 0);
-    
+
     int length = 1 * SAMPLE_RATE; // 1 second
     for (int i = 0; i + length < signal.length() ; i += length) {
         rDebug("reading samples [%d+%d]", i, length);
