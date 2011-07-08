@@ -59,6 +59,7 @@ endforeach(LIB)
 add_definitions(-Wall -W -pipe)
 add_definitions(-fbounds-check)
 
+option(DEBUG "Debug build" 0)
 if (DEBUG)
     message(STATUS "Enabling debugging symbols")
     set(CMAKE_BUILD_TYPE Debug)
@@ -67,6 +68,12 @@ if (DEBUG)
 else()
     set(CMAKE_BUILD_TYPE Release)
     message(STATUS "Release build")
+endif()
+
+option(MFCC_FILE "Load MFCC filter bank matrix from file" 1)
+if (MFCC_FILE)
+    message(STATUS "Using MFCC filter bank matrix file")
+    add_definitions(-DMFCC_FILE)
 endif()
 
 ###########
@@ -100,6 +107,7 @@ set(svmacs_SRCS
 set(svmacs_MODELS
     model/m1
     model/model
+    model/melfb.it
 )
 
 # For a large number of source files you can create it in a simpler way
@@ -110,19 +118,22 @@ set(svmacs_MODELS
 # binary #
 ##########
 
-add_executable(svmacs ${svmacs_SRCS})
-target_link_libraries(svmacs ${LIBS})
-
 # output dir
 set(BIN_DIR "${PROJECT_SOURCE_DIR}/bin")
 set(EXECUTABLE_OUTPUT_PATH ${BIN_DIR})
 
+set(CONFIG_DIR "\"${BIN_DIR}/\"")
+add_definitions(-DCONFIG_DIR=${CONFIG_DIR})
+
+add_executable(svmacs ${svmacs_SRCS})
+target_link_libraries(svmacs ${LIBS})
+
 add_custom_command(
     TARGET svmacs
     POST_BUILD
-    COMMAND cp ${svmacs_MODELS} ${BIN_DIR}
+    COMMAND cp ${svmacs_MODELS} ${CONFIG_DIR}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Copying model files to dir ${BIN_DIR} ..."
+    COMMENT "Copying model files ${svmacs_MODELS} to dir ${CONFIG_DIR} ..."
 )
 
 #################

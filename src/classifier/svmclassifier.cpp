@@ -12,8 +12,8 @@
 #define RLOG_COMPONENT "svmclassifier"
 #include <rlog/rlog.h>
 
-static const std::string M1 = "m1";
-static const std::string MC = "model";
+static const std::string M1 = std::string(CONFIG_DIR) + "m1";
+static const std::string MC = std::string(CONFIG_DIR) + "model";
 
 SvmClassifier::SvmClassifier() : Classifier() {
     rDebug("loading Detection model ...");

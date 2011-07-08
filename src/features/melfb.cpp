@@ -18,12 +18,9 @@ using boost::lexical_cast;
 static const int MEL_COEFF = 2595;
 static const int MEL_DEN = 700;
 
-#define LOAD_FILE
-
 void MFCC::initFilterBank() {
-#ifdef LOAD_FILE
-    std::string file_path = "/home/paolo/NetBeansProjects/svmacs/"
-                            "src/model/melfb.it";
+#ifdef MFCC_FILE /* load the filter bank matrix from file */
+    const std::string file_path = std::string(CONFIG_DIR) + "melfb.it";
     rInfo("loading Mel FilterBank from file %s ...", file_path.c_str());
 
     itpp::it_file file;
@@ -31,7 +28,7 @@ void MFCC::initFilterBank() {
     file >> itpp::Name("wts") >> filterBank;
     file.close();
     rInfo("done");
-#else
+#else /* compute the filter bank matrix */
     const double freqMin = double(0);
     const double freqMax = double(samplerate/2);
 
