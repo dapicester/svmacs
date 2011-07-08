@@ -13,7 +13,7 @@ featuresSignal(2) = energy(signal, sampleRate);
 [featuresSignal(3), featuresSignal(4)] = ass(signalSpectrum);
 featuresSignal(5) = srf(signalSpectrum);
 featuresSignal(6) = hr(signal);
-featuresSignal(7:end) = mfcc(signalSpectrum, 6, wts, 24); 
+featuresSignal(7:end) = mfcc(signalSpectrum, 6, wts, 24);
 
 fprintf('silence ...\n');
 featuresSilence = zeros(1,12);
@@ -25,6 +25,6 @@ featuresSilence(6) = hr(silence);
 featuresSilence(7:end) = mfcc(silenceSpectrum, 6, wts, 24);
 
 fprintf('saving...\n');
-itsave('matlab.it', [featuresSignal], [featuresSilence]);
+itsave('matlab.it', featuresSignal, featuresSilence, wts);
 
 fprintf('DONE.\n\n');

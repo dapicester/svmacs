@@ -15,7 +15,7 @@ function wts = generateMelFilters(Nfft,fs,Nfilters)
       (melMin + [0:Nfilters+1] / (Nfilters+1) * (melMax-melMin)) / 2595 ...
       ) - 1 );
 
-    bins = round(bin_freqs/fs*(Nfft-1));
+    %bins = round(bin_freqs/fs*(Nfft-1));
 
     for i = 1:Nfilters
         freqs = bin_freqs([0 1 2]+i);
