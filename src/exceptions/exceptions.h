@@ -13,7 +13,7 @@
  */
 class JackException : public std::runtime_error {
 public:
-    JackException(const std::string& s) : std::runtime_error(s) { }
+    JackException(const std::string& s = "") : std::runtime_error(s) {}
 };
 
 /** 
@@ -21,7 +21,7 @@ public:
  */
 class BadModel : public std::runtime_error {
 public:
-    BadModel(const std::string& s) : std::runtime_error(s) {}
+    BadModel(const std::string& s = "") : std::runtime_error(s) {}
 };
 
 /**
@@ -29,7 +29,15 @@ public:
  */
 class BadConversion : public std::runtime_error {
 public:
-    BadConversion(const std::string& s) : std::runtime_error(s) { }
+    BadConversion(const std::string& s = "") : std::runtime_error(s) {}
+};
+
+/**
+ * Runtime exception for initialization errors.
+ */
+class NotInitialized : public std::runtime_error {
+public:
+    NotInitialized(const std::string& s = "") : std::exception(s) {}
 };
 
 #endif	/* EXCEPTIONS_H */
