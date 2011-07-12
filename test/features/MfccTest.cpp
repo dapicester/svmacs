@@ -13,7 +13,7 @@ Feature* FeatureTest::setFeature() {
     return new MFCC(sampleRate, nfft, NMFCC, NCOEFF);
 }
 
-#ifdef ENABLE_REGRESSION
+#ifdef ENABLE_REGRESSION_TEST
 static const int INDEX = 6;
 
 void testFilterBank(MFCC* mfcc, const itpp::mat& filterBank) {

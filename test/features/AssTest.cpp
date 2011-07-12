@@ -8,7 +8,7 @@ Feature* FeatureTest::setFeature() {
     return new ASS(sampleRate);
 }
 
-#ifdef ENABLE_REGRESSION
+#ifdef ENABLE_REGRESSION_TEST
 static const int INDEX = 2;
 
 void FeatureTest::doRegressionTest(const vec& expected, const vec& data) const {

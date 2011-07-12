@@ -1,6 +1,6 @@
+#include "testconfig.h"
 #include "libitppTest.h"
 #include "utils/testUtils.h"
-#include "utils/path.h"
 
 #include <iostream>
 #include <itpp/itbase.h>
@@ -40,7 +40,7 @@ void libitppTest::testEquals() {
     CPPUNIT_ASSERT_ASSERTION_PASS( CPPUNIT_ASSERT( a == c) );
 }
 
-static const std::string FILE_NAME = PATH + "test/core/test.it";
+static const std::string FILE_NAME = std::string(TEST_DATA_DIR) + "/itpp_test.it";
 
 void libitppTest::testWriteFile() {
     int i = -22;
@@ -74,7 +74,7 @@ void libitppTest::testReadFile() {
     CPPUNIT_ASSERT_EQUAL(mat("1 2 3; 1 2 3"), m);
 }
 
-static const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
+static const std::string MATLAB_FILE = std::string(TEST_DATA_DIR) + "/matlab_test.it";
 
 void libitppTest::testRead() {
     vec sig, sil;

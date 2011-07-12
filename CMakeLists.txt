@@ -29,7 +29,6 @@ add_subdirectory(src)
 option(ENABLE_TESTING "Enable test compilation" FALSE)
 if (ENABLE_TESTING)
     add_subdirectory(test)
-    enable_testing()
 endif()
 
 # packaging

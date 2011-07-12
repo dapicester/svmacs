@@ -2,7 +2,7 @@
 #include "features/feature.h"
 #include "utils/testUtils.h"
 
-#ifdef ENABLE_REGRESSION
+#ifdef ENABLE_REGRESSION_TEST
     #include "utils/path.h"
     const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
     const std::string SIGNAL_FILE = PATH + "test/matlab/signal.it";
@@ -17,7 +17,7 @@ using namespace itpp;
 const double FeatureTest::DELTA = 1e-9;
 
 void FeatureTest::setUp() {
-#ifdef ENABLE_REGRESSION
+#ifdef ENABLE_REGRESSION_TEST
     it_file file;
 
     rDebug("loading signal file ...");
@@ -61,7 +61,7 @@ static const int FEATURES = 12;
 void FeatureTest::testSignal() {
     rDebug("extracting on signal ...");
     vec data = extract(signal);
-#ifdef ENABLE_REGRESSION
+#ifdef ENABLE_REGRESSION_TEST
     rDebug("regression test on signal ...");
     doRegressionTest(signal.expected, data);
 #endif
@@ -70,7 +70,7 @@ void FeatureTest::testSignal() {
 void FeatureTest::testSilence() {
     rDebug("extracting on silence ...");
     vec data = extract(silence);
-#ifdef ENABLE_REGRESSION
+#ifdef ENABLE_REGRESSION_TEST
     rDebug("regression test on silence ...");
     doRegressionTest(silence.expected, data);
 #endif

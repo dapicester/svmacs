@@ -1,7 +1,7 @@
+#include "testconfig.h"
 #include "ProcessorTest.h"
 #include "processor/processor.h"
 #include "utils/testUtils.h"
-#include "utils/path.h"
 
 #include <itpp/itbase.h>
 using namespace itpp;
@@ -34,7 +34,7 @@ void ProcessorTest::testSignal() {
     print("feature vector", result);
 }
 
-static const std::string TEST_FILE = PATH + "test/processor/test_signal.it";
+static const std::string TEST_FILE = std::string(TEST_DATA_DIR) + "/test_signal.it";
 
 void ProcessorTest::testOnline() {
     it_file file(TEST_FILE);

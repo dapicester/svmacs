@@ -10,6 +10,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 ################
 
 include_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
+set(JACKCPP_LIBRARIES "jackcpp")
 
 find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem REQUIRED )
 if ( NOT Boost_FOUND )
@@ -46,6 +47,7 @@ set(LIBS ${LIBS}
     ${RLOG_LIBRARIES}
     ${LIBSVM_LIBRARIES}
     ${JACK_LIBRARIES}
+    ${JACKCPP_LIBRARIES}
     ${ITPP_LIBRARIES})
 message(STATUS "Linking against following libraries:")
 foreach(LIB ${LIBS})
@@ -123,7 +125,7 @@ set(svmacs_MODELS
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
 add_executable(svmacs ${svmacs_SRCS})
-target_link_libraries(svmacs jackcpp ${LIBS})
+target_link_libraries(svmacs ${LIBS})
 
 install(TARGETS svmacs DESTINATION .)
 install(FILES ${svmacs_MODELS} DESTINATION .)

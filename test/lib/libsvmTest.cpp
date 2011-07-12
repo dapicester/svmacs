@@ -1,3 +1,4 @@
+#include "testconfig.h"
 #include "libsvmTest.h"
 
 #include <libsvm/svm.h>
@@ -8,14 +9,12 @@ using std::endl;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(libsvmTest);
 
-static const string PATH = "/home/paolo/NetBeansProjects/svmacs/";
-
 void libsvmTest::testModelNovelty() {
-    modelInfo(PATH + "src/model/m1");
+    modelInfo(string(DATA_DIR) + "/m1");
 }
 
 void libsvmTest::testModelClassification() {
-    modelInfo(PATH + "src/model/model");
+    modelInfo(string(DATA_DIR) + "/model");
 }
 
 void libsvmTest::modelInfo(const std::string fileName) {
