@@ -53,12 +53,6 @@ set(LIBRARY_DIR ${CMAKE_SOURCE_DIR}/lib ${PROJECT_SOURCE_DIR}/lib)
 link_directories(${LIBRARY_DIR})
 link_libraries(cppunit rlog itpp svm jackcpp jack rt pthread ${Boost_LIBRARIES})
 
-#set(ENABLE_LIB_TEST true)
-#set(ENABLE_CORE_TEST true)
-#set(ENABLE_FEATURE_TEST true)
-#set(ENABLE_REGRESSION_TEST true)
-#set(ENABLE_MATLAB_TEST)
-
 #file(GLOB UNITTESTS_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "core/*Test.cpp")
 #foreach(TEST ${UNITTESTS_SRCS})
 #  message(STATUS "* added test: ${TEST}")
@@ -68,6 +62,7 @@ link_libraries(cppunit rlog itpp svm jackcpp jack rt pthread ${Boost_LIBRARIES})
 #  add_test(NAME ${TestName} COMMAND ${TestName})
 #endforeach(TEST)
 
+option(ENABLE_LIB_TEST "Compile libraries tests" FALSE)
 if (ENABLE_LIB_TEST)
     message(STATUS "libraries tests enabled")
 
@@ -94,6 +89,7 @@ else()
     message(STATUS "skipping libraries tests")
 endif()
 
+option(ENABLE_CORE_TEST "Compile core tests" FALSE)
 if (ENABLE_CORE_TEST)
     message(STATUS "core tests enabled")
 
@@ -137,6 +133,7 @@ else()
     message(STATUS "skipping core tests")
 endif()
 
+option(ENABLE_FEATURE_TEST "Compile features tests" FALSE)
 if (ENABLE_FEATURE_TEST)
     message(STATUS "features tests enabled")
 
@@ -200,6 +197,7 @@ else()
     message(STATUS "skipping features tests")
 endif()
 
+option(ENABLE_MATLAB_TEST "Compile matlab test tool" FALSE)
 if (ENABLE_MATLAB_TEST)
     message(STATUS "matlab test tool enabled")
 

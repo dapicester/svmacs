@@ -12,6 +12,7 @@
 
 /*
  * FIXME: trovare una soluzione alternativa
+ * TODO: usare cmakedefine
  */
 
 static const std::string PATH = "/home/paolo/NetBeansProjects/svmacs/";
