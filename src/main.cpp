@@ -3,7 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "version.h"
+#include "config.h"
 #include "cli/svmaccli.h"
+#include "utils/execpath.h"
 
 #define RLOG_COMPONENT "main"
 #include <rlog/rlog.h>
@@ -15,6 +18,15 @@ using namespace rlog;
 namespace po = boost::program_options;
 
 #include <iostream>
+
+void showVersion() {
+    using namespace std;
+    cout << "svmacs " 
+            << VERSION_MAJOR << "." 
+            << VERSION_MINOR << "." 
+            << VERSION_PATCH << endl;
+    // TODO: show copyright and no warranty advise
+}
 
 /**
  *  @brief The application CLI.
@@ -31,6 +43,9 @@ int main(int argc, char** argv) {
     log.subscribeTo( GetGlobalChannel("warning") );
     log.subscribeTo( GetGlobalChannel("error") );
 
+    // initialize 
+    ExecPath::init(argv[0]);
+    
     // Declare the supported options.
     float length = 1.0;
     float overlap = 50.0;
@@ -42,6 +57,7 @@ int main(int argc, char** argv) {
                    "set frame length (in seconds),\ndefaults to 1 second\n")
         ("overlap,R", po::value<float>(), //(&overlap)->default_value(0.0),
                     "set frames overlapping ratio (percentage),\ndefaults to 50 %\n")
+        ("version,v", "show version")
     ;
 
     // parsing command line
@@ -56,7 +72,12 @@ int main(int argc, char** argv) {
 
     if (vm.count("help")) {
         std::cout << desc << std::endl;
-        return 1;
+        return 0;
+    }
+    
+    if (vm.count("version")) {
+        showVersion();
+        return 0;
     }
 
     // TODO check arguments

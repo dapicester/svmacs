@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "config.h"
 #include "jackclient.h"
 #include "jack/ringbufferread.h"
 #include "engine/engine.h"

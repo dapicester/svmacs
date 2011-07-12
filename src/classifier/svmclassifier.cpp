@@ -3,8 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "config.h"
 #include "svmclassifier.h"
 #include "model/range.h"
+#include "utils/execpath.h"
 
 #include <itpp/itbase.h>
 #include <libsvm/svm.h>
@@ -12,15 +14,17 @@
 #define RLOG_COMPONENT "svmclassifier"
 #include <rlog/rlog.h>
 
-static const std::string M1 = std::string(CONFIG_DIR) + "m1";
-static const std::string MC = std::string(CONFIG_DIR) + "model";
+static const std::string M1 = "m1";
+static const std::string MC = "model";
 
 SvmClassifier::SvmClassifier() : Classifier() {
-    rDebug("loading Detection model ...");
-    m1 = readModel(M1);
+    std::string dmodel = ExecPath::getInstance()->getPath(M1);
+    rInfo("loading Detection model %s ...", dmodel.c_str());
+    m1 = readModel(dmodel);
 
-    rDebug("loading Classification model ...");
-    model = readModel(MC);
+    std::string cmodel = ExecPath::getInstance()->getPath(MC);
+    rInfo("loading Classification model %s ...", cmodel.c_str());
+    model = readModel(cmodel);
 
     rInfo("SvmClassifier created");
 }
@@ -45,7 +49,7 @@ svm_model* SvmClassifier::readModel(const std::string& name) throw (BadModel) {
 EventType SvmClassifier::classify(itpp::vec& features) const {
     //rDebug("feature vector: %s", itpp::to_str(features).c_str());
 
-    //rDebug("scaling data");
+    rDebug("scaling data");
     features = scaleData(features, getRange());
 
     //rDebug("scaled vector: %s", itpp::to_str(features).c_str());

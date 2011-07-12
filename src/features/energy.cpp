@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "config.h"
 #include "energy.h"
 
 #include <itpp/itbase.h>

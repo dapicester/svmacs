@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "config.h"
 #include "processor.h"
 
 #include "features/feature.h"

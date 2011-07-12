@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "config.h"
 #include "svmaccli.h"
 
 #include "engine/engine.h"

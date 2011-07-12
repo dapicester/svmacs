@@ -28,5 +28,4 @@ set(jackcpp_SRCS
 # output #
 ##########
 
-add_library(jackcpp SHARED ${jackcpp_SRCS})
-set_target_properties(jackcpp PROPERTIES LINKER_LANGUAGE CXX)
+add_library(jackcpp ${jackcpp_SRCS})

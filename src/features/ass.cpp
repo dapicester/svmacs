@@ -3,6 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
+#include "config.h"
 #include "ass.h"
 #include "utils/utils.h"
 

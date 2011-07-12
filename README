@@ -1,7 +1,9 @@
 The following libraries are required:
 - Boost:
     signals2
-    program options
+    program-options
+    system
+    filesystem
 - itpp
 - svm3
 - rlog
