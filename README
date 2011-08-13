@@ -1,12 +1,70 @@
-The following libraries are required:
-- Boost:
-    signals2
-    program-options
-    system
-    filesystem
-- itpp
-- svm3
-- rlog
-- jack
+Introduction
+============
 
-Run JACK with a sample rate of 22050 and *NO* realtime.
+This project started as the porting to C++ of my master thesis project 
+developed with Matlab. 
+Once the porting has been completed, enhancements and new feature have 
+been added.
+
+
+How to build
+============
+
+The project is mantained in a git repository. The more stable version is 
+in the 'master' branch, while the currently developed version is in the
+'develop' branch. 
+The build tool used is CMake.
+The following libraries are required:
+- Boost: signals2, program-options, system, filesystem, thread
+- IT++
+- libSVM
+- Rlog
+- JACK 
+
+In order to build, first checkout the project, either with:
+    $ git clone git@git.assembla.com:svmacs.git
+for the stable version, or with:
+    $ git clone git@git.assembla.com:svmacs.git -b develop
+for the development version.
+
+then change to the project dir:
+    $ cd svmacs
+    $ mkdir build && cd build
+and configure the project build:
+    $ cmake -i ..
+
+Finally build the project:
+    $ make
+or, if you have more than one core/processor, say 2:
+    $ make -j 2
+
+You can run all the tests (if enabled):
+    $ ctest
+
+Optionally, you can either build a zip package with:
+    $ make package
+or install the program (default to /opt/svmacs)
+    $ make install
+Moreover, it is possible to specify a custom path:
+    $ make install DESTDIR=/my/custom/path
+
+At the moment no uninstall is supported.
+
+
+How to run
+==========
+
+First, launch JACK with a sample rate of 22050 and *NO* realtime
+(actually enabling realtime in JACK causes the client to zombify).
+
+Then launch the program:
+    $ ./svmacs
+
+and make the connection to JACK.
+You can use the sample audio file 'online-5db.wav' provided with sources.
+
+
+Additional Information
+======================
+
+For any questions and comments, please email me at: dapicester@gmail.com
