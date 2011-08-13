@@ -42,13 +42,26 @@ if ( NOT ITPP_FOUND )
 endif( NOT ITPP_FOUND )
 include_directories(${ITPP_INCLUDE_DIRS})
 
+find_package(Qt4 4.4 COMPONENTS QtCore QtGui)
+if ( NOT QT4_FOUND )
+    message(WARNING "Package Qt4 not found, disabling the GUI")
+    set(ENABLE_GUI OFF)
+else ()
+    set(ENABLE_GUI ON)
+    include(${QT_USE_FILE})
+    #include_directories(${CMAKE_CURRENT_BINARY_DIR})
+    add_definitions(-DQT_NO_KEYWORDS)
+endif()
+
 set(LIBS ${LIBS}
     ${Boost_LIBRARIES}
     ${RLOG_LIBRARIES}
     ${LIBSVM_LIBRARIES}
     ${JACK_LIBRARIES}
     ${JACKCPP_LIBRARIES}
-    ${ITPP_LIBRARIES})
+    ${ITPP_LIBRARIES}
+    ${QT_LIBRARIES}
+)
 message(STATUS "Linking against following libraries:")
 foreach(LIB ${LIBS})
     message(STATUS "  ${LIB}")
@@ -101,6 +114,22 @@ set(svmacs_SRCS
     main.cpp
 )
 
+if (ENABLE_GUI)
+    set(svmacs_SRCS ${svmacs_SRCS} gui/svmacgui.cpp gui/svmacguiutils.cpp)
+
+    # Qt UI
+    set(svmacs_UIS gui/svmacgui.ui)
+    qt4_wrap_ui(svmacs_UIS_H ${svmacs_UIS})
+
+    # Qt MOC
+    set(svmacs_MOCS gui/svmacgui.h)
+    qt4_wrap_cpp(svmacs_MOCS_SRC ${svmacs_MOCS})
+
+    # Qt resources
+    set(svmacs_RCCS application.qrc)
+    qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
+endif(ENABLE_GUI)
+
 configure_file(version.h.cmake version.h)
 configure_file(config.h.cmake config.h)
 
@@ -125,7 +154,7 @@ set(svmacs_MODELS
 # output dir
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-add_executable(svmacs ${svmacs_SRCS})
+add_executable(svmacs ${svmacs_SRCS} ${svmacs_UIS_H} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
 target_link_libraries(svmacs ${LIBS})
 
 install(TARGETS svmacs DESTINATION .)
