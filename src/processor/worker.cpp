@@ -10,13 +10,14 @@
 
 Worker::Worker(Feature* f) {
     extractor = f;
-    rDebug("initialized worker for feature %s", extractor->getName().c_str());
+    name = extractor->getName().c_str();
+    rDebug("initialized worker for feature %s", name);
 }
 
 Worker::~Worker() {
     thread.join(); // ensure that processing is finished
     delete extractor;
-    rDebug("destroyed worker for feature %s", extractor->getName().c_str());
+    rDebug("destroyed worker for feature %s", name);
 }
 
 Type Worker::getFeatureType() const {

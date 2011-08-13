@@ -29,6 +29,7 @@ public:
 
 private:
     Feature* extractor;
+    const char* name;
     
     boost::thread thread;
 };
