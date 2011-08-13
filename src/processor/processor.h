@@ -11,6 +11,8 @@ class Feature;
 #include <itpp/base/vec.h>
 #include <boost/ptr_container/ptr_vector.hpp>
 
+#include "worker.h"
+
 /** 
  * Class processing the input audio frames for feature extraction.
  */
@@ -38,8 +40,8 @@ private:
     /// Frame overlap
     int R;
     
-    /// Features extractors 
-    boost::ptr_vector<Feature> extractors;
+    /// worker for features extraction
+    boost::ptr_vector<Worker> workers;
 };
 
 #endif

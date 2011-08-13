@@ -15,7 +15,7 @@ option(ENABLE_ALL_TESTS "Compile all tests" OFF)
 include_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
 set(JACKCPP_LIBRARIES "jackcpp")
 
-find_package( Boost 1.46.0 COMPONENTS signals thread program_options system filesystem REQUIRED )
+find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem thread REQUIRED )
 if ( NOT Boost_FOUND )
     message(FATAL_ERROR "Boost Signals library required, but not found!")
 endif (NOT Boost_FOUND)
@@ -127,6 +127,7 @@ if (ENABLE_CORE_TEST OR ENABLE_ALL_TESTS)
       processor/ProcessorTest.cpp
       utils/testUtils.cpp
       ${SOURCE_DIR}/processor/processor.cpp
+      ${SOURCE_DIR}/processor/worker.cpp
       ${SOURCE_DIR}/features/feature.cpp
       ${SOURCE_DIR}/features/zcr.cpp
       ${SOURCE_DIR}/features/energy.cpp

@@ -18,7 +18,7 @@ public:
     ~HR();
     
     /// Compute the HR for the given audio frame.
-    void extract(const itpp::vec& frame, itpp::vec& features) const;
+    void extract(const itpp::vec& frame, itpp::vec* features) const;
 };
 
 #endif

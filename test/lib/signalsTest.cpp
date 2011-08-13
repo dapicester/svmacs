@@ -28,7 +28,8 @@ public:
     
     void doStuff() {
         cout << "doing time-consuming stuff ..." << endl;
-        sleep(3);
+        boost::posix_time::seconds sleepTime(3);
+        boost::this_thread::sleep(sleepTime);
     }
 };
 

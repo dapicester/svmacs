@@ -18,7 +18,7 @@ public:
     ~ASS();
     
     /// Compute the ASS and the ASC for the given spectrum frame.
-    void extract(const itpp::vec& frame, itpp::vec& features) const;    
+    void extract(const itpp::vec& frame, itpp::vec* features) const;    
 };
 
 #endif

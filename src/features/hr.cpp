@@ -23,7 +23,7 @@ HR::~HR() {
 
 static const int INDEX = 5;
 
-void HR::extract(const vec& frame, vec& features) const {
+void HR::extract(const vec& frame, vec* features) const {
     double hr = 0.0;
 
     if (numel(find(frame)) != 0) { // no silence
@@ -42,5 +42,5 @@ void HR::extract(const vec& frame, vec& features) const {
         }
     }
 
-    features[INDEX] = hr;
+    (*features)[INDEX] = hr;
 }

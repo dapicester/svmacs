@@ -18,7 +18,7 @@ public:
     ~Energy();
     
     /// Compute the energy for the given frame.
-    void extract(const itpp::vec& frame, itpp::vec& features) const;
+    void extract(const itpp::vec& frame, itpp::vec* features) const;
 };
     
 #endif

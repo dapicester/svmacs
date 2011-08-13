@@ -23,7 +23,7 @@ SRF::~SRF() {}
 
 static const int INDEX = 4;
 
-void SRF::extract(const vec& spectrum, vec& features) const {
+void SRF::extract(const vec& spectrum, vec* features) const {
     const int len = spectrum.length();
 
     vec spectrum2 = itpp::sqr(itpp::abs(spectrum)); // TODO togliere abs?
@@ -39,5 +39,5 @@ void SRF::extract(const vec& spectrum, vec& features) const {
         }
     }
 
-    features[4] = K;
+    (*features)[INDEX] = K;
 }

@@ -21,7 +21,7 @@ ZCR::~ZCR() {}
 static const int INDEX = 0;
 
 void
-ZCR::extract(const vec& frame, vec& features) const {
+ZCR::extract(const vec& frame, vec* features) const {
     const int len = frame.length();
 
     // get the sign
@@ -39,5 +39,5 @@ ZCR::extract(const vec& frame, vec& features) const {
     }
 
     double zcr = static_cast<double>(cont) / len * samplerate;
-    features[INDEX] = zcr;
+    (*features)[INDEX] = zcr;
 }
