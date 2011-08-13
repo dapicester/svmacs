@@ -12,7 +12,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
 set(JACKCPP_LIBRARIES "jackcpp")
 
-find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem REQUIRED )
+find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem thread REQUIRED )
 if ( NOT Boost_FOUND )
     message(FATAL_ERROR "Boost Signals library required, but not found!")
 endif (NOT Boost_FOUND)
@@ -88,6 +88,7 @@ set(svmacs_SRCS
     features/hr.cpp
     features/mfcc.cpp
     features/melfb.cpp
+    processor/worker.cpp
     processor/processor.cpp
     model/event.cpp
     classifier/svmclassifier.cpp

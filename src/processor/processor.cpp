@@ -47,14 +47,14 @@ Processor::Processor(int sr) : sampleRate(sr) {
     win = itpp::hamming(M);
     rDebug("segmenting using %d samples hamming window, %d samples overlap", M, R);
     
-    // initialize feature extractors
-    //#define TEST_FEATURES
-    extractors.push_back(new ZCR(sampleRate));
-    extractors.push_back(new Energy(sampleRate));  
-    extractors.push_back(new ASS(sampleRate)); 
-    extractors.push_back(new SRF(sampleRate)); 
-    extractors.push_back(new HR(sampleRate));
-    extractors.push_back(new MFCC(sampleRate, N_FFT-1, N_MFCC_FILTERS, N_MFCC_COEFFS));
+    // initialize workers
+    workers.push_back(new Worker(new ZCR(sampleRate)));
+    workers.push_back(new Worker(new Energy(sampleRate)));
+    workers.push_back(new Worker(new ASS(sampleRate)));
+    workers.push_back(new Worker(new SRF(sampleRate)));
+    workers.push_back(new Worker(new HR(sampleRate)));
+    workers.push_back(new Worker(new MFCC(sampleRate, N_FFT-1, N_MFCC_FILTERS, N_MFCC_COEFFS)));
+    rDebug("workers created");
     
     rInfo("Processor created");
 }
@@ -86,18 +86,22 @@ vec Processor::process(const vec& frame) {
            
         //rDebug("extracting");
         vec features = itpp::zeros(N_FEATURES);
-        for (boost::ptr_vector<Feature>::size_type j = 0u; j < extractors.size(); j++) {
+        for (boost::ptr_vector<Worker>::size_type j = 0u; j < workers.size(); j++) {
             //rDebug("extracting %s", extractors[j]->getName().c_str());
-            switch (extractors[j].getType()) {
+            switch (workers[j].getFeatureType()) {
             case TEMPORAL:
-                extractors[j].extract(current, features); 
+                workers[j].start(current, features); 
                 break;
             case SPECTRAL: 
-                extractors[j].extract(spectrum, features); 
+                workers[j].start(spectrum, features); 
                 break;
             default: // this should never occur
-                rError("unknown feature type: (%i)", extractors[j].getType());
+                rError("unknown feature type: (%i)", workers[j].getFeatureType());
             }
+        }
+        // waiting for termination
+        for (boost::ptr_vector<Worker>::size_type j = 0u; j < workers.size(); j++) {
+            workers[j].join();
         }
         
         //rDebug("feature vector: %s", itpp::to_str(features).c_str());
