@@ -43,7 +43,7 @@ public:
      * \param features 
      *   features vector to which append the computed feature
      */
-    virtual void extract(const itpp::vec& data, itpp::vec& features) const = 0;
+    virtual void extract(const itpp::vec& data, itpp::vec* features) const = 0;
     
 protected:
     /// The actual sample rate;

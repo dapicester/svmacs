@@ -21,7 +21,7 @@ ASS::~ASS() {}
 
 static const int INDEX = 2;
 
-void ASS::extract(const vec& spectrum, vec& features) const {
+void ASS::extract(const vec& spectrum, vec* features) const {
     const int len = spectrum.length() - 1;
 
     // discard the 0-bin frequency
@@ -41,6 +41,6 @@ void ASS::extract(const vec& spectrum, vec& features) const {
                         )/summ;
     }
 
-    features[INDEX] = spread;
-    features[INDEX + 1] = centroid;
+    (*features)[INDEX] = spread;
+    (*features)[INDEX + 1] = centroid;
 }

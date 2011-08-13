@@ -90,23 +90,24 @@ vec Processor::process(const vec& frame) {
             //rDebug("extracting %s", extractors[j]->getName().c_str());
             switch (workers[j].getFeatureType()) {
             case TEMPORAL:
-                workers[j].start(current, features); 
+                workers[j].start(current, &features); 
                 break;
             case SPECTRAL: 
-                workers[j].start(spectrum, features); 
+                workers[j].start(spectrum, &features); 
                 break;
             default: // this should never occur
                 rError("unknown feature type: (%i)", workers[j].getFeatureType());
             }
+            //rDebug("started worker [%d]", j);
         }
         // waiting for termination
         for (boost::ptr_vector<Worker>::size_type j = 0u; j < workers.size(); j++) {
+            //rDebug("waiting for worker [%d]", j);
             workers[j].join();
         }
         
         //rDebug("feature vector: %s", itpp::to_str(features).c_str());
         featureMatrix.set_row(counter, features);
-
     }
     
     //rDebug("feature matrix:\n %s", itpp::to_str(featureMatrix).c_str());

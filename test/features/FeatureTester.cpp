@@ -81,9 +81,9 @@ vec FeatureTest::extract(const testData& input) const {
 
     switch (feature->getType()) {
     case TEMPORAL:
-        feature->extract(input.samples, result); break;
+        feature->extract(input.samples, &result); break;
     case SPECTRAL:
-        feature->extract(input.spectrum, result); break;
+        feature->extract(input.spectrum, &result); break;
     }
     print("result", result);
 

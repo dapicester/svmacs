@@ -18,7 +18,7 @@ public:
     ~SRF();
     
     /// Compute the SRF for the given spectrum frame.
-    void extract(const itpp::vec& frame, itpp::vec& features) const;
+    void extract(const itpp::vec& frame, itpp::vec* features) const;
 };
 
 #endif

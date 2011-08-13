@@ -20,11 +20,11 @@ Energy::~Energy() {}
 
 static const int INDEX = 1;
 
-void Energy::extract(const vec& frame, vec& features) const {
+void Energy::extract(const vec& frame, vec* features) const {
     const int len = frame.length();
     
     vec square = itpp::sqr(itpp::abs(frame));
     double energy = itpp::sum(square) / len * samplerate;
     
-    features[INDEX] = energy;
+    (*features)[INDEX] = energy;
 }

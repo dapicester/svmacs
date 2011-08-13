@@ -24,7 +24,7 @@ Type Worker::getFeatureType() const {
     return extractor->getType();
 }
 
-void Worker::start(const itpp::vec& data, itpp::vec& features) {
+void Worker::start(const itpp::vec& data, itpp::vec* features) {
     thread = boost::thread(&Feature::extract, extractor, data, features);
     //thread.join(); // calling this it's like having no threads (serial execution)
 }

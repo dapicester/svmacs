@@ -22,7 +22,7 @@ public:
     Type getFeatureType() const;
     
     /// Start the thread for feature extraction.
-    void start(const itpp::vec& data, itpp::vec& features);
+    void start(const itpp::vec& data, itpp::vec* features);
     
     /// Wait for thread termination.
     void join();

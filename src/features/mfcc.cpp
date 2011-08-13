@@ -27,7 +27,7 @@ MFCC::~MFCC() {
 
 static const int INDEX = 6;
 
-void MFCC::extract(const vec& spectrum, vec& features) const {
+void MFCC::extract(const vec& spectrum, vec* features) const {
     /* critical bands energy */
     mat energy = filterBank * spectrum;
     /* bias to avoid log(0) */
@@ -43,6 +43,6 @@ void MFCC::extract(const vec& spectrum, vec& features) const {
     vec mfcc = coeffs.get_col(0);
     /* double logEnergy = mfcc[0]; */
     for (int i = 0; i < ncoeffs; i++) { /* discard logEnergy */
-        features[INDEX + i] = mfcc[i+1];
+        (*features)[INDEX + i] = mfcc[i+1];
     }
 }
