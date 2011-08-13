@@ -15,8 +15,8 @@ set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "verbose make messages")
 include(MacroOutOfSourceBuild)
 macro_ensure_out_of_source_build("Project ${PROJECT_NAME} requires an out of source build.")
 
-# default prefix to the "/opt" directory
-set(CMAKE_INSTALL_PREFIX "/opt" CACHE PATH "install prefix")
+# default prefix to the "/opt/svmacs" directory
+set(CMAKE_INSTALL_PREFIX "/opt/svmacs")
 message(STATUS "prefix = ${CMAKE_INSTALL_PREFIX}")
 
 # build libjackcpp
