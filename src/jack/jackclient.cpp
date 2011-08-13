@@ -45,7 +45,9 @@ JackClient::JackClient(float len, float olap, Engine* e) :
     // allocating buffer for current frame
     frame = new double[static_cast<int>(length)];
 
-    rWarning("Jack %s running in realtime mode", isRealTime() ? "is" : "is not");
+    rWarning("Jack %s running in realtime mode: %s", 
+            isRealTime() ? "is" : "is not",
+            isRealTime() ? "NOT good!" : "ok" );
 
     rDebug("input port names:");
     for(unsigned int i = 0; i < inPorts(); i++)
