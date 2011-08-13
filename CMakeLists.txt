@@ -26,8 +26,9 @@ add_subdirectory(libjackcpp)
 add_subdirectory(src)
 
 # build tests
-option(ENABLE_TESTING "Enable test compilation" FALSE)
+option(ENABLE_TESTING "Enable test compilation" ON)
 if (ENABLE_TESTING)
+    enable_testing()
     add_subdirectory(test)
 endif()
 

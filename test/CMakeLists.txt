@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
 message (STATUS "Tests:")
-enable_testing()
 
 # Include the directory itself as a path to include directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -94,7 +93,7 @@ macro(add_unit_test)
     endforeach(TEST)
 endmacro(add_unit_test)
 
-option(ENABLE_LIB_TEST "Compile libraries tests" FALSE)
+option(ENABLE_LIB_TEST "Compile libraries tests" ON)
 if (ENABLE_LIB_TEST OR ENABLE_ALL_TESTS)
     message(STATUS "libraries tests enabled")
     file(GLOB LIB_TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "lib/*Test.cpp")
@@ -103,7 +102,7 @@ else()
     message(STATUS "skipping libraries tests")
 endif()
 
-option(ENABLE_CORE_TEST "Compile core tests" FALSE)
+option(ENABLE_CORE_TEST "Compile core tests" ON)
 if (ENABLE_CORE_TEST OR ENABLE_ALL_TESTS)
     message(STATUS "core tests enabled")
 
@@ -154,7 +153,7 @@ else()
     message(STATUS "skipping core tests")
 endif()
 
-option(ENABLE_FEATURE_TEST "Compile features tests" FALSE)
+option(ENABLE_FEATURE_TEST "Compile features tests" ON)
 if (ENABLE_FEATURE_TEST OR ENABLE_ALL_TESTS)
     message(STATUS "features tests enabled")
 
@@ -223,7 +222,7 @@ else()
     message(STATUS "skipping features tests")
 endif()
 
-option(ENABLE_MATLAB_TEST "Compile matlab test tool" FALSE)
+option(ENABLE_MATLAB_TEST "Compile matlab test tool" OFF)
 if (ENABLE_MATLAB_TEST)
     message(STATUS "matlab test tool enabled")
 
