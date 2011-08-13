@@ -1,4 +1,4 @@
-project (svmacs CXX)
+project (svmacs)
 
 set(svmacs_VERSION_MAJOR "0")
 set(svmacs_VERSION_MINOR "9")
@@ -34,7 +34,7 @@ endif()
 
 # packaging
 include(InstallRequiredSystemLibraries)
-set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/License.txt")
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/License")
 set(CPACK_PACKAGE_VERSION_MAJOR "${svmacs_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${svmacs_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${svmacs_VERSION_PATCH}")
