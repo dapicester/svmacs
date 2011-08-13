@@ -14,6 +14,8 @@ Worker::Worker(Feature* f) {
 }
 
 Worker::~Worker() {
+    thread.join(); // ensure that processing is finished
+    delete extractor;
     rDebug("destroyed worker for feature %s", extractor->getName().c_str());
 }
 
@@ -22,14 +24,11 @@ Type Worker::getFeatureType() const {
 }
 
 void Worker::start(const itpp::vec& data, itpp::vec& features) {
-    thread = boost::thread(&Worker::extract, this, data, features);
+    thread = boost::thread(&Feature::extract, extractor, data, features);
+    //thread.join(); // calling this it's like having no threads (serial execution)
 }
 
 void Worker::join() {
     thread.join();
 }
-
-void Worker::extract(const itpp::vec& data, itpp::vec& features) {
-    extractor->extract(data, features);
-}
-    
+ 

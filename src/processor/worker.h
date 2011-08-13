@@ -23,13 +23,10 @@ public:
     
     /// Start the thread for feature extraction.
     void start(const itpp::vec& data, itpp::vec& features);
+    
     /// Wait for thread termination.
     void join();
 
-protected:
-    /// Thread working method
-    void extract(const itpp::vec& data, itpp::vec& features);
-    
 private:
     Feature* extractor;
     
