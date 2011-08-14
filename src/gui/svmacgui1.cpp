@@ -88,9 +88,9 @@ void SvmacGui::stop() {
     enable(NspinBox);
     enable(RspinBox);
 
-    blackLabel(gunshotLabel);
-    blackLabel(screamLabel);
-    blackLabel(glassLabel);
+    setTextDefault(gunshotLabel);
+    setTextDefault(screamLabel);
+    setTextDefault(glassLabel);
 
     rDebug("stopped");
     textEdit->insertPlainText(tr("done"));
@@ -110,25 +110,26 @@ void SvmacGui::quitApp() {
 void SvmacGui::eventDetected(const Event& event) {
     EventType type = event.getType();
     switch (type) {
-        case NONE:
-            blackLabel(gunshotLabel);
-            blackLabel(screamLabel);
-            blackLabel(glassLabel);
-            break;
+        // TODO: refactoring (si puo` fare di meglio...)
         case GUNSHOT:
-            redLabel(gunshotLabel);
-            blackLabel(screamLabel);
-            blackLabel(glassLabel);
+            setTextRed(gunshotLabel);
+            setTextDefault(screamLabel);
+            setTextDefault(glassLabel);
             break;
         case SCREAM:
-            redLabel(screamLabel);
-            blackLabel(gunshotLabel);
-            blackLabel(glassLabel);
+            setTextRed(screamLabel);
+            setTextDefault(gunshotLabel);
+            setTextDefault(glassLabel);
             break;
         case GLASS:
-            redLabel(glassLabel);
-            blackLabel(gunshotLabel);
-            blackLabel(screamLabel);
+            setTextRed(glassLabel);
+            setTextDefault(gunshotLabel);
+            setTextDefault(screamLabel);
+            break;
+        case NONE:
+            setTextDefault(gunshotLabel);
+            setTextDefault(screamLabel);
+            setTextDefault(glassLabel);
             break;
         default:
             break;

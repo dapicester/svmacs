@@ -27,40 +27,12 @@ void SvmacGui::disable(QWidget* widget) {
     widget->setEnabled(false);
 }
 
-// TODO: refactoring
-QPalette SvmacGui::getPalette(Color color) {
-    rDebug("getting palette ");
-    if (color == BLACK) {
-        QPalette palette(QColor(255,255,255));
-        palette.setColor( QPalette::Foreground, QColor(0,0,0) );
-        return palette;
-    } else { 
-        QPalette palette(QColor(255,255,255));
-        palette.setColor( QPalette::Foreground, QColor(255,0,0) );
-        return palette;
-    }
-}
-
-QPalette SvmacGui::red = getPalette(RED);
-
-QPalette SvmacGui::black = getPalette(BLACK);
-
-void SvmacGui::redLabel(QLabel* label) {
+void SvmacGui::setTextRed(QLabel* label) {
     rDebug("text in RED");    
-    /*
-    QPalette palette(QColor(255,255,255));
-    palette.setColor( QPalette::Foreground, QColor(255,0,0) );
-    label->setPalette(palette);
-    */
-    label->setPalette(red);
+    label->setStyleSheet("QLabel { color : red; }"); // TODO: bold echo text
 }
 
-void SvmacGui::blackLabel(QLabel* label) {
+void SvmacGui::setTextDefault(QLabel* label) {
     rDebug("text in BLACK");
-    /*
-    QPalette palette(QColor(255,255,255));
-    palette.setColor( QPalette::Foreground, QColor(0,0,0) );
-    label->setPalette(palette);
-    */
-    label->setPalette(black);
+    label->setStyleSheet("QLabel { color : black; }");
 }

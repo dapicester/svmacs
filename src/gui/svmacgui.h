@@ -52,23 +52,13 @@ private:
     void disable(QWidget* widget);
     
     /// Set text foreground to red
-    void redLabel(QLabel* label); // TODO: rename
+    void setTextRed(QLabel* label);
     /// Set text foreground to black
-    void blackLabel(QLabel* label); // TODO: rename
+    void setTextDefault(QLabel* label);
 
 private:
     /// pointer to the engine
     Engine* engine;
-    
-    // TODO: refactoring
-    /// Enumeration for palette color
-    enum Color { BLACK, RED };
-    /// Build a palette with the given color
-    static QPalette getPalette(Color color);
-    /// The palette with red text foreground
-    static QPalette red;
-    /// The palette with black text foreground
-    static QPalette black;
 
 };
 
