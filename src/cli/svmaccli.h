@@ -18,8 +18,6 @@ public:
     SvmacCli();
     ~SvmacCli();
 
-    // TODO: usare threads
-    
     /** 
      * Start the client. 
      * @param length
