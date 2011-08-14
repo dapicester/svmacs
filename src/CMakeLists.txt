@@ -115,7 +115,7 @@ set(svmacs_SRCS
 )
 
 if (ENABLE_GUI)
-    set(svmacs_SRCS ${svmacs_SRCS} gui/svmacgui.cpp gui/svmacguiutils.cpp)
+    set(svmacs_SRCS ${svmacs_SRCS} gui/svmacgui1.cpp gui/svmacgui2.cpp)
 
     # Qt UI
     set(svmacs_UIS gui/svmacgui.ui)

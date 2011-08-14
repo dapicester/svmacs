@@ -17,20 +17,18 @@
 SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) {
    setupUi(this);
    
+   // start and stop buttons
    connect(startButton, SIGNAL(clicked()), this, SLOT(start()) );
    connect(stopButton,  SIGNAL(clicked()), this, SLOT(stop()) );
    
+   // about and quit buttons
    connect(aboutButton, SIGNAL(clicked()), this, SLOT(about()) ); 
    connect(quitButton,  SIGNAL(clicked()), this, SLOT(quitApp()) );
-#ifdef ENABLE_DEBUG
-   connect(testButton, SIGNAL(clicked()), this, SLOT(test()) );
-#else
-   testButton->hide();
-#endif
    
+   // set initial values
    NspinBox->setValue(length);
    RspinBox->setValue(overlap);
-   
+
    engine = 0;
 }
 
@@ -79,8 +77,6 @@ void SvmacGui::start() {
     disableSpinBox(NspinBox);
     disableSpinBox(RspinBox);
     
-    //qRegisterMetaType<Event>("Event");
-    //connect( client, SIGNAL(eventDetected(const Event&)), this, SLOT(highlightEvent(const Event&)) );
     engine->eventDetected.connect(boost::bind(&SvmacGui::highlightEvent, this, _1));
     
     textEdit->insertPlainText("started");
@@ -108,41 +104,25 @@ void SvmacGui::stop() {
     rDebug("stopped");
 }
 
-#ifdef ENABLE_DEBUG
-bool SvmacGui::flag = false;
-
-void SvmacGui::test() {
-    rDebug("test button");
-    if (flag == false) {
-        rDebug("text in RED");    
-        gunshotLabel->setPalette(red);
-    } else {
-        rDebug("text in BLACK");
-        gunshotLabel->setPalette(black);
-    }
-    flag = !flag;
-}
-#endif
-
 void SvmacGui::highlightEvent(const Event& event) {
     EventType type = event.getType();
     switch(type) {
-    case 0: //NONE:
+    case NONE:
         blackLabel(gunshotLabel);
         blackLabel(screamLabel);
         blackLabel(glassLabel);
         break;
-    case 1: //GUNSHOT:
+    case GUNSHOT:
 	redLabel(gunshotLabel);
 	blackLabel(screamLabel);
         blackLabel(glassLabel);
 	break;
-    case 2: //SCREAM:
+    case SCREAM:
 	redLabel(screamLabel);
 	blackLabel(gunshotLabel);
         blackLabel(glassLabel);
 	break;
-    case 3: //GLASS:
+    case GLASS:
 	redLabel(glassLabel);
 	blackLabel(gunshotLabel);
         blackLabel(screamLabel);
@@ -150,6 +130,9 @@ void SvmacGui::highlightEvent(const Event& event) {
     default:
         break;    
     }
-//    if (type != 0)
-//        textEdit->append(event.getDescription());
+
+//    if (type != NONE) {
+//        textEdit->append("detected event: "
+//                         event.getDescription());
+//    }
 }
