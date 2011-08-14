@@ -4,14 +4,13 @@
  ***************************************************************************/
 
 #include "svmacgui.h"
-
-#define RLOG_COMPONENT "guiutils"
-#include <rlog/rlog.h>
-
 #include <QtGui>
 
+#define RLOG_COMPONENT "gui"
+#include <rlog/rlog.h>
+
 void SvmacGui::about() {
-      QMessageBox::about(this, "About",
+      QMessageBox::about(this, tr("About"),
             "<center>"  
             "<p><b>SVM Audio Classification</b></p>"
             "<p>version: XX.XX.XX\n\n</p>"
@@ -20,6 +19,15 @@ void SvmacGui::about() {
             "</center>");
 }
 
+void SvmacGui::enable(QWidget* widget) {
+    widget->setEnabled(true);    
+}
+
+void SvmacGui::disable(QWidget* widget) {
+    widget->setEnabled(false);
+}
+
+// TODO: refactoring
 QPalette SvmacGui::getPalette(Color color) {
     rDebug("getting palette ");
     if (color == BLACK) {
@@ -36,22 +44,6 @@ QPalette SvmacGui::getPalette(Color color) {
 QPalette SvmacGui::red = getPalette(RED);
 
 QPalette SvmacGui::black = getPalette(BLACK);
-
-void SvmacGui::enableButton(QAbstractButton* button) {
-    button->setEnabled(true);    
-}
-
-void SvmacGui::disableButton(QAbstractButton* button) {
-    button->setEnabled(false);
-}
-
-void SvmacGui::enableSpinBox(QAbstractSpinBox* spinbox) {
-    spinbox->setEnabled(true);    
-}
-
-void SvmacGui::disableSpinBox(QAbstractSpinBox* spinbox) {
-    spinbox->setEnabled(false);    
-}
 
 void SvmacGui::redLabel(QLabel* label) {
     rDebug("text in RED");    
