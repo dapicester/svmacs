@@ -1,5 +1,2 @@
-- capire perche` compare il warning "QPixmap: It is not safe to use pixmaps outside the GUI thread"
-  quando cambio il colore della label (forse perche` uso segnale/slot boost invece che qt?)
-
 - visualizzare nella textEdit i messaggi di log con log >= info (timestamp + evento + colore)
 

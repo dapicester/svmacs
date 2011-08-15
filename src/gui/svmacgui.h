@@ -17,7 +17,7 @@ class Engine;
  * @brief GUI interface for the SVM Audio Classifier. 
  * @author Paolo D'Apice
  */
-class SvmacGui : public QWidget, private Ui::SvmacQt {
+class SvmacGui : public QWidget, private Ui::SvmacGui {
     Q_OBJECT
 
 public:
@@ -30,27 +30,48 @@ public:
      * @param parent
      */
     SvmacGui(float length, float overlap, QWidget *parent = 0);
-
-    /// Action performed on event detection
-    void eventDetected(const Event& event);
-   
+    
+    /*
+     * Boost - Qt signals/slots adapter scheme:
+     * 
+     * Engine::eventDetected(Event)      Boost signal
+     *     |
+     *     V
+     * SvmacGui::adapterSlot(Event)      Boost slot
+     *  emit adapterSignal(Event)        Qt signal
+     *     |
+     *     V
+     * SvmacGui::eventDetected(Event)    Qt slot
+     */
+     
 public Q_SLOTS:
     /// Start the engine
-    void start();
+    void startEngine();
     /// Stop the engine
-    void stop();
+    void stopEngine();
     
     /// Quit the application
     void quitApp();    
     /// Show the about dialog
-    void about();
-    
+    void showAbout();
+
+    /// Action performed on event detection
+    void eventDetected(const Event& event);
+
+protected:
+    /// Adapter Boost slot transforming a Boost signal into a Qt signal
+    void adapterSlot(const Event& event);
+
+Q_SIGNALS:
+    /// Adapter Qt signal for Boost signal Engine::eventDetected
+    void adapterSignal(const Event& event);   
+
 private:
     /// Enable the specified widget
     void enable(QWidget* widget);
     /// Disable the specified widget
     void disable(QWidget* widget);
-    
+
     /// Set text foreground to red
     void setTextRed(QLabel* label);
     /// Set text foreground to black
@@ -59,7 +80,7 @@ private:
 private:
     /// pointer to the engine
     Engine* engine;
-
+    
 };
 
 #endif //SVMACS_GUI_H

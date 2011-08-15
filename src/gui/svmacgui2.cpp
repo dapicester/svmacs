@@ -8,8 +8,13 @@
 
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
+#include <qt4/QtCore/qnamespace.h>
 
-void SvmacGui::about() {
+void SvmacGui::adapterSlot(const Event& event) {
+    Q_EMIT adapterSignal(event);
+}
+
+void SvmacGui::showAbout() {
       QMessageBox::about(this, tr("About"),
             "<center>"  
             "<p><b>SVM Audio Classification</b></p>"
@@ -28,11 +33,9 @@ void SvmacGui::disable(QWidget* widget) {
 }
 
 void SvmacGui::setTextRed(QLabel* label) {
-    rDebug("text in RED");    
-    label->setStyleSheet("QLabel { color : red; }"); // TODO: bold echo text
+    label->setStyleSheet("color: red; font-weight: bold; "); 
 }
 
 void SvmacGui::setTextDefault(QLabel* label) {
-    rDebug("text in BLACK");
-    label->setStyleSheet("QLabel { color : black; }");
+    label->setStyleSheet("color: black; font-weight: normal;");
 }

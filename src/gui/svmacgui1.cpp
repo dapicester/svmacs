@@ -13,17 +13,16 @@
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
-
 SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) {
     // initialise gui
     setupUi(this);
 
     // connect start and stop buttons
-    connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
-    connect(stopButton, SIGNAL(clicked()), this, SLOT(stop()));
+    connect(startButton, SIGNAL(clicked()), this, SLOT(startEngine()));
+    connect(stopButton, SIGNAL(clicked()), this, SLOT(stopEngine()));
 
     // connect about and quit buttons
-    connect(aboutButton, SIGNAL(clicked()), this, SLOT(about()));
+    connect(aboutButton, SIGNAL(clicked()), this, SLOT(showAbout()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(quitApp()));
 
     // set initial values
@@ -31,9 +30,10 @@ SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) {
     RspinBox->setValue(overlap);
 
     engine = 0;
+    rInfo("GUI ready");
 }
 
-void SvmacGui::start() {
+void SvmacGui::startEngine() {
     rInfo("starting ...");
     textEdit->append(tr("starting ..."));
 
@@ -70,15 +70,18 @@ void SvmacGui::start() {
     disable(RspinBox);
 
     // connect event detection signal and slot
-    engine->eventDetected.connect(boost::bind(&SvmacGui::eventDetected, this, _1));
-
+    engine->eventDetected.connect(boost::bind(&SvmacGui::adapterSlot, this, _1));
+    qRegisterMetaType<Event>("Event");
+    connect(this, SIGNAL(adapterSignal(const Event&)), this, SLOT(eventDetected(const Event&)) );
+    
     rDebug("started");
     textEdit->insertPlainText(tr("started"));
 }
 
-void SvmacGui::stop() {
+void SvmacGui::stopEngine() {
     rDebug("stopping the Engine ...");
     textEdit->append(tr("stopping the Engine ..."));
+    engine->eventDetected.disconnect(boost::bind(&SvmacGui::adapterSlot, this, _1));
     engine->stop();
     delete engine;
     engine = 0;
@@ -101,9 +104,10 @@ void SvmacGui::quitApp() {
     textEdit->append(tr("quitting"));
 
     if (engine) {
-        stop();
+        stopEngine();
     }
     
+    rInfo("quitting GUI");
     qApp->quit();
 }
 
