@@ -8,7 +8,15 @@
 
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
-#include <qt4/QtCore/qnamespace.h>
+
+const QString SvmacGui::eventStylesheet = "QLabel[event=\"true\"] {"
+        "border: 1px solid black;"
+        "border-radius: 10px;"
+        "border-color: black;"
+        "padding: 6px;"
+        "min-width: 5em;"
+    "}";
+
 
 void SvmacGui::adapterSlot(const Event& event) {
     Q_EMIT adapterSignal(event);
@@ -33,9 +41,9 @@ void SvmacGui::disable(QWidget* widget) {
 }
 
 void SvmacGui::setTextRed(QLabel* label) {
-    label->setStyleSheet("color: red; font-weight: bold; "); 
+    label->setStyleSheet("background-color: red"); 
 }
 
 void SvmacGui::setTextDefault(QLabel* label) {
-    label->setStyleSheet("color: black; font-weight: normal;");
+    label->setStyleSheet("background-color: ");
 }

@@ -81,6 +81,9 @@ private:
     /// pointer to the engine
     Engine* engine;
     
+    /// fancy style for event labels
+    static const QString eventStylesheet;
+    
 };
 
 #endif //SVMACS_GUI_H

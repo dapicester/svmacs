@@ -16,6 +16,13 @@
 SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) {
     // initialise gui
     setupUi(this);
+    
+    this->setFixedSize(400, 450);
+    this->setStyleSheet(eventStylesheet);
+
+    gunshotLabel->setProperty("event", true);
+    screamLabel->setProperty("event", true);
+    glassLabel->setProperty("event", true);
 
     // connect start and stop buttons
     connect(startButton, SIGNAL(clicked()), this, SLOT(startEngine()));
