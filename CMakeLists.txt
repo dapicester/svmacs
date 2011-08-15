@@ -10,6 +10,9 @@ cmake_minimum_required(VERSION 2.8.0)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "verbose make messages")
+if(CMAKE_VERBOSE_MAKEFILE)
+    message(STATUS "verbose Makefile")
+endif(CMAKE_VERBOSE_MAKEFILE)
 
 # The macro below forces the build directory to be different from source directory
 include(MacroOutOfSourceBuild)
@@ -30,7 +33,7 @@ option(ENABLE_TESTING "Enable test compilation" ON)
 if (ENABLE_TESTING)
     enable_testing()
     add_subdirectory(test)
-endif()
+endif(ENABLE_TESTING)
 
 # packaging
 include(InstallRequiredSystemLibraries)
