@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>SVM Audio Classifier</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -241,6 +241,12 @@
       <property name="enabled">
        <bool>false</bool>
       </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::NoTextInteraction</set>
+      </property>
      </widget>
     </item>
     <item>
@@ -277,6 +283,15 @@
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>NspinBox</tabstop>
+  <tabstop>RspinBox</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>stopButton</tabstop>
+  <tabstop>aboutButton</tabstop>
+  <tabstop>quitButton</tabstop>
+  <tabstop>textEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <designerdata>
