@@ -96,6 +96,7 @@ void Engine::processFrame(const itpp::vec& frame) const {
             rInfo("Detected EventType: %s", message.c_str());
         }
         Event e(type, message);
+        // emit signal
         eventDetected(e);
         previousEvent = type;
     }

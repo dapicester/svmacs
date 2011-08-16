@@ -1,0 +1,6 @@
+- visualizzare nella textEdit i messaggi di log con log >= info 
+  (timestamp + evento + colore)
+  NB: non si puo` rediriger l'output di RLog perche` usa la funzione C
+  write(int, void*, int) che usa stdout o stderr definita in unistd.h
+  invece che usare l'alias C++ std::coud definito i iostream.h
+

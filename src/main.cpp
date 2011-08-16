@@ -8,6 +8,11 @@
 #include "cli/svmaccli.h"
 #include "utils/execpath.h"
 
+#ifdef ENABLE_GUI
+#include "gui/svmacgui.h"
+#include <QApplication>
+#endif
+
 #define RLOG_COMPONENT "main"
 #include <rlog/rlog.h>
 #include <rlog/StdioNode.h>
@@ -47,16 +52,19 @@ int main(int argc, char** argv) {
     ExecPath::init(argv[0]);
     
     // Declare the supported options.
-    float length = 1.0;
+    float length = 0.5;
     float overlap = 50.0;
 
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "produce help message\n")
-        ("length,N", po::value<float>(), //(&length)->default_value(1.0),
-                   "set frame length (in seconds),\ndefaults to 1 second\n")
-        ("overlap,R", po::value<float>(), //(&overlap)->default_value(0.0),
+        ("length,N", po::value<float>(), 
+                   "set frame length (in seconds),\ndefaults to 0.5 second\n")
+        ("overlap,R", po::value<float>(), 
                     "set frames overlapping ratio (percentage),\ndefaults to 50 %\n")
+#ifdef ENABLE_GUI        
+        ("gui,g", "launch the gui")
+#endif
         ("version,v", "show version")
     ;
 
@@ -94,6 +102,22 @@ int main(int argc, char** argv) {
     } else {
         rInfo("using default frame overlap: %.2f %%", overlap);
     }
+    
+#ifdef ENABLE_GUI
+    bool gui = false;
+    if (vm.count("gui")) {
+        gui = true;
+    }
+    
+    if (gui) {
+        rInfo("launching the GUI interface ...");
+        Q_INIT_RESOURCE(application);
+        QApplication app(argc, argv);
+        SvmacGui gui(length, overlap);
+        gui.show();
+        return app.exec();
+    }
+#endif
 
     rInfo("Launching the CLI interface ...");
     SvmacCli* cli = new SvmacCli;

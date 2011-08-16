@@ -8,5 +8,6 @@
 
 #cmakedefine MFCC_FILE
 #cmakedefine ENABLE_LOG
+#cmakedefine ENABLE_GUI
 
 #endif	/* CONFIG_H */
