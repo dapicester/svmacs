@@ -50,7 +50,7 @@ else ()
     set(ENABLE_GUI ON)
     include(${QT_USE_FILE})
     #include_directories(${CMAKE_CURRENT_BINARY_DIR})
-    add_definitions(-DQT_NO_KEYWORDS)
+    add_definitions(-DQT_NO_KEYWORDS -DQT_CONSOLE)
 endif()
 
 set(LIBS ${LIBS}

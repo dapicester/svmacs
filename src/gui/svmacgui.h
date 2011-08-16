@@ -8,6 +8,8 @@
 
 #include "ui_svmacgui.h"
 #include "model/event.h"
+//#include "gui/qdebugstream.h"
+
 #include <QObject>
 
 class Engine;
@@ -80,6 +82,9 @@ private:
 private:
     /// pointer to the engine
     Engine* engine;
+    
+    /// capture cout
+    //QDebugStream qout;
     
     /// fancy style for event labels
     static const QString eventStylesheet;

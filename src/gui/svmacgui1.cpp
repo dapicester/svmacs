@@ -13,13 +13,14 @@
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
-SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) {
+SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) 
+        /*: qout(std::cout, textEdit) */ {
     // initialise gui
     setupUi(this);
     
     this->setFixedSize(400, 450);
     this->setStyleSheet(eventStylesheet);
-
+    
     gunshotLabel->setProperty("event", true);
     screamLabel->setProperty("event", true);
     glassLabel->setProperty("event", true);
@@ -37,6 +38,7 @@ SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) {
     RspinBox->setValue(overlap);
 
     engine = 0;
+    
     rInfo("GUI ready");
 }
 
