@@ -84,8 +84,8 @@ void JackClient::connect() {
         rDebug("connecting to output port ...");
         connectToPhysical(0, 0);
 #endif
-    } catch (std::runtime_error e){
-        rWarning(e.what());
+    } catch (std::runtime_error& e){
+        rWarning("%s", e.what());
         //throw e; // continue processing?
     }
 }

@@ -63,7 +63,7 @@ void SvmacGui::startEngine() {
         engine = new Engine(length, overlap);
         engine->start();
     } catch (JackException& e) {
-        rError(e.what());
+        rError("%s", e.what());
         textEdit->append("failed:");
         textEdit->append(e.what()); // TODO parametrizzare
 

@@ -25,7 +25,7 @@ Engine::Engine(float length, float overlap) throw (JackException, BadModel)
         client = new JackClient(length, overlap, this);
     } catch (std::runtime_error& e) {
         std::string msg = "could not create the client: is Jack server running?";
-        rError(msg.c_str());
+        rError("%s", msg.c_str());
         throw JackException(msg);
     }
 

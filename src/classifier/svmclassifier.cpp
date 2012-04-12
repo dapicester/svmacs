@@ -9,7 +9,6 @@
 #include "utils/execpath.h"
 
 #include <itpp/itbase.h>
-#include <libsvm/svm.h>
 
 #define RLOG_COMPONENT "svmclassifier"
 #include <rlog/rlog.h>

@@ -37,7 +37,7 @@ void SvmacCli::start(float length, float overlap) {
         engine = new Engine(length, overlap);
         engine->start();
     } catch (JackException& e) {
-        rError(e.what());
+        rError("%s", e.what());
         return;
     }
     

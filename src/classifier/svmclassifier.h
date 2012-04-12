@@ -8,8 +8,7 @@
 
 #include "classifier.h"
 #include "exceptions/exceptions.h"
-
-struct svm_model;
+#include <libsvm/svm.h>
 
 /** 
  * The SVM classifier 
