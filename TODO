@@ -1,3 +1,13 @@
+- refactoring codice:
+  * usare reference invece che puntatori (quando possibile)
+  * usare const (dove possibile)
+  * usare Boost Pointers e Containers
+
+- riscrivere i casi di test  
+  * usare Boost UnitTest
+
+- usare ruby invece che octave/matlab
+
 - visualizzare nella textEdit i messaggi di log con log >= info 
   (timestamp + evento + colore)
   NB: non si puo` rediriger l'output di RLog perche` usa la funzione C
