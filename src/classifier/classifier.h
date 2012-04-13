@@ -15,10 +15,6 @@
  */
 class Classifier {
 public:
-    static const char* EventDescription[4]; // TODO: eliminare
-    
-    virtual ~Classifier() {}
-
     /**
      * Process the audio features for detection 
      * and classification of events. 
