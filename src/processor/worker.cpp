@@ -8,6 +8,8 @@
 #define RLOG_COMPONENT "worker"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+
 Worker::Worker(Feature* f) {
     extractor = f;
     name = extractor->getName().c_str();
@@ -33,3 +35,4 @@ void Worker::join() {
     thread.join();
 }
  
+NS_SVMACS_END

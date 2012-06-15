@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "svmclassifier.h"
 #include "model/range.h"
 #include "utils/execpath.h"
@@ -13,8 +12,10 @@
 #define RLOG_COMPONENT "svmclassifier"
 #include <rlog/rlog.h>
 
-static const std::string M1 = "m1";
-static const std::string MC = "model";
+NS_SVMACS_BEGIN
+
+const std::string M1 = "m1";
+const std::string MC = "model";
 
 SvmClassifier::SvmClassifier() : Classifier() {
     std::string dmodel = ExecPath::getInstance()->getPath(M1);
@@ -49,7 +50,7 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
     //rDebug("feature vector: %s", itpp::to_str(features).c_str());
 
     rDebug("scaling data");
-    features = scaleData(features, getRange());
+    features = scaleData(features, Range);
 
     //rDebug("scaled vector: %s", itpp::to_str(features).c_str());
 
@@ -95,3 +96,5 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
 
     return t;
 }
+
+NS_SVMACS_END

@@ -8,6 +8,8 @@
 
 #include "feature.h"
 
+NS_SVMACS_BEGIN
+
 /**
  * Zero-Crossing-Rate audio feature.
  * TODO: definition
@@ -20,5 +22,7 @@ public:
     /// Compute the ZCR for the given frame.
     void extract(const itpp::vec& frame, itpp::vec* features) const;
 };
+
+NS_SVMACS_END
 
 #endif

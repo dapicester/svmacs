@@ -7,6 +7,8 @@
 #include "svmacgui.h"
 #include "engine/engine.h"
 
+using namespace svmacs;
+
 #include <QtGui>
 #include <boost/bind.hpp>
 

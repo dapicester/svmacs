@@ -19,7 +19,7 @@ void ExecPath::init(const std::string& argv) {
 
 ExecPath* ExecPath::getInstance() {
     if (!single) {
-        throw NotInitialized();
+        throw svmacs::NotInitialized();
     } 
     return single;
 }

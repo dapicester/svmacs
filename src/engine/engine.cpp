@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "engine.h"
 
 #include "processor/processor.h"
@@ -15,6 +14,8 @@
 
 #define RLOG_COMPONENT "engine"
 #include <rlog/rlog.h>
+
+NS_SVMACS_BEGIN
 
 Engine::Engine(float length, float overlap) throw (JackException, BadModel)
         : previousEvent(NONE) {
@@ -102,3 +103,5 @@ void Engine::processFrame(const itpp::vec& frame) const {
     }
 #endif
 }
+
+NS_SVMACS_END

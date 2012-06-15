@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "jackclient.h"
 #include "jack/ringbufferread.h"
 #include "engine/engine.h"
@@ -14,18 +13,20 @@
 #include <cmath>
 #include <iostream>
 
+NS_SVMACS_BEGIN
+
 /// Maximum number of input ports
-static const unsigned int MAX_IN = 1;
+const unsigned int MAX_IN = 1;
 /// Maximum number of output ports
-static const unsigned int MAX_OUT = 1;
+const unsigned int MAX_OUT = 1;
 
 /// Number of input ports
-static const unsigned int NUM_INPUT = 1; // mono input
+const unsigned int NUM_INPUT = 1; // mono input
 /// Number of output ports
-static const unsigned int NUM_OUTPUT = 1; // monitor output
+const unsigned int NUM_OUTPUT = 1; // monitor output
 
 /// Client name
-static const char* CLIENT_NAME = "svmacs";
+const char CLIENT_NAME[] = "svmacs";
 
 JackClient::JackClient(float len, float olap, Engine* e) :
         JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false) {
@@ -140,3 +141,5 @@ void JackClient::checkData() {
     //gotInputData(data);
     engine->processFrame(data);
 }
+
+NS_SVMACS_END

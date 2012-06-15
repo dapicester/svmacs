@@ -6,7 +6,10 @@
 #ifndef EXCEPTIONS_H
 #define	EXCEPTIONS_H
 
+#include "config.h"
 #include <stdexcept>
+
+NS_SVMACS_BEGIN
 
 /**
  * Runtime exception thrown on Jack errors.
@@ -39,5 +42,7 @@ class NotInitialized : public std::runtime_error {
 public:
     NotInitialized(const std::string& s = "") : std::runtime_error(s) { }
 };
+
+NS_SVMACS_END
 
 #endif	/* EXCEPTIONS_H */

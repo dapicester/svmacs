@@ -3,9 +3,9 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "mfcc.h"
 #include "utils/execpath.h"
+#include "config.h"
 
 #include <itpp/itbase.h>
 using itpp::vec;
@@ -17,8 +17,10 @@ using itpp::mat;
 #include <boost/lexical_cast.hpp>
 using boost::lexical_cast;
 
-static const int MEL_COEFF = 2595;
-static const int MEL_DEN = 700;
+NS_SVMACS_BEGIN
+        
+const int MEL_COEFF = 2595;
+const int MEL_DEN = 700;
 
 void MFCC::initFilterBank() {
 #ifdef MFCC_FILE /* load the filter bank matrix from file */
@@ -83,3 +85,5 @@ void MFCC::initFilterBank() {
     filterBank = wts.get_cols(0, nfft/2 - 1);
 #endif
 }
+
+NS_SVMACS_END

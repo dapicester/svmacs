@@ -6,6 +6,11 @@
 #ifndef SVMACS_CLI_H
 #define SVMACS_CLI_H
 
+#include "config.h"
+#include <boost/noncopyable.hpp>
+
+NS_SVMACS_BEGIN
+
 class Engine;
 
 /** 
@@ -13,7 +18,7 @@ class Engine;
  * @brief CLI interface for the SVM Audio Classifier. 
  * @author Paolo D'Apice
  */
-class SvmacCli {
+class SvmacCli : private boost::noncopyable {
 public:
     SvmacCli();
     ~SvmacCli();
@@ -29,12 +34,14 @@ public:
 
 private:
     /// pointer to the engine
-    Engine* engine;
+    Engine* engine; // TODO: boost::scoped_ptr
     
     /// signal handler
-    static void cleanup(int);
+    static void cleanup(int); // TODO: signal handler (maybe boost::asio)
     /// running flag
     static bool flag;
 };
+
+NS_SVMACS_END
 
 #endif // SVMACS_CLI_H

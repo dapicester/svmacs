@@ -8,6 +8,8 @@
 
 #include "feature.h"
 
+NS_SVMACS_BEGIN
+
 /**
  * Audio Spectral Spread and Audio Spectral Centroid audio features.
  * TODO: definitions
@@ -21,4 +23,6 @@ public:
     void extract(const itpp::vec& frame, itpp::vec* features) const;    
 };
 
+NS_SVMACS_END
+        
 #endif

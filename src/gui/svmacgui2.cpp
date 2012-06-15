@@ -4,6 +4,8 @@
  ***************************************************************************/
 
 #include "svmacgui.h"
+using namespace svmacs;
+
 #include <QtGui>
 
 #define RLOG_COMPONENT "gui"

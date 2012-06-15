@@ -10,6 +10,8 @@
 #include "exceptions/exceptions.h"
 #include <libsvm/svm.h>
 
+NS_SVMACS_BEGIN
+
 /** 
  * The SVM classifier 
  */
@@ -20,12 +22,15 @@ public:
     
     EventType classify(itpp::vec& features) const;
 
-private:
+private: // TODO: boost::scoped_ptr
+    
     const struct svm_model* m1;
     const struct svm_model* model;
     
     /// read the model from file
     struct svm_model* readModel(const std::string& name) throw (BadModel);
 };
+
+NS_SVMACS_END
 
 #endif

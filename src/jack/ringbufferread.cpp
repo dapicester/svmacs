@@ -2,7 +2,11 @@
  *   Copyright (C) 2009-2011 by Paolo D'Apice                              *
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
+
 #include "jack/ringbufferread.h"
+#include "config.h"
+
+NS_SVMACS_BEGIN
 
 #ifndef NULL
 #define NULL 0
@@ -133,3 +137,5 @@ int RingBufferRead::write(double* src, unsigned int cnt){
 void RingBufferRead::reset(){
     jack_ringbuffer_reset(mRingBufferPtr);
 }
+
+NS_SVMACS_END

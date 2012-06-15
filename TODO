@@ -1,7 +1,13 @@
 - refactoring codice:
+  * fix CMakeLists per diversi build-type
+  * usare OpenMP invece che la classe Worker
+  * rimuovere execpath
+  * usare namespace
   * usare reference invece che puntatori (quando possibile)
   * usare const (dove possibile)
   * usare Boost Pointers e Containers
+  * rimuovere dichiarazioni throw() e scrivere Doxygen
+  * aggiungere nota di Copyright esatta nei sorgenti
 
 - riscrivere i casi di test  
   * usare Boost UnitTest
@@ -13,4 +19,3 @@
   NB: non si puo` rediriger l'output di RLog perche` usa la funzione C
   write(int, void*, int) che usa stdout o stderr definita in unistd.h
   invece che usare l'alias C++ std::coud definito i iostream.h
-

@@ -9,7 +9,7 @@
 #include <itpp/base/vec.h>
 
 // TODO tutto da rivedere
-// TODO aggiungere in coda #include "utils.cpp" per header-only
+// TODO aggiungere inline
 
 /**
  * Return a mirrored copy of the input vector.

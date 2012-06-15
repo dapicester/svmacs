@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "processor.h"
 
 #include "features/feature.h"
@@ -25,20 +24,22 @@ using itpp::mat;
 #define RLOG_COMPONENT "processor"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+
 /// Default window length in seconds (25ms)
-static const double WIN_LEN = 0.025;
+const double WIN_LEN = 0.025;
 /// Default percentage of windows overlap (50%)
-static const double WIN_OVL = 0.5;
+const double WIN_OVL = 0.5;
     
 /// Number of frequency bins
-static const int N_FFT = 1024;
+const int N_FFT = 1024;
 /// Number of MFCC filters
-static const int N_MFCC_FILTERS = 24; 
+const int N_MFCC_FILTERS = 24; 
 /// Number of MFCC coefficients
-static const int N_MFCC_COEFFS = 6;
+const int N_MFCC_COEFFS = 6;
 
 /// Number of features
-static const int N_FEATURES = 12;
+const int N_FEATURES = 12;
 
 Processor::Processor(int sr) : sampleRate(sr) {
     // initialize attributes
@@ -121,3 +122,5 @@ vec Processor::process(const vec& frame) {
     //rDebug("final feature vector: %s", itpp::to_str(vout).c_str());
     return vout;
 }
+
+NS_SVMACS_END

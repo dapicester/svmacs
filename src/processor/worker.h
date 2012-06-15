@@ -6,10 +6,15 @@
 #ifndef WORKER_H
 #define	WORKER_H
 
+#include "config.h"
 #include <itpp/base/vec.h>
 #include <boost/noncopyable.hpp>
 #include <boost/thread.hpp>
 #include "features/feature.h"
+
+// FIXME: remove this class!!
+
+NS_SVMACS_BEGIN
 
 /**
  * @brief Worker thread for feature extraction.
@@ -34,5 +39,6 @@ private:
     boost::thread thread;
 };
 
-#endif	/* WORKER_H */
+NS_SVMACS_END
 
+#endif	/* WORKER_H */

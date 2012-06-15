@@ -6,8 +6,11 @@
 #ifndef RANGE_H
 #define RANGE_H
 
+#include "config.h"
 #include <itpp/itbase.h>
 #include <itpp/base/operators.h>
+
+NS_SVMACS_BEGIN
 
 /// Linearly scale data to be whithin a given range.
 // FIXME: unit test fails!!
@@ -21,13 +24,15 @@ scaleData(const itpp::mat& input, const itpp::mat& range) {
     scaled.zeros();
     
     // scale data to be within [mi,Mi]
+    itpp::vec col;
+    double mi, Mi;
     for(int i = 0; i < C; i++) {
-        itpp::vec col = input.get_col(i);
+        col = input.get_col(i);
         
-        double mi = range(0,i);
-        double Mi = range(1,i);
+        mi = range(0,i);
+        Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
-            itpp::vec value = 2 * (col - mi ) / (Mi - mi) - 1; 
+            itpp::vec value = 2 * (col - mi ) / (Mi - mi) - 1; // FIXME: declare outside
             scaled.set_col(i, value);
         }
     }
@@ -44,9 +49,10 @@ scaleData(const itpp::vec& input, const itpp::mat& range) {
     scaled.zeros();
     
     // scale data to be within [mi,Mi]
+    double mi, Mi;
     for(int i = 0; i < len; i++) {
-        double mi = range(0,i);
-        double Mi = range(1,i);
+        mi = range(0,i);
+        Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
             scaled[i] = 2 * (input[i] - mi ) / (Mi - mi) - 1; 
         }
@@ -54,10 +60,7 @@ scaleData(const itpp::vec& input, const itpp::mat& range) {
     return scaled;
 }
 
-inline 
-const itpp::mat 
-getRange() {
-    const itpp::mat range = //TODO: salvare in un file IT++
+const itpp::mat Range = //TODO: salvare in un file IT++ ?
     " 677.1070780399273871807963587343692779541015625 "
     " 171.124029237493601840469636954367160797119140625 "
     "2600.723774908210543799214065074920654296875 "
@@ -83,7 +86,7 @@ getRange() {
     "    3.56360255575086437573872899520210921764373779296875 "
     "    2.75483162225700795033844769932329654693603515625 "
     "    2.1050579205616930522637630929239094257354736328125 ";
-    return range;
-}
+
+NS_SVMACS_END
 
 #endif

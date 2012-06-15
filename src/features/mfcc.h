@@ -8,6 +8,8 @@
 
 #include "feature.h"
 
+NS_SVMACS_BEGIN
+
 /**
  * Mel-Frequency Cepstral Coefficients audio feature.
  * TODO: definition
@@ -40,5 +42,7 @@ private:
     /// Generate the Mel filter bank
     void initFilterBank();
 };
+
+NS_SVMACS_END
 
 #endif

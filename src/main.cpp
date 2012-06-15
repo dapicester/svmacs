@@ -13,6 +13,8 @@
 #include <QApplication>
 #endif
 
+using namespace svmacs;
+
 #define RLOG_COMPONENT "main"
 #include <rlog/rlog.h>
 #include <rlog/StdioNode.h>

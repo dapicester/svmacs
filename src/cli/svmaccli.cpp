@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "svmaccli.h"
 
 #include "engine/engine.h"
@@ -15,6 +14,8 @@
 #include <boost/bind.hpp>
 #include <cstdlib>
 #include <csignal>
+
+NS_SVMACS_BEGIN
 
 SvmacCli::SvmacCli() {
     engine = 0; // FIXME engine init qui
@@ -45,13 +46,13 @@ void SvmacCli::start(float length, float overlap) {
     rInfo("use CTRL-C to quit");
     signal(SIGTERM, &cleanup);
     signal(SIGINT, &cleanup);
-    //signal(SIGABRT, &cleanup);
-    //signal(SIGTERM, boost::bind<void>(&SvmacCli::cleanup, this, _1, _2));
-    //signal(SIGINT, boost::bind<void>(&SvmacCli::cleanup, this, _1, _2));
+#ifdef SIGQUIT
+    signal(SIGQUIT, &cleanup);
+#endif
     
     // main loop
     while(flag) {
-        sleep(1); 
+        sleep(1); // XXX: sure to du this?
     } 
     
     engine->stop();
@@ -62,3 +63,5 @@ void SvmacCli::cleanup(int) {
     rDebug("CTRL-C trapped");
     flag = false;
 }
+
+NS_SVMACS_END
