@@ -1,11 +1,10 @@
-#include "signalsTest.h"
+#define BOOST_TEST_MODULE signalsTest
+#include <boost/test/unit_test.hpp>
 
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 
 using namespace std;
-
-CPPUNIT_TEST_SUITE_REGISTRATION(SignalsTest);
 
 class Emitter {
 public:
@@ -33,9 +32,7 @@ public:
     }
 };
 
-void SignalsTest::doTest() {
-    cout << endl;
-    
+BOOST_AUTO_TEST_CASE(signal2_test) {
     Emitter e;
     Receiver r;
     //e.sig.connect(boost::bind(&Receiver::slot, r));
@@ -45,3 +42,4 @@ void SignalsTest::doTest() {
     e.sig();
     cout << "emitted" << endl;
 }
+
