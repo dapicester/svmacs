@@ -19,6 +19,8 @@ NS_SVMACS_BEGIN
  */
 class Classifier : private boost::noncopyable {
 public:
+    virtual ~Classifier() {}
+
     /**
      * Process the audio features for detection 
      * and classification of events. 
