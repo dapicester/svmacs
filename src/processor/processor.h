@@ -10,8 +10,6 @@
 #include <itpp/base/vec.h>
 #include <boost/ptr_container/ptr_vector.hpp>
 
-#include "worker.h"
-
 NS_SVMACS_BEGIN
 
 class Feature;
@@ -44,7 +42,7 @@ private:
     int R;
     
     /// worker for features extraction
-    boost::ptr_vector<Worker> workers;
+    boost::ptr_vector<Feature> extractors;
 };
 
 NS_SVMACS_END

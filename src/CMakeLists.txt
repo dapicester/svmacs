@@ -12,7 +12,20 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 include_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
 set(JACKCPP_LIBRARIES "jackcpp")
 
-find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem thread REQUIRED )
+option(USE_OPENMP "Enable multithreading using the OpenMP API" true)
+if (USE_OPENMP)
+    find_package(OpenMP)
+    if (OPENMP_FOUND)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+        message(STATUS "Multithreading enabled")
+    else()
+        message(FATAL_ERROR "Your compiler does not support OpenMP!")
+    endif()
+endif()
+
+find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem REQUIRED )
 if ( NOT Boost_FOUND )
     message(FATAL_ERROR "Boost Signals library required, but not found!")
 endif (NOT Boost_FOUND)
@@ -100,7 +113,6 @@ set(svmacs_SRCS
     features/hr.cpp
     features/mfcc.cpp
     features/melfb.cpp
-    processor/worker.cpp
     processor/processor.cpp
     model/event.cpp
     classifier/svmclassifier.cpp
