@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 2.8)
-
 message (STATUS "Executable: svmacs")
 
 # Include the directory itself as a path to include directories
@@ -9,94 +7,75 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # dependencies #
 ################
 
-include_directories("${PROJECT_SOURCE_DIR}/libjackcpp")
-set(JACKCPP_LIBRARIES "jackcpp")
+include_directories(${PROJECT_SOURCE_DIR}/libjackcpp)
+list(APPEND LIBS jackcpp)
 
-option(USE_OPENMP "Enable multithreading using the OpenMP API" true)
-if (USE_OPENMP)
-    find_package(OpenMP)
-    if (OPENMP_FOUND)
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-        message(STATUS "Multithreading enabled")
-    else()
-        message(FATAL_ERROR "Your compiler does not support OpenMP!")
-    endif()
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS})
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS})
+    set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS})
+    message(STATUS "OpenMP found, multithreading enabled")
 endif()
 
-find_package( Boost 1.46.0 COMPONENTS signals program_options system filesystem REQUIRED )
-if ( NOT Boost_FOUND )
-    message(FATAL_ERROR "Boost Signals library required, but not found!")
-endif (NOT Boost_FOUND)
+find_package(Boost 1.49.0 COMPONENTS signals program_options system filesystem REQUIRED)
+if(NOT Boost_FOUND)
+    message(FATAL_ERROR "Boost libraries not found.")
+endif()
 include_directories(${Boost_INCLUDE_DIRS})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
 find_package(RLog REQUIRED)
-if ( NOT RLOG_FOUND )
-    message(FATAL_ERROR "Package RLog required, but not found!")
-endif( NOT RLOG_FOUND )
+if(NOT RLOG_FOUND)
+    message(FATAL_ERROR "RLog not found.")
+endif()
 include_directories(${RLOG_INCLUDE_DIRS})
+list(APPEND LIBS ${RLOG_LIBRARIES})
 
 find_package(LibSVM REQUIRED)
-if ( NOT LIBSVM_FOUND )
-    message(FATAL_ERROR "Package LibSVM required, but not found!")
-endif( NOT LIBSVM_FOUND )
+if(NOT LIBSVM_FOUND)
+    message(FATAL_ERROR "LibSVM not found.")
+endif()
 include_directories(${LIBSVM_INCLUDE_DIRS})
+list(APPEND LIBS ${LIBSVM_LIBRARIES})
 
 find_package(JACK REQUIRED)
-if ( NOT JACK_FOUND )
-    message(FATAL_ERROR "Package JACK required, but not found!")
-endif( NOT JACK_FOUND )
+if(NOT JACK_FOUND)
+    message(FATAL_ERROR "JACK not found.")
+endif()
 include_directories(${JACK_INCLUDE_DIRS})
+list(APPEND LIBS ${JACK_LIBRARIES})
 
 find_package(ITPP REQUIRED)
-if ( NOT ITPP_FOUND )
-    message(FATAL_ERROR "Package IT++ required, but not found!")
-endif( NOT ITPP_FOUND )
+if(NOT ITPP_FOUND)
+    message(FATAL_ERROR "IT++ not found.")
+endif()
 include_directories(${ITPP_INCLUDE_DIRS})
+list(APPEND LIBS ${ITPP_LIBRARIES})
 
 find_package(Qt4 4.4 COMPONENTS QtCore QtGui)
-if ( NOT QT4_FOUND )
-    message(WARNING "Package Qt4 not found, disabling the GUI")
+if(NOT QT4_FOUND)
+    message(WARNING "Qt4 not found, disabling the GUI")
     set(ENABLE_GUI OFF)
-else ()
+else()
     set(ENABLE_GUI ON)
     include(${QT_USE_FILE})
     #include_directories(${CMAKE_CURRENT_BINARY_DIR})
     add_definitions(-DQT_NO_KEYWORDS -DQT_CONSOLE)
+    list(APPEND LIBS ${QT_LIBRARIES})
 endif()
 
-set(LIBS ${LIBS}
-    ${Boost_LIBRARIES}
-    ${RLOG_LIBRARIES}
-    ${LIBSVM_LIBRARIES}
-    ${JACK_LIBRARIES}
-    ${JACKCPP_LIBRARIES}
-    ${ITPP_LIBRARIES}
-    ${QT_LIBRARIES}
-)
 message(STATUS "Linking against following libraries:")
 foreach(LIB ${LIBS})
     message(STATUS "  ${LIB}")
-endforeach(LIB)
+endforeach()
 
 add_definitions(-Wall -W -pipe)
-add_definitions(-fbounds-check)
 
-option(DEBUG "Debug build" OFF)
 option(ENABLE_LOG "Enable logging" OFF)
 
-if (DEBUG)
-    message(STATUS "Enabling debugging symbols")
-    set(CMAKE_BUILD_TYPE Debug)
-    add_definitions("-g3 -gdwarf-2")
-else()
-    set(CMAKE_BUILD_TYPE Release)
-    message(STATUS "Release build")
-endif()
-
 option(MFCC_FILE "Load MFCC filter bank matrix from file" ON)
-if (MFCC_FILE)
+if(MFCC_FILE)
     message(STATUS "Using MFCC filter bank matrix file")
 endif()
 
@@ -222,3 +201,4 @@ if(BUILD_DOC)
               )
     endif(DOXYGEN_FOUND STREQUAL "NO")
 endif(BUILD_DOC)
+

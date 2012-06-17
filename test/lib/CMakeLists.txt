@@ -16,13 +16,13 @@ list(APPEND LIBS ${ITPP_LIBRARIES})
 
 add_executable(itppTest libitppTest.cpp)
 target_link_libraries(itppTest ${LIBS})
-add_test(NAME itppTest COMMAND itppTest)
+add_test(NAME lib/itppTest COMMAND itppTest)
 
 add_executable(svmTest libsvmTest.cpp)
 target_link_libraries(svmTest ${LIBS})
-add_test(NAME svmTest COMMAND svmTest)
+add_test(NAME lib/svmTest COMMAND svmTest)
 
 add_executable(signalsTest signalsTest.cpp)
 target_link_libraries(signalsTest ${LIBS})
-add_test(NAME signalsTest COMMAND signalsTest)
+add_test(NAME lib/signalsTest COMMAND signalsTest)
 

@@ -9,17 +9,12 @@ cmake_minimum_required(VERSION 2.8.0)
 # find modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "verbose make messages")
-if(CMAKE_VERBOSE_MAKEFILE)
-    message(STATUS "verbose Makefile")
-endif(CMAKE_VERBOSE_MAKEFILE)
-
 # The macro below forces the build directory to be different from source directory
 include(MacroOutOfSourceBuild)
 macro_ensure_out_of_source_build("Project ${PROJECT_NAME} requires an out of source build.")
 
 # default prefix to the "/opt/svmacs" directory
-set(CMAKE_INSTALL_PREFIX "/opt/svmacs")
+#set(CMAKE_INSTALL_PREFIX "/opt/svmacs")
 message(STATUS "prefix = ${CMAKE_INSTALL_PREFIX}")
 
 # build libjackcpp
@@ -33,7 +28,7 @@ option(ENABLE_TESTING "Enable tests compilation" ON)
 if (ENABLE_TESTING)
     enable_testing()
     add_subdirectory(test)
-endif(ENABLE_TESTING)
+endif()
 
 # packaging
 include(InstallRequiredSystemLibraries)

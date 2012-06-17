@@ -19,15 +19,15 @@ list(APPEND LIBS ${RLOG_LIBRARIES})
 
 add_executable(JackRingBufferTest JackRingBufferTest.cpp)
 target_link_libraries(JackRingBufferTest ${LIBS})
-add_test(NAME JackRingBufferTest COMMAND JackRingBufferTest)
+add_test(NAME core/JackRingBufferTest COMMAND JackRingBufferTest)
 
 add_executable(RingBufferReadTest RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp)
 target_link_libraries(RingBufferReadTest ${LIBS})
-add_test(NAME RingBufferReadTest COMMAND RingBufferReadTest)
+add_test(NAME core/RingBufferReadTest COMMAND RingBufferReadTest)
 
 add_executable(UtilsTest utilsTest.cpp ${SOURCE_DIR}/utils/utils.cpp)
 target_link_libraries(UtilsTest ${LIBS})
-add_test(NAME UtilsTest COMMAND UtilsTest)
+add_test(NAME core/UtilsTest COMMAND UtilsTest)
 
 set(SRCS 
     ${SOURCE_DIR}/processor/processor.cpp
@@ -44,9 +44,9 @@ set(SRCS
 )
 add_executable(ProcessorTest ProcessorTest.cpp ${SRCS})
 target_link_libraries(ProcessorTest ${LIBS})
-add_test(NAME ProcessorTest COMMAND ProcessorTest)
+add_test(NAME core/ProcessorTest COMMAND ProcessorTest)
 
 add_executable(ScaleTest ScaleTest.cpp)
 target_link_libraries(ScaleTest ${LIBS})
-add_test(NAME ScaleTest COMMAND ScaleTest)
+add_test(NAME core/ScaleTest COMMAND ScaleTest)
 

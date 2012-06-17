@@ -8,6 +8,5 @@
 
 #cmakedefine DATA_DIR "@DATA_DIR@"
 #cmakedefine TEST_DATA_DIR "@TEST_DATA_DIR@"
-#cmakedefine ENABLE_REGRESSION_TEST
 
 #endif	/* TEST_CONFIG_H */
