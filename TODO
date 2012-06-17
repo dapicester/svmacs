@@ -1,8 +1,8 @@
 - refactoring codice:
   * fix CMakeLists per diversi build-type
-  * usare OpenMP invece che la classe Worker
   * rimuovere execpath
-  * usare namespace
+    . usare variabile definita a compile time DATA_DIR
+    . argomento, precedenza rispetto a DATA_DIR
   * usare reference invece che puntatori (quando possibile)
   * usare const (dove possibile)
   * usare Boost Pointers e Containers
