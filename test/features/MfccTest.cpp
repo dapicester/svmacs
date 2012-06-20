@@ -1,56 +1,37 @@
-#include "FeatureTester.h"
+#define BOOST_TEST_MODULE MfccTest
+#include <boost/test/unit_test.hpp>
+
+#include "Fixture.h"
 #include "features/mfcc.h"
 
-using std::string;
-
-#include <boost/lexical_cast.hpp>
-using boost::lexical_cast;
-
-static const int NMFCC = 24;
-static const int NCOEFF = 6;
-
-Feature* FeatureTest::setFeature() {
-    return new MFCC(sampleRate, nfft, NMFCC, NCOEFF);
+BOOST_FIXTURE_TEST_CASE(mfcc_test, test::Fixture) {
+    svmacs::MFCC feature(sampleRate, nfft, 24, 6);
+    doTest(feature, silence);
+    doTest(feature, signal);
 }
 
 #ifdef ENABLE_REGRESSION_TEST
-static const int INDEX = 6;
-
-void testFilterBank(MFCC* mfcc, const itpp::mat& filterBank) {
+namespace test {
+const int INDEX = 6;
+void testFilterBank(const MFCC& mfcc, const itpp::mat& filterBank) {
     itpp::mat wts = mfcc->getFilterBank();
 
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("rows", filterBank.rows(), wts.rows());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("cols", filterBank.cols(), wts.cols());
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("size", filterBank.size(), wts.size());
+    BOOST_CHECK_EQUAL(filterBank.rows(), wts.rows());
+    BOOST_CHECK_EQUAL(filterBank.cols(), wts.cols());
+    BOOST_CHECK_EQUAL(filterBank.size(), wts.size());
 
-#if 1
     /* element-wise assertion */
     for (int r = 0; r < filterBank.rows(); r++) {
         for (int c = 0; c < filterBank.cols(); c++) {
-            register string msg = "element (" + lexical_cast<string>(r) +
-                                  "," + lexical_cast<string>(c) + ")";
-            CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE(msg,
-                                             filterBank(r,c),
-                                             wts(r,c),
-                                             FeatureTest::DELTA);
+            BOOST_CHECK_CLOSE(filterBank(r,c), wts(r,c), DELTA);
         }
     }
-#else
-    /* matrix-wise assertion */
-    CPPUNIT_ASSERT_EQUAL(filterBank, wts);
-#endif
 }
-
-void FeatureTest::doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const {
-    testFilterBank(dynamic_cast<MFCC*>(feature), filterBank);
-#if 1
+void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) {
+    testFilterBank(dynamic_cast<const MFCC&>(feature), filterBank);
     for (int i = 0; i < NCOEFF; i++) {
-        CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("coeff" + lexical_cast<string>(i+1),
-                                        expected[INDEX + i],
-                                        data[INDEX + i],
-                                        DELTA);
+        BOOST_CHECK_CLOSE(expected[INDEX + i], data[INDEX + i], DELTA);
     }
-#endif
 }
-
+} /* namespace test */
 #endif

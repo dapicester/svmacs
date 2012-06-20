@@ -1,14 +1,20 @@
-#include "FeatureTester.h"
+#define BOOST_TEST_MODULE SrfTest
+#include <boost/test/unit_test.hpp>
+
+#include "Fixture.h"
 #include "features/srf.h"
 
-Feature* FeatureTest::setFeature() {
-    return new SRF(sampleRate);
+BOOST_FIXTURE_TEST_CASE(srf_test, test::Fixture) {
+    svmacs::SRF feature(sampleRate);
+    doTest(feature, silence);
+    doTest(feature, signal);
 }
 
 #ifdef ENABLE_REGRESSION_TEST
-static const int INDEX = 4;
-
-void FeatureTest::doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const {
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX], data[INDEX], DELTA);
+namespace test {
+ const int INDEX = 4;
+void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) {
+    BOOST_CHECK_CLOSE(expected[INDEX], data[INDEX], DELTA);
 }
+} /* namespace test */
 #endif

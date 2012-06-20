@@ -15,10 +15,36 @@ using namespace itpp;
 
 /// Default sample rate
 const int SAMPLE_RATE = 1024;
+const int SIGNAL_LEN  = 1024;
+
+#if 0
+BOOST_AUTO_TEST_CASE(test_utils) {
+    using namespace test;
+
+    // print
+    print("ciao");
+    vec v = "1 2 3 4";
+    print("v", v);
+    mat m = "1 2;3 5";
+    print("m", m);
+
+    // getTime
+    print("time1", getTime(0, 10));
+    print("time2", getTime(0, 1, 0.1));
+    
+    // getSilence
+    print("silence", getSilence(10));
+
+    // getSignal
+    getSignal(getTime(0, 1, 0.01), 4, 2);
+}
+#endif
 
 struct Fixture {
     Fixture() : processor(SAMPLE_RATE) {
-        vec silence = test::getSilence();
+        silence = test::getSilence();
+        vec time = test::getTime(0, 1, 0.01);
+        signal = test::getSignal(time);
     }
     ~Fixture() {}
     Processor processor;
@@ -28,15 +54,15 @@ struct Fixture {
 
 BOOST_FIXTURE_TEST_CASE(silence_test, Fixture) {
     vec result = processor.process(silence);
-    //print("feature vector", result);
+    test::print("feature vector", result);
 }
 
 BOOST_FIXTURE_TEST_CASE(signal_test, Fixture) {
     vec result = processor.process(signal);
-    //print("feature vector", result);
+    test::print("feature vector", result);
 }
 
-const std::string TEST_FILE = std::string(TEST_DATA_DIR) + "/test_signal.it";
+const std::string TEST_FILE = TEST_DATA_DIR "/test_signal.it";
 
 BOOST_AUTO_TEST_CASE(online_test) {
     Processor processor(SAMPLE_RATE);
@@ -55,4 +81,3 @@ BOOST_AUTO_TEST_CASE(online_test) {
         rDebug("feature vector:\n%s", to_str(features).c_str());
     }
 }
-
