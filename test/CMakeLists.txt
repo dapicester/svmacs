@@ -39,6 +39,7 @@ set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
 configure_file(${SOURCE_DIR}/config.h.cmake config.h)
 configure_file(testconfig.h.in testconfig.h)
 include_directories(${CMAKE_BINARY_DIR}/test)
+add_definitions(-g)
 
 # TODO: fix this macro
 # usage: add_unit_test(source.cpp lib1 lib2)
