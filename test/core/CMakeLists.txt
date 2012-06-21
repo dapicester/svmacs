@@ -18,15 +18,15 @@ include_directories(${RLOG_INCLUDE_DIRS})
 list(APPEND LIBS ${RLOG_LIBRARIES})
 
 add_executable(JackRingBufferTest JackRingBufferTest.cpp)
-target_link_libraries(JackRingBufferTest ${LIBS})
+target_link_libraries(JackRingBufferTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp)
 add_test(NAME core/JackRingBufferTest COMMAND JackRingBufferTest)
 
 add_executable(RingBufferReadTest RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp)
 target_link_libraries(RingBufferReadTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp)
 add_test(NAME core/RingBufferReadTest COMMAND RingBufferReadTest)
 
-target_link_libraries(UtilsTest ${LIBS})
 add_executable(UtilsTest utilsTest.cpp)
+target_link_libraries(UtilsTest ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
 add_test(NAME core/UtilsTest COMMAND UtilsTest)
 
 set(SRCS 
@@ -46,6 +46,6 @@ target_link_libraries(ProcessorTest ${LIBS})
 add_test(NAME core/ProcessorTest COMMAND ProcessorTest)
 
 add_executable(ScaleTest ScaleTest.cpp)
-target_link_libraries(ScaleTest ${LIBS})
+target_link_libraries(ScaleTest ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
 add_test(NAME core/ScaleTest COMMAND ScaleTest)
 

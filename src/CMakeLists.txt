@@ -103,7 +103,7 @@ set(svmacs_SRCS
     main.cpp
 )
 
-if (ENABLE_GUI)
+if(ENABLE_GUI)
     set(svmacs_SRCS ${svmacs_SRCS} gui/svmacgui1.cpp gui/svmacgui2.cpp)
 
     # Qt UI
@@ -117,7 +117,7 @@ if (ENABLE_GUI)
     # Qt resources
     set(svmacs_RCCS application.qrc)
     qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
-endif(ENABLE_GUI)
+endif()
 
 configure_file(version.h.cmake version.h)
 configure_file(config.h.cmake config.h)
@@ -132,10 +132,6 @@ set(svmacs_MODELS
     ${PROJECT_SOURCE_DIR}/data/melfb.it
 )
 
-# For a large number of source files you can create it in a simpler way
-# using file() function:
-# file(GLOB hellworld_SOURCES *.cpp)
-
 ##########
 # binary #
 ##########
@@ -149,13 +145,14 @@ target_link_libraries(svmacs ${LIBS})
 install(TARGETS svmacs DESTINATION .)
 install(FILES ${svmacs_MODELS} DESTINATION .)
 
-add_custom_command(
-    TARGET svmacs
-    POST_BUILD
-    COMMAND cp ${svmacs_MODELS} ${CMAKE_BINARY_DIR}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Copying model files to dir ${CMAKE_BINARY_DIR} ..."
-)
+# copy model files
+#add_custom_command(
+#    TARGET svmacs
+#    POST_BUILD
+#    COMMAND cp ${svmacs_MODELS} ${CMAKE_BINARY_DIR}
+#    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+#    COMMENT "Copying model files to dir ${CMAKE_BINARY_DIR} ..."
+#)
 
 #################
 # documentation #
@@ -167,8 +164,8 @@ if(BUILD_DOC)
 
     # check if doxygen is even installed
     find_package(Doxygen)
-    if (DOXYGEN_FOUND STREQUAL "NO")
-        message(WARNING "Doxygen not found, skipping")
+    if(DOXYGEN_FOUND STREQUAL "NO")
+        message(WARNING "Doxygen not found, cannot generate documentation.")
     else()
         # prepare doxygen configuration file
         #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${PROJECT_SOURCE_DIR}/Doxyfile)
@@ -198,6 +195,6 @@ if(BUILD_DOC)
         install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/man/man3
                 DESTINATION share/man/man3/
               )
-    endif(DOXYGEN_FOUND STREQUAL "NO")
-endif(BUILD_DOC)
+    endif()
+endif()
 
