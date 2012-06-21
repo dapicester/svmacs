@@ -99,7 +99,6 @@ set(svmacs_SRCS
     jack/ringbufferread.cpp
     engine/engine.cpp
     cli/svmaccli.cpp
-    utils/utils.cpp
     utils/execpath.cpp
     main.cpp
 )

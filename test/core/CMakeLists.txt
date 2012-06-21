@@ -22,11 +22,11 @@ target_link_libraries(JackRingBufferTest ${LIBS})
 add_test(NAME core/JackRingBufferTest COMMAND JackRingBufferTest)
 
 add_executable(RingBufferReadTest RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp)
-target_link_libraries(RingBufferReadTest ${LIBS})
+target_link_libraries(RingBufferReadTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp)
 add_test(NAME core/RingBufferReadTest COMMAND RingBufferReadTest)
 
-add_executable(UtilsTest utilsTest.cpp ${SOURCE_DIR}/utils/utils.cpp)
 target_link_libraries(UtilsTest ${LIBS})
+add_executable(UtilsTest utilsTest.cpp)
 add_test(NAME core/UtilsTest COMMAND UtilsTest)
 
 set(SRCS 
@@ -39,7 +39,6 @@ set(SRCS
     ${SOURCE_DIR}/features/hr.cpp
     ${SOURCE_DIR}/features/mfcc.cpp
     ${SOURCE_DIR}/features/melfb.cpp
-    ${SOURCE_DIR}/utils/utils.cpp
     ${SOURCE_DIR}/utils/execpath.cpp # TODO: rimuovere
 )
 add_executable(ProcessorTest ProcessorTest.cpp ${SRCS})

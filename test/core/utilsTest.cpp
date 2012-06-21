@@ -2,6 +2,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "utils/utils.h"
+using namespace svmacs;
 
 #include <itpp/base/vec.h>
 using itpp::vec;
