@@ -1,4 +1,6 @@
-message (STATUS "Executable: svmacs")
+message(STATUS "Executable: svmacs")
+
+macro_build_info()
 
 # Include the directory itself as a path to include directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -119,8 +121,8 @@ if(ENABLE_GUI)
     qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
 endif()
 
-configure_file(version.h.cmake version.h)
-configure_file(config.h.cmake config.h)
+configure_file(version.h.in version.h)
+configure_file(config.h.in config.h)
 
 ###############
 # model files #
@@ -142,8 +144,8 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 add_executable(svmacs ${svmacs_SRCS} ${svmacs_UIS_H} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
 target_link_libraries(svmacs ${LIBS})
 
-install(TARGETS svmacs DESTINATION .)
-install(FILES ${svmacs_MODELS} DESTINATION .)
+install(TARGETS svmacs RUNTIME DESTINATION bin)
+install(FILES ${svmacs_MODELS} DESTINATION etc)
 
 # copy model files
 #add_custom_command(
@@ -197,4 +199,3 @@ if(BUILD_DOC)
               )
     endif()
 endif()
-
