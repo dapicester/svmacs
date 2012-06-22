@@ -1,7 +1,7 @@
 # Include the directory itself as a path to include directories
-set(CMAKE_INCLUDE_CURRENT_DIR true)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-option(ENABLE_ALL_TESTS "Compile all tests" false)
+cmake_dependent_option(ENABLE_ALL_TESTS "Compile all tests" OFF "ENABLE_TESTING" OFF)
 
 find_package(JACK REQUIRED)
 if(NOT JACK_FOUND)
@@ -53,22 +53,22 @@ add_definitions(-g)
 #    #message(STATUS "* added test: ${TestName}")
 #endmacro(add_unit_test)
 
-option(ENABLE_LIB_TEST "Compile libraries tests" false)
+cmake_dependent_option(ENABLE_LIB_TEST "Compile libraries tests" OFF "ENABLE_TESTING" OFF)
 if (ENABLE_LIB_TEST OR ENABLE_ALL_TESTS)
     add_subdirectory(lib)
 endif()
 
-option(ENABLE_CORE_TEST "Compile core tests" true)
+cmake_dependent_option(ENABLE_CORE_TEST "Compile core tests" ON "ENABLE_TESTING" OFF)
 if (ENABLE_CORE_TEST OR ENABLE_ALL_TESTS)
     add_subdirectory(core)
 endif()
 
-option(ENABLE_FEATURE_TEST "Compile features tests" true)
+cmake_dependent_option(ENABLE_FEATURE_TEST "Compile features tests" ON "ENABLE_TESTING" OFF)
 if (ENABLE_FEATURE_TEST OR ENABLE_ALL_TESTS)
     add_subdirectory(features)
 endif()
 
-option(ENABLE_MATLAB_TEST "Compile matlab test tool" false)
+cmake_dependent_option(ENABLE_MATLAB_TEST "Compile matlab test tool" OFF "ENABLE_TESTING" OFF)
 if (ENABLE_MATLAB_TEST)
     add_subdirectory(matlab)
 endif()

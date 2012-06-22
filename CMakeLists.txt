@@ -9,6 +9,8 @@ cmake_minimum_required(VERSION 2.8.0)
 # find modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
+# include modules
+include(CMakeDependentOption)
 include(MacroBuildInfo)
 include(MacroOutOfSourceBuild)
 macro_ensure_out_of_source_build("Project ${PROJECT_NAME} requires an out of source build.")

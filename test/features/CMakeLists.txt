@@ -13,7 +13,7 @@ list(APPEND LIBS ${ITPP_LIBRARIES})
 
 message(WARNING "TODO: fix tests")
 
-option(ENABLE_REGRESSION_TEST "Enable comparison between Matlab code and C++ code" OFF)
+cmake_dependent_option(ENABLE_REGRESSION_TEST "Enable comparison between Matlab code and C++ code" OFF "ENABLE_TESTING" OFF)
 if(ENABLE_REGRESSION_TEST)
     add_definitions(-DENABLE_REGRESSION_TEST)
 endif()
