@@ -10,7 +10,7 @@ namespace bf = boost::filesystem;
 #include <itpp/itbase.h>
 #include <iostream>
 
-#define P(X) std::cout << std::endl << #X << ": " << X << std::endl;
+#define P(X) std::cout << #X << ":\n" << X << std::endl;
 
 /// Test operations on matrices.
 BOOST_AUTO_TEST_CASE(matrix_test) {
@@ -82,21 +82,24 @@ BOOST_FIXTURE_TEST_CASE(itpp_file, FileFixture) {
     BOOST_CHECK_EQUAL(m, mm);
 }
 
-#if 0 // FIXME: fix matlab file 
 /// Test read from itpp file generated from matlab.
 BOOST_AUTO_TEST_CASE(matlab_file) {
     using namespace itpp;
 
-    const std::string MATLAB_FILE = TEST_DATA_DIR "/matlab_test.it";
+    const std::string filename = TEST_DATA_DIR "/matlab_test.it";
+    P(filename);
 
-    vec sig, sil;
+    vec sig;
+    ivec sil;
     mat wts;
 
-    it_file file(MATLAB_FILE);
-    file >> Name("featuresSignal") >> sig;
+    it_ifile file(filename);
+    
+    file >> Name("featuresSignal") >> sig; 
+    P(sig);
     file >> Name("featuresSilence") >> sil;
+    P(sil);
     file >> Name("wts") >> wts;
-    file.close();
+    P(wts);
 }
-#endif
 
