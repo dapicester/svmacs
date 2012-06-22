@@ -13,9 +13,15 @@ include(MacroBuildInfo)
 include(MacroOutOfSourceBuild)
 macro_ensure_out_of_source_build("Project ${PROJECT_NAME} requires an out of source build.")
 
-# default prefix to the "/opt/svmacs" directory
-#set(CMAKE_INSTALL_PREFIX "/opt/svmacs")
-message(STATUS "prefix = ${CMAKE_INSTALL_PREFIX}")
+# installation paths
+set(INSTALL_BIN  "bin" CACHE STRING "Binary installation directory, relative to prefix")
+set(INSTALL_DATA "etc/svmacs" CACHE STRING "Data installation directory, relative to prefix") 
+set(INSTALL_LIB  "lib" CACHE STRING "Library installation directory, relative to prefix")
+message(STATUS "Installation:")
+message(STATUS "  prefix  : ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "  bindir  : ${INSTALL_BIN}")
+message(STATUS "  datadir : ${INSTALL_DATA}") 
+message(STATUS "  libdir  : ${INSTALL_LIB}")
 
 # build libjackcpp
 add_subdirectory(libjackcpp)

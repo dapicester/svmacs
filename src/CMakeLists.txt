@@ -144,8 +144,8 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 add_executable(svmacs ${svmacs_SRCS} ${svmacs_UIS_H} ${svmacs_MOCS_SRC} ${svmacs_RCCS_SRC})
 target_link_libraries(svmacs ${LIBS})
 
-install(TARGETS svmacs RUNTIME DESTINATION bin)
-install(FILES ${svmacs_MODELS} DESTINATION etc)
+install(TARGETS svmacs RUNTIME DESTINATION ${INSTALL_BIN})
+install(FILES ${svmacs_MODELS} DESTINATION ${INSTALL_DATA})
 
 # copy model files
 #add_custom_command(
@@ -186,16 +186,14 @@ if(BUILD_DOC)
         endif()
         add_dependencies(doc doxygen)
 
-        # install HTML API documentation and manual pages
-        set(DOC_PATH "share/doc/${CPACK_PACKAGE_NAME}-${VERSION}")
+        # TODO: fix install
 
-        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html
-                DESTINATION ${DOC_PATH}
-              )
+        # install HTML API documentation and manual pages
+        #set(DOC_PATH "share/doc/${CPACK_PACKAGE_NAME}-${VERSION}")
+
+        #install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html DESTINATION ${DOC_PATH})
 
         # install man pages into packages, scope is now project root..
-        install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/man/man3
-                DESTINATION share/man/man3/
-              )
+        #install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/man/man3 DESTINATION share/man/man3)
     endif()
 endif()

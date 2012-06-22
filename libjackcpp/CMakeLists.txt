@@ -18,5 +18,5 @@ target_link_libraries(jackcpp ${JACK_LIBRARIES})
 add_library(jackcpp-static STATIC ${jackcpp_SRCS})
 
 install(TARGETS jackcpp jackcpp-static
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
+    LIBRARY DESTINATION ${INSTALL_LIB}
+    ARCHIVE DESTINATION ${INSTALL_LIB})
