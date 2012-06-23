@@ -76,9 +76,10 @@ add_definitions(-Wall -W -pipe)
 
 option(ENABLE_LOG "Enable logging" OFF)
 
-option(MFCC_FILE "Load MFCC filter bank matrix from file" ON)
-if(MFCC_FILE)
-    message(STATUS "Using MFCC filter bank matrix file")
+option(USE_MFCC_FILE "Load MFCC filter bank matrix from file" OFF)
+if(USE_MFCC_FILE)
+    set(MFCC_FILE ${PROJECT_SOURCE_DIR}/data/melfb.it)
+    message(STATUS "Using MFCC filter bank matrix file: ${MFCC_FILE}")
 endif()
 
 ###########

@@ -4,7 +4,6 @@
  ***************************************************************************/
 
 #include "mfcc.h"
-#include "utils/execpath.h"
 #include "config.h"
 
 #include <itpp/itbase.h>
@@ -24,13 +23,9 @@ const int MEL_DEN = 700;
 
 void MFCC::initFilterBank() {
 #ifdef MFCC_FILE /* load the filter bank matrix from file */
-    // assume that the executable directory contains also data files
-    const std::string FILE_NAME = "melfb.it";
-    const std::string file_path = ExecPath::getInstance()->getPath(FILE_NAME);
-    rInfo("loading Mel FilterBank from file %s ...", file_path.c_str());
+    rInfo("loading Mel FilterBank from file %s ...", MFCC_FILE);
 
-    itpp::it_file file;
-    file.open(file_path);
+    itpp::it_file file(MFCC_FILE);
     file >> itpp::Name("wts") >> filterBank;
     file.close();
     rInfo("done");

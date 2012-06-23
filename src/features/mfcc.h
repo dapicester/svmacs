@@ -22,7 +22,7 @@ public:
     /// Compute the MFCC for the given spectrum frame
     void extract(const itpp::vec& frame, itpp::vec* features) const;
 
-    itpp::mat getFilterBank() {
+    itpp::mat getFilterBank() const {
         return filterBank;
     }
 

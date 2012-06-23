@@ -2,18 +2,9 @@
 #define FIXTURE_H_
 
 #include "features/feature.h"
+#include "testconfig.h"
 #include "testUtils.h"
-
-// FIXME: this
-#ifdef ENABLE_REGRESSION_TEST
-#include "utils/path.h"
-namespace {
-const std::string MATLAB_FILE = PATH + "test/matlab/matlab.it";
-const std::string SIGNAL_FILE = PATH + "test/matlab/signal.it";
-}
-#else
 #include "utils/utils.h"
-#endif
 
 namespace test {
 
@@ -29,9 +20,11 @@ struct TestData {
 struct Fixture {
     Fixture() {
 #ifdef ENABLE_REGRESSION_TEST
+        using namespace itpp;
+
         it_file file;
 
-        file.open(SIGNAL_FILE);
+        file.open(TEST_DATA_DIR "/matlab/signal.it");
         file >> Name("sampleRate") >> sampleRate;
         file >> Name("nfft") >> nfft;
         file >> Name("silence") >> silence.samples;
@@ -40,11 +33,13 @@ struct Fixture {
         file >> Name("signalSpectrum") >> signal.spectrum;
         file.close();
 
-        file.open(MATLAB_FILE);
+        file.open(TEST_DATA_DIR "/matlab/matlab.it");
         file >> Name("featuresSignal") >> signal.expected;
-        file >> Name("featuresSilence") >> silence.expected; // FIXME: wrong type?
+        file >> Name("featuresSilence") >> silence.expected;
         silence.expected = zeros(1,12);
+#ifdef MFCC_FILE
         file >> Name("wts") >> filterBank;
+#endif
         file.close();
 #else
         sampleRate = 22050;
@@ -62,7 +57,9 @@ struct Fixture {
     double nfft;
     TestData signal;
     TestData silence;
-    //itpp::mat filterBank; /* MFCC only */
+#ifdef MFCC_FILE
+    itpp::mat filterBank;
+#endif
 };
 
 /// Extract feature

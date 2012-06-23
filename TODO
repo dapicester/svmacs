@@ -9,10 +9,10 @@
   * rimuovere dichiarazioni throw() e scrivere Doxygen
   * aggiungere nota di Copyright esatta nei sorgenti
 
-- riscrivere i casi di test  
-  * usare Boost UnitTest
+- feature test
+  * test di regressione usando dati di Matlab/Octave
 
-- usare ruby invece che octave/matlab
+- usare Ruby invece che Octave/Matlab
 
 - visualizzare nella textEdit i messaggi di log con log >= info 
   (timestamp + evento + colore)
