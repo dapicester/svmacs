@@ -6,8 +6,11 @@
 #ifndef FEATURE_H
 #define FEATURE_H
 
+#include "config.h"
 #include <itpp/base/vec.h>
 #include <boost/noncopyable.hpp>
+
+NS_SVMACS_BEGIN
 
 /**
  * Enumeration for feature types.
@@ -22,7 +25,7 @@ enum Type {
 /**
  * Abstract base class for feature extractors. 
  */
-class Feature : boost::noncopyable {
+class Feature : private boost::noncopyable {
 public:
     Feature(int sampleRate, Type type);
     virtual ~Feature();
@@ -43,7 +46,7 @@ public:
      * \param features 
      *   features vector to which append the computed feature
      */
-    virtual void extract(const itpp::vec& data, itpp::vec* features) const = 0;
+    virtual void extract(const itpp::vec& data, itpp::vec* features) const = 0; // FIXME: use reference instead of pointer
     
 protected:
     /// The actual sample rate;
@@ -55,5 +58,7 @@ protected:
     /// The feature name.
     std::string name;  
 };
+
+NS_SVMACS_END
 
 #endif

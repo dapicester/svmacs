@@ -1,14 +1,20 @@
-#include "FeatureTester.h"
+#define BOOST_TEST_MODULE EnergyTest
+#include <boost/test/unit_test.hpp>
+
+#include "Fixture.h"
 #include "features/energy.h"
 
-Feature* FeatureTest::setFeature() {
-    return new Energy(sampleRate);
+BOOST_FIXTURE_TEST_CASE(energy_test, test::Fixture) {
+    svmacs::Energy feature(sampleRate);
+    test::doTest(feature, silence);
+    test::doTest(feature, signal);
 }
 
 #ifdef ENABLE_REGRESSION_TEST
-static const int INDEX = 1;
-
-void FeatureTest::doRegressionTest(const itpp::vec& expected, const itpp::vec& data) const {
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX], data[INDEX], DELTA);
+namespace test {
+const int INDEX = 1;
+void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) {
+    BOOST_CHECK_CLOSE(expected[INDEX], data[INDEX], DELTA);
 }
+} /* namespace test */
 #endif

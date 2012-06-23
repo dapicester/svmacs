@@ -3,11 +3,15 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef TEST_CONFIG_H
-#define TEST_CONFIG_H
+#ifndef CONFIG_H
+#define	CONFIG_H
 
-#cmakedefine DATA_DIR "@DATA_DIR@"
-#cmakedefine TEST_DATA_DIR "@TEST_DATA_DIR@"
-#cmakedefine ENABLE_REGRESSION_TEST
+#define NS_SVMACS_BEGIN namespace svmacs {
+#define NS_SVMACS_END   } /* namepace svmacs */
 
-#endif	/* TEST_CONFIG_H */
+#cmakedefine CONFIG_FILE "@CONFIG_FILE@"
+#cmakedefine MFCC_FILE "@MFCC_FILE@"
+#cmakedefine ENABLE_LOG
+#cmakedefine ENABLE_GUI
+
+#endif	/* CONFIG_H */

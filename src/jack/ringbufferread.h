@@ -9,16 +9,21 @@
 #ifndef RINGBUFFERREAD_H
 #define RINGBUFFERREAD_H
 
+#include "config.h"
+
 extern "C" {
 #include <jack/ringbuffer.h>
 }
 
+#include <boost/noncopyable.hpp>
 #include <string.h>
+
+NS_SVMACS_BEGIN
 
 /**
  * Class modeling a read-only ring buffer.
  */
-class RingBufferRead {
+class RingBufferRead : private boost::noncopyable {
 public:
     /** 
      * Constructor.
@@ -69,5 +74,7 @@ private:
     /// Size
     static const int double_size = sizeof(double);
 };
+
+NS_SVMACS_END
 
 #endif

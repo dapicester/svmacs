@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "hr.h"
 #include "utils/utils.h"
 
@@ -14,6 +13,8 @@ using itpp::ivec;
 #define RLOG_COMPONENT "hr"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+
 HR::HR(int samplerate) : Feature(samplerate, TEMPORAL) {
     name = "HR";
 }
@@ -21,7 +22,7 @@ HR::HR(int samplerate) : Feature(samplerate, TEMPORAL) {
 HR::~HR() {
 }
 
-static const int INDEX = 5;
+const int INDEX = 5;
 
 void HR::extract(const vec& frame, vec* features) const {
     double hr = 0.0;
@@ -44,3 +45,5 @@ void HR::extract(const vec& frame, vec* features) const {
 
     (*features)[INDEX] = hr;
 }
+
+NS_SVMACS_END

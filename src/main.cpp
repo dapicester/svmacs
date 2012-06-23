@@ -6,7 +6,6 @@
 #include "version.h"
 #include "config.h"
 #include "cli/svmaccli.h"
-#include "utils/execpath.h"
 
 #ifdef ENABLE_GUI
 #include "gui/svmacgui.h"
@@ -17,26 +16,29 @@
 #include <rlog/rlog.h>
 #include <rlog/StdioNode.h>
 #include <rlog/RLogChannel.h>
-using namespace rlog;
+
+#include <boost/filesystem.hpp>
+namespace bf = boost::filesystem;
 
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
+#include <fstream>
 #include <iostream>
 
+using namespace svmacs;
+using namespace rlog;
+using namespace std;
+
 void showVersion() {
-    using namespace std;
     cout << "svmacs " 
             << VERSION_MAJOR << "." 
             << VERSION_MINOR << "." 
             << VERSION_PATCH << endl;
-    // TODO: show copyright and no warranty advise
+    cout << "Copyright (C) 2009-2012  Paolo D'Apice <paolo.dapice@gmail.com>" << endl;
+    cout << "This software is provided as-is, with absolutely no warranty." << endl;
 }
 
-/**
- *  @brief The application CLI.
- *  @author Paolo D'Apice
- */
 int main(int argc, char** argv) {
     // initialize logging
     RLogInit(argc, argv);
@@ -48,30 +50,63 @@ int main(int argc, char** argv) {
     log.subscribeTo( GetGlobalChannel("warning") );
     log.subscribeTo( GetGlobalChannel("error") );
 
-    // initialize 
-    ExecPath::init(argv[0]);
-    
-    // Declare the supported options.
-    float length = 0.5;
-    float overlap = 50.0;
-
-    po::options_description desc("Allowed options");
-    desc.add_options()
-        ("help,h", "produce help message\n")
-        ("length,N", po::value<float>(), 
-                   "set frame length (in seconds),\ndefaults to 0.5 second\n")
-        ("overlap,R", po::value<float>(), 
-                    "set frames overlapping ratio (percentage),\ndefaults to 50 %\n")
+    // generoptions allowed only on command line
+    po::options_description generic("Generic options");
+    generic.add_options()
 #ifdef ENABLE_GUI        
         ("gui,g", "launch the gui")
 #endif
-        ("version,v", "show version")
+        ("help,h", "print help message")
+        ("version,v", "show version string")
     ;
 
-    // parsing command line
+    // Declare the supported options.
+    float length, overlap;
+    string dmodel, cmodel;
+
+    // options allowed both on command line and config file
+    po::options_description config("Configuration");
+    config.add_options()
+        ("config,F", po::value<string>(),
+                    "use configuration file")
+        ("length,N", po::value<float>(&length)->default_value(0.5), 
+                   "set frame length (in seconds)")
+        ("overlap,R", po::value<float>(&overlap)->default_value(50.0), 
+                    "set frames overlapping ratio (percentage)")
+    ;
+
+    // hidden options, allowed both on command line and config file
+    po::options_description hidden("Hidden options");
+    hidden.add_options()
+        ("cfile,C", po::value<string>(), "Classification model file")
+        ("dfile,D", po::value<string>(), "Detection model file")
+    ;
+
+    // options configuration
+    po::options_description cmdlineOptions;
+    cmdlineOptions.add(generic).add(config).add(hidden);
+
+    po::options_description cfgfileOptions;
+    cfgfileOptions.add(config).add(hidden);
+
+    po::options_description visibleOptions("Allowed options");
+    visibleOptions.add(generic).add(config);
+#ifndef NDEBUG
+    visibleOptions.add(hidden);
+#endif
+
+    // parsing options
     po::variables_map vm;
     try {
-        po::store(po::parse_command_line(argc, argv, desc), vm);
+        po::store(po::parse_command_line(argc, argv, cmdlineOptions), vm);
+
+        if (not bf::exists(CONFIG_FILE)) {
+            rWarning("No configuration file found");
+        } else {
+            rInfo("Using configuration file %s", CONFIG_FILE);
+            ifstream configFile(CONFIG_FILE);
+            po::store(po::parse_config_file(configFile, cfgfileOptions), vm);
+        }
         po::notify(vm);
     } catch (po::error& e) {
         rError("Error: %s@", e.what());
@@ -79,7 +114,7 @@ int main(int argc, char** argv) {
     }
 
     if (vm.count("help")) {
-        std::cout << desc << std::endl;
+        cout << visibleOptions << endl;
         return 0;
     }
     
@@ -92,15 +127,26 @@ int main(int argc, char** argv) {
     if (vm.count("length")) {
         length = vm["length"].as<float>();
         rInfo("frame length set to %.2f seconds", length);
-    } else {
-        rInfo("using default frame length: %.2f seconds", length);
-    }
+    } 
 
     if (vm.count("overlap")) {
         overlap = vm["overlap"].as<float>();
-        rInfo("frames overlap set to %.2f %%", overlap);
+        rInfo("frames overlap set to %.2f%%", overlap);
+    } 
+
+    if (vm.count("dfile")) {
+        dmodel.assign(vm["dfile"].as<string>());
+        rInfo("using detection model: %s", dmodel.c_str());
     } else {
-        rInfo("using default frame overlap: %.2f %%", overlap);
+        rError("detection model not set.");
+        return 1;
+    }
+    if (vm.count("cfile")) {
+        cmodel.assign(vm["cfile"].as<string>());
+        rInfo("using classification model: %s", cmodel.c_str());
+    } else {
+        rError("classification model not set.");
+        return 1;
     }
     
 #ifdef ENABLE_GUI
@@ -113,7 +159,7 @@ int main(int argc, char** argv) {
         rInfo("launching the GUI interface ...");
         Q_INIT_RESOURCE(application);
         QApplication app(argc, argv);
-        SvmacGui gui(length, overlap);
+        SvmacGui gui(length, overlap, dmodel, cmodel);
         gui.show();
         return app.exec();
     }
@@ -122,8 +168,8 @@ int main(int argc, char** argv) {
     rInfo("Launching the CLI interface ...");
     SvmacCli* cli = new SvmacCli;
     try {
-        cli->start(length, overlap);
-    } catch (std::runtime_error& e) {
+        cli->start(length, overlap, dmodel, cmodel);
+    } catch (runtime_error& e) {
         rError("Error: %s", e.what());
     }
 

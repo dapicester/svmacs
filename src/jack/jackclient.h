@@ -6,14 +6,17 @@
 #ifndef JACKCLIENT_H
 #define JACKCLIENT_H
 
-class RingBufferRead;
-class Engine;
-
+#include "config.h"
 #include <jackaudioio.hpp>
 
 #include <itpp/base/vec.h>
 #include <boost/noncopyable.hpp>
 //#include <boost/signals2.hpp>
+
+NS_SVMACS_BEGIN
+
+class RingBufferRead;
+class Engine;
 
 /**
  * This class implement a Jack client, providing the implementation
@@ -71,4 +74,6 @@ private:
     Engine* engine;
 };
 
+NS_SVMACS_END
+        
 #endif // JACKCLIENT_H

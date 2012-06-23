@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "ass.h"
 #include "utils/utils.h"
 
@@ -13,13 +12,15 @@ using itpp::vec;
 #define RLOG_COMPONENT "ass"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+
 ASS::ASS(int samplerate) : Feature(samplerate, SPECTRAL) {
     name = "ASS and ASC";
 }
 
 ASS::~ASS() {}
 
-static const int INDEX = 2;
+const int INDEX = 2;
 
 void ASS::extract(const vec& spectrum, vec* features) const {
     const int len = spectrum.length() - 1;
@@ -44,3 +45,5 @@ void ASS::extract(const vec& spectrum, vec* features) const {
     (*features)[INDEX] = spread;
     (*features)[INDEX + 1] = centroid;
 }
+
+NS_SVMACS_END

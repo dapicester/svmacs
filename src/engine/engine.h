@@ -6,10 +6,7 @@
 #ifndef ENGINE_H
 #define	ENGINE_H
 
-class JackClient;
-class Processor;
-class Classifier;
-
+#include "config.h"
 #include "model/event.h"
 #include "exceptions/exceptions.h"
 
@@ -17,22 +14,34 @@ class Classifier;
 #include <boost/signals2.hpp>
 #include <boost/noncopyable.hpp>
 
+NS_SVMACS_BEGIN
+
+class JackClient;
+class Processor;
+class Classifier;
+
 /**
  * This class contains the application business logic,
  * i.e. reading audio input data from the Jack client,
  * computing features and and using them classification.
  */ 
-class Engine : boost::noncopyable {
+class Engine : private boost::noncopyable {
 public:
     /**
      * Constructor.
      * @param length 
      *          frame length (seconds)
      * @param overlap
-     *          frames overlapping ratio (defaults to 0)
+     *          frames overlapping ratio (percentage)
+     * @param dmodel
+     *          path to the detection model file
+     * @param cmodel
+     *          path to the classification model file
      */
-    Engine(float length, float overlap = 0.0) 
-            throw (JackException, BadModel);
+    Engine(float length, float overlap, const std::string& dmodel,
+            const std::string& cmodel) throw (JackException, BadModel);
+
+    /// Destructor.
     ~Engine();
     
     /**
@@ -50,7 +59,7 @@ public:
      */
     boost::signals2::signal<void (Event)> eventDetected;
     
-private:
+private: // TODO: boost::scoped_ptr
     /// The Jack audio client.
     JackClient* client;
     
@@ -66,5 +75,7 @@ public:
     /// slot for input processing
     void processFrame(const itpp::vec& frame) const;
 };
+
+NS_SVMACS_END
 
 #endif	/* ENGINE_H */

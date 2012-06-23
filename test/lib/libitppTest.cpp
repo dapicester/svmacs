@@ -1,93 +1,105 @@
+#define BOOST_TEST_MODULE libitppTest
+#include <boost/test/unit_test.hpp>
+
 #include "testconfig.h"
-#include "libitppTest.h"
-#include "utils/testUtils.h"
+//#include "utils/testUtils.h"
 
-#include <iostream>
+#include <boost/filesystem.hpp>
+namespace bf = boost::filesystem;
+
 #include <itpp/itbase.h>
-using namespace itpp;
+#include <iostream>
 
-CPPUNIT_TEST_SUITE_REGISTRATION(libitppTest);
+#define P(X) std::cout << #X << ":\n" << X << std::endl;
 
-#define P(X) std::cout << std::endl << #X << ": " << X << std::endl;
-
-void libitppTest::testMatrix() {
-    mat A = "1 2 3; 4 5 6; 7 8 9";
-    mat B = "1; 2; 3";
+/// Test operations on matrices.
+BOOST_AUTO_TEST_CASE(matrix_test) {
+    itpp::mat A = "1 2 3; 4 5 6; 7 8 9";
+    P(A);
+    itpp::mat B = "1; 2; 3";
+    P(B);
 
     // matrix product
-    mat C = A*B;
+    itpp::mat C = A*B;
+    P(C);
+
     // hermitian transposition
-    mat D = B.hermitian_transpose() * A;
+    itpp::mat D = B.hermitian_transpose() * A;
+    P(D)
 }
 
-void libitppTest::testVector() {
-    vec v = itpp::linspace(0, 10, 10+1);
-    vec u = itpp::linspace(1, 10, 10);
+/// Test operations on vectors.
+BOOST_AUTO_TEST_CASE(vector_test) {
+    itpp::vec v = itpp::linspace(0, 10, 10+1);
+    P(v);
+    itpp::vec u = itpp::linspace(1, 10, 10);
+    P(u);
 
     std::string us = itpp::to_str(u);
     P(us);
 }
 
-void libitppTest::testEquals() {
-    mat a = "1 2; 3 4";
-    mat b = "1 0; 3 4";
-    mat c = "1 2; 3 4";
+struct FileFixture {
+    FileFixture() : filePath(bf::temp_directory_path() / bf::path("itpp_test.it")) {}
+    ~FileFixture() { bf::remove_all(filePath); }
+    bf::path filePath;
+};
 
-    CPPUNIT_ASSERT ( a == a);
-    CPPUNIT_ASSERT_EQUAL(a, a);
+/// Test write/reat to itpp file.
+BOOST_FIXTURE_TEST_CASE(itpp_file, FileFixture) {
+    using namespace itpp;
 
-    CPPUNIT_ASSERT_ASSERTION_FAIL( CPPUNIT_ASSERT( a == b) );
-    CPPUNIT_ASSERT_ASSERTION_PASS( CPPUNIT_ASSERT( a == c) );
-}
-
-static const std::string FILE_NAME = std::string(TEST_DATA_DIR) + "/itpp_test.it";
-
-void libitppTest::testWriteFile() {
+    /* write to file */ 
     int i = -22;
     double d = 3.1415;
     vec v = "1 2 3 4 5";
     mat m = "1 2 3; 1 2 3";
+    {
+        it_file file(filePath.string());
+        file << Name("i") << i;
+        file << Name("d") << d;
+        file << Name("v") << v;
+        file << Name("m") << m;
+        file.close();
+    }
 
-    it_file file(FILE_NAME);
-    file << Name("i") << i;
-    file << Name("d") << d;
-    file << Name("v") << v;
-    file << Name("m") << m;
-    file.close();
+    /* read from file */
+    int ii;
+    double dd;
+    vec vv;
+    mat mm;
+    {
+        it_file file(filePath.string());
+        file >> Name("i") >> ii;
+        file >> Name("d") >> dd;
+        file >> Name("v") >> vv;
+        file >> Name("m") >> mm;
+        file.close();
+    }
+    BOOST_CHECK_EQUAL(i, ii);
+    BOOST_CHECK_EQUAL(d, dd);
+    BOOST_CHECK_EQUAL(v, vv);
+    BOOST_CHECK_EQUAL(m, mm);
 }
 
-void libitppTest::testReadFile() {
-    int i;
-    double d;
-    vec v;
-    mat m;
+/// Test read from itpp file generated from matlab.
+BOOST_AUTO_TEST_CASE(matlab_file) {
+    using namespace itpp;
 
-    it_file file(FILE_NAME);
-    file >> Name("i") >> i;
-    file >> Name("d") >> d;
-    file >> Name("v") >> v;
-    file >> Name("m") >> m;
+    const std::string filename = TEST_DATA_DIR "/matlab_test.it";
+    P(filename);
 
-    CPPUNIT_ASSERT_EQUAL(-22, i);
-    CPPUNIT_ASSERT_EQUAL(3.1415, d);
-    CPPUNIT_ASSERT_EQUAL(vec("1 2 3 4 5"), v);
-    CPPUNIT_ASSERT_EQUAL(mat("1 2 3; 1 2 3"), m);
-}
-
-static const std::string MATLAB_FILE = std::string(TEST_DATA_DIR) + "/matlab_test.it";
-
-void libitppTest::testRead() {
-    vec sig, sil;
+    vec sig;
+    ivec sil;
     mat wts;
 
-    it_file file;
-    file.open(MATLAB_FILE);
-    std::cout << "\n* file " << MATLAB_FILE<< " opened" << std::endl;
-
-    file >> Name("featuresSignal") >> sig;
+    it_ifile file(filename);
+    
+    file >> Name("featuresSignal") >> sig; 
+    P(sig);
     file >> Name("featuresSilence") >> sil;
-    std::cout << "* feature vectors ok" << std::endl;
-
+    P(sil);
     file >> Name("wts") >> wts;
-    std::cout << "* filter-bank matrix ok" << std::endl;
+    P(wts);
 }
+

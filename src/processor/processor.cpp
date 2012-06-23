@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "processor.h"
 
 #include "features/feature.h"
@@ -25,20 +24,22 @@ using itpp::mat;
 #define RLOG_COMPONENT "processor"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+
 /// Default window length in seconds (25ms)
-static const double WIN_LEN = 0.025;
+const double WIN_LEN = 0.025;
 /// Default percentage of windows overlap (50%)
-static const double WIN_OVL = 0.5;
+const double WIN_OVL = 0.5;
     
 /// Number of frequency bins
-static const int N_FFT = 1024;
+const int N_FFT = 1024;
 /// Number of MFCC filters
-static const int N_MFCC_FILTERS = 24; 
+const int N_MFCC_FILTERS = 24; 
 /// Number of MFCC coefficients
-static const int N_MFCC_COEFFS = 6;
+const int N_MFCC_COEFFS = 6;
 
 /// Number of features
-static const int N_FEATURES = 12;
+const int N_FEATURES = 12;
 
 Processor::Processor(int sr) : sampleRate(sr) {
     // initialize attributes
@@ -48,12 +49,12 @@ Processor::Processor(int sr) : sampleRate(sr) {
     rDebug("segmenting using %d samples hamming window, %d samples overlap", M, R);
     
     // initialize workers
-    workers.push_back(new Worker(new ZCR(sampleRate)));
-    workers.push_back(new Worker(new Energy(sampleRate)));
-    workers.push_back(new Worker(new ASS(sampleRate)));
-    workers.push_back(new Worker(new SRF(sampleRate)));
-    workers.push_back(new Worker(new HR(sampleRate)));
-    workers.push_back(new Worker(new MFCC(sampleRate, N_FFT-1, N_MFCC_FILTERS, N_MFCC_COEFFS)));
+    extractors.push_back(new ZCR(sampleRate));
+    extractors.push_back(new Energy(sampleRate));
+    extractors.push_back(new ASS(sampleRate));
+    extractors.push_back(new SRF(sampleRate));
+    extractors.push_back(new HR(sampleRate));
+    extractors.push_back(new MFCC(sampleRate, N_FFT-1, N_MFCC_FILTERS, N_MFCC_COEFFS))    ;
     rDebug("workers created");
     
     rInfo("Processor created");
@@ -86,24 +87,21 @@ vec Processor::process(const vec& frame) {
            
         //rDebug("extracting");
         vec features = itpp::zeros(N_FEATURES);
-        for (boost::ptr_vector<Worker>::size_type j = 0u; j < workers.size(); j++) {
+#pragma omp parallel for
+        for (boost::ptr_vector<Feature>::size_type j = 0u; j < extractors.size(); j++) {
             //rDebug("extracting %s", extractors[j]->getName().c_str());
-            switch (workers[j].getFeatureType()) {
+            // TODO: use pointers
+            switch (extractors[j].getType()) {
             case TEMPORAL:
-                workers[j].start(current, &features); 
+                extractors[j].extract(current, &features); 
                 break;
             case SPECTRAL: 
-                workers[j].start(spectrum, &features); 
+                extractors[j].extract(spectrum, &features); 
                 break;
             default: // this should never occur
-                rError("unknown feature type: (%i)", workers[j].getFeatureType());
+                rError("unknown feature type: (%i)", extractors[j].getType());
             }
             //rDebug("started worker [%d]", j);
-        }
-        // waiting for termination
-        for (boost::ptr_vector<Worker>::size_type j = 0u; j < workers.size(); j++) {
-            //rDebug("waiting for worker [%d]", j);
-            workers[j].join();
         }
         
         //rDebug("feature vector: %s", itpp::to_str(features).c_str());
@@ -121,3 +119,5 @@ vec Processor::process(const vec& frame) {
     //rDebug("final feature vector: %s", itpp::to_str(vout).c_str());
     return vout;
 }
+
+NS_SVMACS_END

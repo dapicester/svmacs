@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "energy.h"
+#include "config.h"
 
 #include <itpp/itbase.h>
 using itpp::vec;
@@ -12,13 +12,17 @@ using itpp::vec;
 #define RLOG_COMPONENT "energy"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+
+// FIXME: inline this!!!
+
 Energy::Energy(int samplerate) : Feature(samplerate, TEMPORAL) {
     name = "Energy";
 }
 
 Energy::~Energy() {}
 
-static const int INDEX = 1;
+const int INDEX = 1;
 
 void Energy::extract(const vec& frame, vec* features) const {
     const int len = frame.length();
@@ -28,3 +32,5 @@ void Energy::extract(const vec& frame, vec* features) const {
     
     (*features)[INDEX] = energy;
 }
+
+NS_SVMACS_END

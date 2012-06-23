@@ -3,11 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef CONFIG_H
-#define	CONFIG_H
+#ifndef TEST_CONFIG_H
+#define TEST_CONFIG_H
 
-#cmakedefine MFCC_FILE
-#cmakedefine ENABLE_LOG
-#cmakedefine ENABLE_GUI
+#cmakedefine DATA_DIR "@DATA_DIR@"
+#cmakedefine TEST_DATA_DIR "@TEST_DATA_DIR@"
 
-#endif	/* CONFIG_H */
+#endif	/* TEST_CONFIG_H */

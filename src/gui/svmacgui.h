@@ -6,13 +6,16 @@
 #ifndef SVMACS_GUI_H
 #define SVMACS_GUI_H
 
+#include "config.h"
 #include "ui_svmacgui.h"
 #include "model/event.h"
 //#include "gui/qdebugstream.h"
 
 #include <QObject>
 
+NS_SVMACS_BEGIN
 class Engine;
+NS_SVMACS_END
 
 /** 
  * @class SvmacGui
@@ -29,9 +32,15 @@ public:
      *          frame length (in seconds)
      * @param overlap
      *          frame overlapping ratio (percentage)
+     * @param dmodel
+     *          path to the detection model file
+     * @param cmodel
+     *          path to the classification model file
      * @param parent
      */
-    SvmacGui(float length, float overlap, QWidget *parent = 0);
+    SvmacGui(float length, float overlap, 
+            const std::string& dmodel, const std::string& cmodel,
+            QWidget *parent = 0);
     
     /*
      * Boost - Qt signals/slots adapter scheme:
@@ -58,15 +67,15 @@ public Q_SLOTS:
     void showAbout();
 
     /// Action performed on event detection
-    void eventDetected(const Event& event);
+    void eventDetected(const svmacs::Event& event);
 
 protected:
     /// Adapter Boost slot transforming a Boost signal into a Qt signal
-    void adapterSlot(const Event& event);
+    void adapterSlot(const svmacs::Event& event);
 
 Q_SIGNALS:
     /// Adapter Qt signal for Boost signal Engine::eventDetected
-    void adapterSignal(const Event& event);   
+    void adapterSignal(const svmacs::Event& event);   
 
 private:
     /// Enable the specified widget
@@ -80,8 +89,11 @@ private:
     void setTextDefault(QLabel* label);
 
 private:
+    const std::string dmodel;
+    const std::string cmodel;
+
     /// pointer to the engine
-    Engine* engine;
+    svmacs::Engine* engine;
     
     /// capture cout
     //QDebugStream qout;

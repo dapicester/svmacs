@@ -9,18 +9,21 @@ cmake_minimum_required(VERSION 2.8.0)
 # find modules path
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "verbose make messages")
-if(CMAKE_VERBOSE_MAKEFILE)
-    message(STATUS "verbose Makefile")
-endif(CMAKE_VERBOSE_MAKEFILE)
-
-# The macro below forces the build directory to be different from source directory
+# include modules
+include(CMakeDependentOption)
+include(MacroBuildInfo)
 include(MacroOutOfSourceBuild)
 macro_ensure_out_of_source_build("Project ${PROJECT_NAME} requires an out of source build.")
 
-# default prefix to the "/opt/svmacs" directory
-set(CMAKE_INSTALL_PREFIX "/opt/svmacs")
-message(STATUS "prefix = ${CMAKE_INSTALL_PREFIX}")
+# installation paths
+set(INSTALL_BIN  "bin" CACHE STRING "Binary installation directory, relative to prefix")
+set(INSTALL_DATA "etc/svmacs" CACHE STRING "Data installation directory, relative to prefix") 
+set(INSTALL_LIB  "lib" CACHE STRING "Library installation directory, relative to prefix")
+message(STATUS "Installation:")
+message(STATUS "  prefix  : ${CMAKE_INSTALL_PREFIX}")
+message(STATUS "  bindir  : ${INSTALL_BIN}")
+message(STATUS "  datadir : ${INSTALL_DATA}") 
+message(STATUS "  libdir  : ${INSTALL_LIB}")
 
 # build libjackcpp
 add_subdirectory(libjackcpp)
@@ -29,11 +32,19 @@ add_subdirectory(libjackcpp)
 add_subdirectory(src)
 
 # build tests
-option(ENABLE_TESTING "Enable test compilation" ON)
+option(ENABLE_TESTING "Enable tests compilation" ON)
 if (ENABLE_TESTING)
     enable_testing()
     add_subdirectory(test)
-endif(ENABLE_TESTING)
+endif()
+
+# uninstall target
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+               "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
 # packaging
 include(InstallRequiredSystemLibraries)

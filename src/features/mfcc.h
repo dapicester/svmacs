@@ -8,6 +8,8 @@
 
 #include "feature.h"
 
+NS_SVMACS_BEGIN
+
 /**
  * Mel-Frequency Cepstral Coefficients audio feature.
  * TODO: definition
@@ -20,7 +22,7 @@ public:
     /// Compute the MFCC for the given spectrum frame
     void extract(const itpp::vec& frame, itpp::vec* features) const;
 
-    itpp::mat getFilterBank() {
+    itpp::mat getFilterBank() const {
         return filterBank;
     }
 
@@ -40,5 +42,7 @@ private:
     /// Generate the Mel filter bank
     void initFilterBank();
 };
+
+NS_SVMACS_END
 
 #endif

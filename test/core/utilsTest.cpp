@@ -1,46 +1,48 @@
-#include "utilsTest.h"
+#define BOOST_TEST_MODULE UtilsTest
+#include <boost/test/unit_test.hpp>
+
 #include "utils/utils.h"
+using namespace svmacs;
 
 #include <itpp/base/vec.h>
 using itpp::vec;
 using itpp::ivec;
 
-CPPUNIT_TEST_SUITE_REGISTRATION(utilsTest);
+const int size = 5;
+const vec input = "0 -1 2 0 4";
 
-static const int size = 5;
-static const vec input = "0 -1 2 0 4";
-
-void utilsTest::testFlipud() {
+BOOST_AUTO_TEST_CASE(flipud_test) {
     vec output = flipud(input);
-    vec expected = "4 0 2 -1 0";
-    CPPUNIT_ASSERT_EQUAL(expected, output);
+    const vec expected = "4 0 2 -1 0";
+    BOOST_CHECK_EQUAL(expected, output);
 }
 
-void utilsTest::testNumel() {
+BOOST_AUTO_TEST_CASE(numel_test) {
     int output = numel(input);
-    CPPUNIT_ASSERT_EQUAL(size, output);
+    BOOST_CHECK_EQUAL(size, output);
 }
 
-void utilsTest::testFind() {
+BOOST_AUTO_TEST_CASE(find_test) {
     ivec output = find(input);
-    ivec expected = "1 2 4";
-    CPPUNIT_ASSERT_EQUAL(expected, output);
+    const ivec expected = "1 2 4";
+    BOOST_CHECK_EQUAL(expected, output);
 }
 
-void utilsTest::testDiff() {
+BOOST_AUTO_TEST_CASE(diff_test) {
     vec output = diff(input);
-    vec expected = "-1 3 -2 4";
-    CPPUNIT_ASSERT_EQUAL(expected, output);
+    const vec expected = "-1 3 -2 4";
+    BOOST_CHECK_EQUAL(expected, output);
 }
 
-void utilsTest::testMaxima() {
+BOOST_AUTO_TEST_CASE(maxima_test) {
     ivec output = maxima(input);
-    ivec expected = "0 2 4";
-    CPPUNIT_ASSERT_EQUAL(expected, output);
+    const ivec expected = "0 2 4";
+    BOOST_CHECK_EQUAL(expected, output);
 }
 
-void utilsTest::testLinvec() {
+BOOST_AUTO_TEST_CASE(linvec_test) {
     vec output = linvec(0, 10);
-    vec expected = "0 1 2 3 4 5 6 7 8 9 10";
-    CPPUNIT_ASSERT_EQUAL(expected, output);
+    const vec expected = "0 1 2 3 4 5 6 7 8 9 10";
+    BOOST_CHECK_EQUAL(expected, output);
 }
+

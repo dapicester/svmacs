@@ -6,7 +6,10 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+#include "config.h"
 #include <string>
+
+NS_SVMACS_BEGIN
 
 /** 
  * Type of detected event.
@@ -31,9 +34,11 @@ public:
     /// Getter for the description property
     std::string getDescription() const ;
     
-private:
+private: // TODO: add details, e.g. timestamp
     EventType type;
     const std::string description;
 };
+
+NS_SVMACS_END
 
 #endif

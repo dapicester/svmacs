@@ -1,19 +1,21 @@
-#include "FeatureTester.h"
+#define BOOST_TEST_MODULE AssTest
+#include <boost/test/unit_test.hpp>
+
+#include "Fixture.h"
 #include "features/ass.h"
 
-#include <itpp/itcomm.h>
-using namespace itpp;
-
-Feature* FeatureTest::setFeature() {
-    return new ASS(sampleRate);
+BOOST_FIXTURE_TEST_CASE(ass_silence, test::Fixture) {
+    svmacs::ASS feature(sampleRate);
+    test::doTest(feature, silence);
+    test::doTest(feature, signal);
 }
 
 #ifdef ENABLE_REGRESSION_TEST
-static const int INDEX = 2;
-
-void FeatureTest::doRegressionTest(const vec& expected, const vec& data) const {
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX], data[INDEX], DELTA);
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(expected[INDEX + 1], data[INDEX + 1], DELTA);
+namespace test {
+const int INDEX = 2;
+void doRegressionTest(const itpp::vec& expected, const itpp::vec& data) {
+    BOOST_CHECK_CLOSE(expected[INDEX], data[INDEX], DELTA);
+    BOOST_CHECK_CLOSE(expected[INDEX + 1], data[INDEX + 1], DELTA);
 }
-
+} /* namespace test */
 #endif

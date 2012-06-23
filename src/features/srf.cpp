@@ -3,7 +3,6 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "config.h"
 #include "srf.h"
 
 #include <itpp/itbase.h>
@@ -12,8 +11,10 @@ using itpp::vec;
 #define RLOG_COMPONENT "srf"
 #include <rlog/rlog.h>
 
+NS_SVMACS_BEGIN
+        
 /// Roll-off threshold (percentage)
-static const double ALPHA = 0.93;
+const double ALPHA = 0.93;
 
 SRF::SRF(int samplerate) : Feature(samplerate, SPECTRAL) {
     name = "SRF";
@@ -30,8 +31,9 @@ void SRF::extract(const vec& spectrum, vec* features) const {
     double threshold = ALPHA * itpp::sum(spectrum2);
 
     double K = 0.0;
+    double summ = 0.0;
     for (int k = 1; k < len; k++) {
-        double summ = itpp::sum(spectrum2.left(k));
+        summ = itpp::sum(spectrum2.left(k));
         //if ( summ > threshold) { XXX: this is correct
         if (summ < threshold) {
              K = k;
@@ -41,3 +43,5 @@ void SRF::extract(const vec& spectrum, vec* features) const {
 
     (*features)[INDEX] = K;
 }
+
+NS_SVMACS_END

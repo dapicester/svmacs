@@ -6,12 +6,13 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
-class Feature;
-
+#include "config.h"
 #include <itpp/base/vec.h>
 #include <boost/ptr_container/ptr_vector.hpp>
 
-#include "worker.h"
+NS_SVMACS_BEGIN
+
+class Feature;
 
 /** 
  * Class processing the input audio frames for feature extraction.
@@ -41,7 +42,9 @@ private:
     int R;
     
     /// worker for features extraction
-    boost::ptr_vector<Worker> workers;
+    boost::ptr_vector<Feature> extractors;
 };
+
+NS_SVMACS_END
 
 #endif
