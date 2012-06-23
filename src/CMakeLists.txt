@@ -10,7 +10,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 ################
 
 include_directories(${PROJECT_SOURCE_DIR}/libjackcpp)
-list(APPEND LIBS jackcpp)
+list(APPEND LIBS jackcpp-static)
 
 find_package(OpenMP)
 if (OPENMP_FOUND)

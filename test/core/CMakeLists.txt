@@ -9,7 +9,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 list(APPEND LIBS ${Boost_LIBRARIES})
 
 include_directories(${PROJECT_SOURCE_DIR}/libjackcpp ${JACK_INCLUDE_DIRS})
-list(APPEND LIBS jackcpp ${JACK_LIBRARIES})
+list(APPEND LIBS jackcpp-static ${JACK_LIBRARIES})
 
 include_directories(${ITPP_INCLUDE_DIRS})
 list(APPEND LIBS ${ITPP_LIBRARIES})
@@ -18,11 +18,11 @@ include_directories(${RLOG_INCLUDE_DIRS})
 list(APPEND LIBS ${RLOG_LIBRARIES})
 
 add_executable(JackRingBufferTest JackRingBufferTest.cpp)
-target_link_libraries(JackRingBufferTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp)
+target_link_libraries(JackRingBufferTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
 add_test(NAME core/JackRingBufferTest COMMAND JackRingBufferTest)
 
 add_executable(RingBufferReadTest RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp)
-target_link_libraries(RingBufferReadTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp)
+target_link_libraries(RingBufferReadTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
 add_test(NAME core/RingBufferReadTest COMMAND RingBufferReadTest)
 
 add_executable(UtilsTest utilsTest.cpp)
