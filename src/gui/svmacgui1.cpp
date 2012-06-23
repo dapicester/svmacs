@@ -15,8 +15,10 @@ using namespace svmacs;
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
-SvmacGui::SvmacGui(float length, float overlap, QWidget *parent) 
-        /*: qout(std::cout, textEdit) */ {
+SvmacGui::SvmacGui(float length, float overlap, 
+        const std::string& dm, const std::string& cm, 
+        QWidget *parent) : dmodel(dm), cmodel(cm)
+        /*, qout(std::cout, textEdit) */ {
     // initialise gui
     setupUi(this);
     
@@ -62,7 +64,7 @@ void SvmacGui::startEngine() {
             delete engine;
             engine = 0;
         }
-        engine = new Engine(length, overlap);
+        engine = new Engine(length, overlap, dmodel, cmodel);
         engine->start();
     } catch (JackException& e) {
         rError("%s", e.what());

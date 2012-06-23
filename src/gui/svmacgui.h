@@ -32,9 +32,15 @@ public:
      *          frame length (in seconds)
      * @param overlap
      *          frame overlapping ratio (percentage)
+     * @param dmodel
+     *          path to the detection model file
+     * @param cmodel
+     *          path to the classification model file
      * @param parent
      */
-    SvmacGui(float length, float overlap, QWidget *parent = 0);
+    SvmacGui(float length, float overlap, 
+            const std::string& dmodel, const std::string& cmodel,
+            QWidget *parent = 0);
     
     /*
      * Boost - Qt signals/slots adapter scheme:
@@ -83,6 +89,9 @@ private:
     void setTextDefault(QLabel* label);
 
 private:
+    const std::string dmodel;
+    const std::string cmodel;
+
     /// pointer to the engine
     svmacs::Engine* engine;
     

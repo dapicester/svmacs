@@ -1,6 +1,6 @@
 message (STATUS "Core tests")
 
-find_package(Boost 1.49.0 COMPONENTS filesystem system unit_test_framework REQUIRED)
+find_package(Boost 1.49.0 COMPONENTS system unit_test_framework REQUIRED)
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost not found.")
 endif()
@@ -39,7 +39,6 @@ set(SRCS
     ${SOURCE_DIR}/features/hr.cpp
     ${SOURCE_DIR}/features/mfcc.cpp
     ${SOURCE_DIR}/features/melfb.cpp
-    ${SOURCE_DIR}/utils/execpath.cpp # TODO: rimuovere
 )
 add_executable(ProcessorTest ProcessorTest.cpp ${SRCS})
 target_link_libraries(ProcessorTest ${LIBS})

@@ -17,7 +17,14 @@ NS_SVMACS_BEGIN
  */
 class SvmClassifier : public Classifier {
 public:
-    SvmClassifier();
+    /**
+     * Constructor.
+     * @param dmodel file path to the detection model
+     * @param cmodel file path to the classification model
+     */
+    SvmClassifier(const std::string& dmodel, const std::string& cmodel);
+    
+    /// Destructor.
     ~SvmClassifier();
     
     EventType classify(itpp::vec& features) const;

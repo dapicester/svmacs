@@ -8,6 +8,7 @@
 
 #include "config.h"
 #include <boost/noncopyable.hpp>
+#include <string>
 
 NS_SVMACS_BEGIN
 
@@ -29,8 +30,13 @@ public:
      *          frame length (in seconds)
      * @param overlap
      *          frame overlapping ratio (percentage)
+     * @param dmodel
+     *          path to the detection model file
+     * @param cmodel
+     *          path to the classification model file
      */
-    void start(float length, float overlap);
+    void start(float length, float overlap, 
+            const std::string& dmodel, const std::string& cmodel);
 
 private:
     /// pointer to the engine

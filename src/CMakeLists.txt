@@ -20,7 +20,7 @@ if (OPENMP_FOUND)
     message(STATUS "OpenMP found, multithreading enabled")
 endif()
 
-find_package(Boost 1.49.0 COMPONENTS signals program_options system filesystem REQUIRED)
+find_package(Boost 1.49.0 COMPONENTS filesystem signals system program_options REQUIRED)
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost libraries not found.")
 endif()
@@ -76,12 +76,6 @@ add_definitions(-Wall -W -pipe)
 
 option(ENABLE_LOG "Enable logging" OFF)
 
-option(USE_MFCC_FILE "Load MFCC filter bank matrix from file" OFF)
-if(USE_MFCC_FILE)
-    set(MFCC_FILE ${PROJECT_SOURCE_DIR}/data/melfb.it)
-    message(STATUS "Using MFCC filter bank matrix file: ${MFCC_FILE}")
-endif()
-
 ###########
 # sources #
 ###########
@@ -102,7 +96,6 @@ set(svmacs_SRCS
     jack/ringbufferread.cpp
     engine/engine.cpp
     cli/svmaccli.cpp
-    utils/execpath.cpp
     main.cpp
 )
 
@@ -122,18 +115,32 @@ if(ENABLE_GUI)
     qt4_add_resources(svmacs_RCCS_SRC ${svmacs_RCCS})
 endif()
 
-configure_file(version.h.in version.h)
-configure_file(config.h.in config.h)
+##########
+#  files #
+##########
 
-###############
-# model files #
-###############
-
-set(svmacs_MODELS
+set(svmacs_FILES
     ${PROJECT_SOURCE_DIR}/data/m1
     ${PROJECT_SOURCE_DIR}/data/model
     ${PROJECT_SOURCE_DIR}/data/melfb.it
+    ${PROJECT_SOURCE_DIR}/data/config
 )
+
+set(DATA_DIR ${CMAKE_INSTALL_PREFIX}/${INSTALL_DATA})
+
+set(CONFIG_FILE ${DATA_DIR}/config)
+set(DFILE ${DATA_DIR}/model)
+set(CFILE ${DATA_DIR}/m1)
+
+option(USE_MFCC_FILE "Load MFCC filter bank matrix from file" OFF)
+if(USE_MFCC_FILE)
+    set(MFCC_FILE ${DATA_DIR}/melfb.it)
+    message(STATUS "Using MFCC filter bank matrix file")
+endif()
+
+configure_file(version.h.in version.h)
+configure_file(config.h.in config.h)
+configure_file(${PROJECT_SOURCE_DIR}/data/config.in ${PROJECT_SOURCE_DIR}/data/config)
 
 ##########
 # binary #
@@ -146,16 +153,7 @@ add_executable(svmacs ${svmacs_SRCS} ${svmacs_UIS_H} ${svmacs_MOCS_SRC} ${svmacs
 target_link_libraries(svmacs ${LIBS})
 
 install(TARGETS svmacs RUNTIME DESTINATION ${INSTALL_BIN})
-install(FILES ${svmacs_MODELS} DESTINATION ${INSTALL_DATA})
-
-# copy model files
-#add_custom_command(
-#    TARGET svmacs
-#    POST_BUILD
-#    COMMAND cp ${svmacs_MODELS} ${CMAKE_BINARY_DIR}
-#    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-#    COMMENT "Copying model files to dir ${CMAKE_BINARY_DIR} ..."
-#)
+install(FILES ${svmacs_FILES} DESTINATION ${INSTALL_DATA})
 
 #################
 # documentation #

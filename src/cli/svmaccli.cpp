@@ -29,13 +29,14 @@ SvmacCli::~SvmacCli() {
 
 bool SvmacCli::flag = true;
 
-void SvmacCli::start(float length, float overlap) {
+void SvmacCli::start(float length, float overlap,
+        const std::string& dmodel, const std::string& cmodel) {
     // FIXME: engine.start()
     rDebug("starting CLI main loop");
     
     rInfo("initializing Engine ... ");
     try {
-        engine = new Engine(length, overlap);
+        engine = new Engine(length, overlap, dmodel, cmodel);
         engine->start();
     } catch (JackException& e) {
         rError("%s", e.what());

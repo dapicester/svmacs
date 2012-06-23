@@ -1,6 +1,6 @@
 message (STATUS "Feature tests")
 
-find_package(Boost 1.49.0 COMPONENTS filesystem system unit_test_framework REQUIRED)
+find_package(Boost 1.49.0 COMPONENTS unit_test_framework REQUIRED)
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost not found.")
 endif()
@@ -38,7 +38,7 @@ add_executable(HrTest HrTest.cpp ${src}/hr.cpp ${src}/feature.cpp)
 target_link_libraries(HrTest ${LIBS})
 add_test(NAME features/HrTest COMMAND HrTest)
 
-add_executable(MfccTest MfccTest.cpp ${src}/mfcc.cpp ${src}/melfb.cpp ${src}/feature.cpp ${SOURCE_DIR}/utils/execpath.cpp)
+add_executable(MfccTest MfccTest.cpp ${src}/mfcc.cpp ${src}/melfb.cpp ${src}/feature.cpp)
 target_link_libraries(MfccTest ${LIBS} ${RLOG_LIBRARIES})
 add_test(NAME features/MfccTest COMMAND MfccTest)
 

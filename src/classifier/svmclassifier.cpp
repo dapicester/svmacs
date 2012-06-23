@@ -5,7 +5,6 @@
 
 #include "svmclassifier.h"
 #include "model/range.h"
-#include "utils/execpath.h"
 
 #include <itpp/itbase.h>
 
@@ -14,15 +13,13 @@
 
 NS_SVMACS_BEGIN
 
-const std::string M1 = "m1";
-const std::string MC = "model";
+using std::string;
 
-SvmClassifier::SvmClassifier() : Classifier() {
-    std::string dmodel = ExecPath::getInstance()->getPath(M1);
+SvmClassifier::SvmClassifier(const string& dmodel, const string& cmodel) 
+        : Classifier() {
     rInfo("loading Detection model %s ...", dmodel.c_str());
     m1 = readModel(dmodel);
 
-    std::string cmodel = ExecPath::getInstance()->getPath(MC);
     rInfo("loading Classification model %s ...", cmodel.c_str());
     model = readModel(cmodel);
 
@@ -35,10 +32,10 @@ SvmClassifier::~SvmClassifier(){
     rInfo("SvmClassifier correctly destroyed");
 }
 
-svm_model* SvmClassifier::readModel(const std::string& name) throw (BadModel) {
+svm_model* SvmClassifier::readModel(const string& name) throw (BadModel) {
     struct svm_model* model = svm_load_model(name.c_str());
     if (model == NULL) {
-        std::string message = "Model " + name + " is NULL!";
+        string message = "Model " + name + " is NULL!";
         rError("%s", message.c_str());
         throw BadModel(message);
     }

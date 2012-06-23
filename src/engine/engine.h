@@ -32,10 +32,16 @@ public:
      * @param length 
      *          frame length (seconds)
      * @param overlap
-     *          frames overlapping ratio (defaults to 0)
+     *          frames overlapping ratio (percentage)
+     * @param dmodel
+     *          path to the detection model file
+     * @param cmodel
+     *          path to the classification model file
      */
-    Engine(float length, float overlap = 0.0) 
-            throw (JackException, BadModel);
+    Engine(float length, float overlap, const std::string& dmodel,
+            const std::string& cmodel) throw (JackException, BadModel);
+
+    /// Destructor.
     ~Engine();
     
     /**

@@ -17,7 +17,10 @@
 
 NS_SVMACS_BEGIN
 
-Engine::Engine(float length, float overlap) throw (JackException, BadModel)
+using std::string;
+
+Engine::Engine(float length, float overlap, const string& dmodel, const string& cmodel) 
+throw (JackException, BadModel)
         : previousEvent(NONE) {
     rDebug("frame length set to %.2f seconds with %.2f %% overlap", length, overlap);
        
@@ -25,7 +28,7 @@ Engine::Engine(float length, float overlap) throw (JackException, BadModel)
         rDebug("connecting to Jack ...");
         client = new JackClient(length, overlap, this);
     } catch (std::runtime_error& e) {
-        std::string msg = "could not create the client: is Jack server running?";
+        string msg = "could not create the client: is Jack server running?";
         rError("%s", msg.c_str());
         throw JackException(msg);
     }
@@ -40,7 +43,7 @@ Engine::Engine(float length, float overlap) throw (JackException, BadModel)
     processor = new Processor(sampleRate);
     
     rDebug("instantiating Classifier");
-    classifier = new SvmClassifier;
+    classifier = new SvmClassifier(dmodel, cmodel);
     
     rInfo("Engine ready");
 }
@@ -79,7 +82,7 @@ void Engine::processFrame(const itpp::vec& frame) const {
     EventType type = classifier->classify(features);
     if (type != previousEvent) {
         // FIXME sistemare!!!
-        std::string message = "none";
+        string message = "none";
         if (type != NONE) {
             switch (type) {
             case GUNSHOT: 
