@@ -18,27 +18,27 @@ endif()
 
 set(src ${SOURCE_DIR}/features)
 
-add_executable(ZcrTest ZcrTest.cpp ${src}/zcr.cpp ${src}/feature.cpp)
-target_link_libraries(ZcrTest ${LIBS})
-add_test(NAME features/ZcrTest COMMAND ZcrTest)
+add_unit_test(NAME ZcrTest TAG features
+    SOURCES ZcrTest.cpp ${src}/zcr.cpp ${src}/feature.cpp
+    LINK_LIBRARIES ${LIBS})
 
-add_executable(EnergyTest EnergyTest.cpp ${src}/energy.cpp ${src}/feature.cpp)
-target_link_libraries(EnergyTest ${LIBS})
-add_test(NAME features/EnergyTest COMMAND EnergyTest)
+add_unit_test(NAME EnergyTest TAG features
+    SOURCES EnergyTest.cpp ${src}/energy.cpp ${src}/feature.cpp
+    LINK_LIBRARIES ${LIBS})
 
-add_executable(AssTest AssTest.cpp ${src}/ass.cpp ${src}/feature.cpp)
-target_link_libraries(AssTest ${LIBS})
-add_test(NAME features/AssTest COMMAND AssTest)
+add_unit_test(NAME AssTest TAG features
+    SOURCES AssTest.cpp ${src}/ass.cpp ${src}/feature.cpp
+    LINK_LIBRARIES ${LIBS})
 
-add_executable(SrfTest SrfTest.cpp ${src}/srf.cpp ${src}/feature.cpp)
-target_link_libraries(SrfTest ${LIBS})
-add_test(NAME features/SrfTest COMMAND SrfTest)
+add_unit_test(NAME SrfTest TAG features
+    SOURCES SrfTest.cpp ${src}/srf.cpp ${src}/feature.cpp
+    LINK_LIBRARIES ${LIBS})
 
-add_executable(HrTest HrTest.cpp ${src}/hr.cpp ${src}/feature.cpp)
-target_link_libraries(HrTest ${LIBS})
-add_test(NAME features/HrTest COMMAND HrTest)
+add_unit_test(NAME HrTest TAG features
+    SOURCES HrTest.cpp ${src}/hr.cpp ${src}/feature.cpp
+    LINK_LIBRARIES ${LIBS})
 
-add_executable(MfccTest MfccTest.cpp ${src}/mfcc.cpp ${src}/melfb.cpp ${src}/feature.cpp)
-target_link_libraries(MfccTest ${LIBS} ${RLOG_LIBRARIES})
-add_test(NAME features/MfccTest COMMAND MfccTest)
+add_unit_test(NAME MfccTest TAG features
+    SOURCES MfccTest.cpp ${src}/mfcc.cpp ${src}/melfb.cpp ${src}/feature.cpp
+    LINK_LIBRARIES ${LIBS})
 

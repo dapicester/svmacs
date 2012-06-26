@@ -17,19 +17,19 @@ list(APPEND LIBS ${ITPP_LIBRARIES})
 include_directories(${RLOG_INCLUDE_DIRS})
 list(APPEND LIBS ${RLOG_LIBRARIES})
 
-add_executable(JackRingBufferTest JackRingBufferTest.cpp)
-target_link_libraries(JackRingBufferTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
-add_test(NAME core/JackRingBufferTest COMMAND JackRingBufferTest)
+add_unit_test(NAME JackRingBufferTest TAG core
+    SOURCES JackRingBufferTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
 
-add_executable(RingBufferReadTest RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp)
-target_link_libraries(RingBufferReadTest ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
-add_test(NAME core/RingBufferReadTest COMMAND RingBufferReadTest)
+add_unit_test(NAME RingBufferReadTest TAG core
+    SOURCES RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${JACK_LIBRARIES})
 
-add_executable(UtilsTest utilsTest.cpp)
-target_link_libraries(UtilsTest ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
-add_test(NAME core/UtilsTest COMMAND UtilsTest)
+add_unit_test(NAME UtilsTest TAG core
+    SOURCES utilsTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
 
-set(SRCS 
+set(SRCS
     ${SOURCE_DIR}/processor/processor.cpp
     ${SOURCE_DIR}/features/feature.cpp
     ${SOURCE_DIR}/features/zcr.cpp
@@ -40,11 +40,11 @@ set(SRCS
     ${SOURCE_DIR}/features/mfcc.cpp
     ${SOURCE_DIR}/features/melfb.cpp
 )
-add_executable(ProcessorTest ProcessorTest.cpp ${SRCS})
-target_link_libraries(ProcessorTest ${LIBS})
-add_test(NAME core/ProcessorTest COMMAND ProcessorTest)
+add_unit_test(NAME ProcessorTest TAG core
+    SOURCES ProcessorTest.cpp ${SRCS}
+    LINK_LIBRARIES ${LIBS})
 
-add_executable(ScaleTest ScaleTest.cpp)
-target_link_libraries(ScaleTest ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
-add_test(NAME core/ScaleTest COMMAND ScaleTest)
+add_unit_test(NAME ScaleTest TAG core
+    SOURCES ScaleTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
 

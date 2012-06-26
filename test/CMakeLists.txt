@@ -34,24 +34,12 @@ include_directories(${INCLUDE_DIR})
 set(DATA_DIR ${CMAKE_SOURCE_DIR}/data)
 set(TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
 
-#set(MFCC_FILE OFF)
-
 configure_file(${SOURCE_DIR}/config.h.in config.h)
 configure_file(testconfig.h.in testconfig.h)
 include_directories(${CMAKE_BINARY_DIR}/test)
 add_definitions(-g)
 
-# TODO: fix this macro
-# usage: add_unit_test(source.cpp lib1 lib2)
-#macro(add_unit_test)
-#    set(TEST ${ARGV0})
-#    message(STATUS "  found test: ${TEST}")
-#    get_filename_component(TestName ${TEST} NAME_WE)
-#    add_executable(${TestName} ${TEST})
-#    target_link_libraries(${TestName} ${ARGV1})
-#    add_test(NAME ${TestName} COMMAND ${TestName})
-#    #message(STATUS "* added test: ${TestName}")
-#endmacro(add_unit_test)
+include(MacroAddUnitTest)
 
 cmake_dependent_option(ENABLE_LIB_TEST "Compile libraries tests" OFF "ENABLE_TESTING" OFF)
 if (ENABLE_LIB_TEST OR ENABLE_ALL_TESTS)

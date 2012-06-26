@@ -14,15 +14,15 @@ list(APPEND LIBS ${LIBSVM_LIBRARIES})
 include_directories(${ITPP_INCLUDE_DIRS})
 list(APPEND LIBS ${ITPP_LIBRARIES})
 
-add_executable(itppTest libitppTest.cpp)
-target_link_libraries(itppTest ${LIBS})
-add_test(NAME lib/itppTest COMMAND itppTest)
+add_unit_test(NAME itppTest TAG lib
+    SOURCES libitppTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
 
-add_executable(svmTest libsvmTest.cpp)
-target_link_libraries(svmTest ${LIBS})
-add_test(NAME lib/svmTest COMMAND svmTest)
+add_unit_test(NAME svmTest TAG lib
+    SOURCES libsvmTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${LIBSVM_LIBRARIES})
 
-add_executable(signalsTest signalsTest.cpp)
-target_link_libraries(signalsTest ${LIBS})
-add_test(NAME lib/signalsTest COMMAND signalsTest)
+add_unit_test(NAME signalsTest TAG lib
+    SOURCES signalsTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES})
 
