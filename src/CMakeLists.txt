@@ -20,7 +20,7 @@ if (OPENMP_FOUND)
     message(STATUS "OpenMP found, multithreading enabled")
 endif()
 
-find_package(Boost 1.49.0 COMPONENTS filesystem signals system program_options REQUIRED)
+find_package(Boost 1.46.0 COMPONENTS filesystem signals system program_options REQUIRED)
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost libraries not found.")
 endif()

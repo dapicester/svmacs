@@ -1,6 +1,6 @@
 message (STATUS "Core tests")
 
-find_package(Boost 1.49.0 COMPONENTS system unit_test_framework REQUIRED)
+find_package(Boost 1.46.0 COMPONENTS system unit_test_framework REQUIRED)
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost not found.")
 endif()
