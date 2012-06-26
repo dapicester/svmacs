@@ -5,8 +5,10 @@
 using namespace itpp;
 using namespace svmacs;
 
+const double DELTA = 1e-9;
+
 BOOST_AUTO_TEST_CASE(scaleData_test) {
-    const mat input = 
+    const mat input =
     "0.2500    0.5000    0.7500    1.0000    1.2500    1.5000    1.7500    2.0000;"
     "2.2500    2.0000    1.7500    1.5000    1.2500    1.0000    0.7500    0.5000;"
     "0.5000    1.0000    1.5000    2.0000    2.5000    3.0000    3.5000    4.0000;"
@@ -33,13 +35,15 @@ BOOST_AUTO_TEST_CASE(scaleData_test) {
    // scale vector
    for (int i = 0; i < input.rows(); i++) {
         vec vscaled = scaleData(input.get_row(i), range);
-        BOOST_CHECK_EQUAL(expected.get_row(i), vscaled);
+        const vec& vexpected = expected.get_row(i);
+        for (int j = 0; j < vscaled.length(); j++) {
+            BOOST_CHECK_CLOSE(vexpected[j], vscaled[j], DELTA);
+        }
    }
-   
+
    // scale matrix
    mat scaled = scaleData(input, range);
-   const double delta = 0.000001;
    for (int i = 0; i < expected.size(); i++) {
-       BOOST_CHECK_CLOSE(expected.get(i), scaled.get(i), delta);
+       BOOST_CHECK_CLOSE(expected.get(i), scaled.get(i), DELTA);
    }
 }
