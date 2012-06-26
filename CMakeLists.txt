@@ -29,7 +29,7 @@ message(STATUS "  libdir  : ${INSTALL_LIB}")
 add_subdirectory(libjackcpp)
 
 # build svmacs
-add_subdirectory(src)
+add_subdirectory(source)
 
 # build tests
 option(ENABLE_TESTING "Enable tests compilation" ON)

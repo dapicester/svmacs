@@ -23,7 +23,7 @@ if (NOT RLOG_FOUND)
     message(FATAL_ERROR "RLog not found.")
 endif()
 
-set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/src)
+set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/source)
 set(TEST_DIR ${CMAKE_SOURCE_DIR}/test)
 set(INCLUDE_DIR
     ${CMAKE_SOURCE_DIR}/include
