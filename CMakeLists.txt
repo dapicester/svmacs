@@ -1,4 +1,4 @@
-project (svmacs)
+project(svmacs)
 
 set(svmacs_VERSION_MAJOR "0")
 set(svmacs_VERSION_MINOR "9")

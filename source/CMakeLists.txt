@@ -62,7 +62,6 @@ if(NOT QT4_FOUND)
 else()
     set(ENABLE_GUI ON)
     include(${QT_USE_FILE})
-    #include_directories(${CMAKE_CURRENT_BINARY_DIR})
     add_definitions(-DQT_NO_KEYWORDS -DQT_CONSOLE)
     list(APPEND LIBS ${QT_LIBRARIES})
 endif()
@@ -162,37 +161,6 @@ install(FILES ${svmacs_FILES} DESTINATION ${INSTALL_DATA})
 option(BUILD_DOC "Build documentation" OFF)
 if(BUILD_DOC)
     message(STATUS "Generating documentation")
-
-    # check if doxygen is even installed
-    find_package(Doxygen)
-    if(DOXYGEN_FOUND STREQUAL "NO")
-        message(WARNING "Doxygen not found, cannot generate documentation.")
-    else()
-        # prepare doxygen configuration file
-        #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${PROJECT_SOURCE_DIR}/Doxyfile)
-
-        # add doxygen as target
-        add_custom_target(doxygen ${DOXYGEN_EXECUTABLE} ${PROJECT_SOURCE_DIR}/Doxyfile)
-
-        # cleanup $build/api-doc on "make clean"
-        set_property(DIRECTORY APPEND PROPERTY
-                    ADDITIONAL_MAKE_CLEAN_FILES doc)
-
-        # add doxygen as dependency to doc-target
-        get_target_property(DOC_TARGET doc TYPE)
-        if(NOT DOC_TARGET)
-                add_custom_target(doc)
-        endif()
-        add_dependencies(doc doxygen)
-
-        # TODO: fix install
-
-        # install HTML API documentation and manual pages
-        #set(DOC_PATH "share/doc/${CPACK_PACKAGE_NAME}-${VERSION}")
-
-        #install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html DESTINATION ${DOC_PATH})
-
-        # install man pages into packages, scope is now project root..
-        #install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/man/man3 DESTINATION share/man/man3)
-    endif()
+    include(MacroAddDoxygen)
+    add_doxygen()
 endif()
