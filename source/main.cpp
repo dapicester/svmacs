@@ -31,9 +31,9 @@ using namespace rlog;
 using namespace std;
 
 void showVersion() {
-    cout << "svmacs " 
-            << VERSION_MAJOR << "." 
-            << VERSION_MINOR << "." 
+    cout << "svmacs "
+            << VERSION_MAJOR << "."
+            << VERSION_MINOR << "."
             << VERSION_PATCH << endl;
     cout << "Copyright (C) 2009-2012  Paolo D'Apice <paolo.dapice@gmail.com>" << endl;
     cout << "This software is provided as-is, with absolutely no warranty." << endl;
@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
     // generoptions allowed only on command line
     po::options_description generic("Generic options");
     generic.add_options()
-#ifdef ENABLE_GUI        
+#ifdef ENABLE_GUI
         ("gui,g", "launch the gui")
 #endif
         ("help,h", "print help message")
@@ -69,9 +69,9 @@ int main(int argc, char** argv) {
     config.add_options()
         ("config,F", po::value<string>(),
                     "use configuration file")
-        ("length,N", po::value<float>(&length)->default_value(0.5), 
+        ("length,N", po::value<float>(&length)->default_value(0.5),
                    "set frame length (in seconds)")
-        ("overlap,R", po::value<float>(&overlap)->default_value(50.0), 
+        ("overlap,R", po::value<float>(&overlap)->default_value(50.0),
                     "set frames overlapping ratio (percentage)")
     ;
 
@@ -100,11 +100,20 @@ int main(int argc, char** argv) {
     try {
         po::store(po::parse_command_line(argc, argv, cmdlineOptions), vm);
 
-        if (not bf::exists(CONFIG_FILE)) {
-            rWarning("No configuration file found");
+        string filepath;
+        if (vm.count("config")) {
+            filepath.assign(vm["config"].as<string>());
+            rDebug("Using given configuration file: %s", filepath.c_str());
         } else {
-            rInfo("Using configuration file %s", CONFIG_FILE);
-            ifstream configFile(CONFIG_FILE);
+            filepath.assign(CONFIG_FILE);
+            rDebug("Using default configuration file: %s", filepath.c_str());
+        }
+
+        if (not bf::exists(filepath)) {
+            rWarning("No configuration file found: %s", filepath.c_str());
+        } else {
+            rInfo("Using configuration file: %s", filepath.c_str());
+            ifstream configFile(filepath.c_str());
             po::store(po::parse_config_file(configFile, cfgfileOptions), vm);
         }
         po::notify(vm);
@@ -117,7 +126,7 @@ int main(int argc, char** argv) {
         cout << visibleOptions << endl;
         return 0;
     }
-    
+
     if (vm.count("version")) {
         showVersion();
         return 0;
@@ -127,12 +136,12 @@ int main(int argc, char** argv) {
     if (vm.count("length")) {
         length = vm["length"].as<float>();
         rInfo("frame length set to %.2f seconds", length);
-    } 
+    }
 
     if (vm.count("overlap")) {
         overlap = vm["overlap"].as<float>();
         rInfo("frames overlap set to %.2f%%", overlap);
-    } 
+    }
 
     if (vm.count("dfile")) {
         dmodel.assign(vm["dfile"].as<string>());
@@ -148,13 +157,13 @@ int main(int argc, char** argv) {
         rError("classification model not set.");
         return 1;
     }
-    
+
 #ifdef ENABLE_GUI
     bool gui = false;
     if (vm.count("gui")) {
         gui = true;
     }
-    
+
     if (gui) {
         rInfo("launching the GUI interface ...");
         Q_INIT_RESOURCE(application);
