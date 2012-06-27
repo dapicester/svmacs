@@ -8,92 +8,121 @@
 
 #include <itpp/itsignal.h>
 #include <iostream>
+#include <cassert>
 
 namespace svmacs {
 
-// TODO tutto da rivedere
 // TODO usare out param invece che return
-// TODO aggiungere inline
 
 /**
  * Return a mirrored copy of the input vector.
+ * Example:
+ *  input  = "1 2 3"
+ *  output = "3 2 1"
+ * @param input a vector
+ * @return a new vector
  */
-static 
-itpp::vec flipud(const itpp::vec& input) {
+template <typename T>
+inline
+itpp::Vec<T> flipud(const itpp::Vec<T>& input) {
     const int len = input.length();
-    itpp::vec output(len);
-    for (int i = 0, j = len - 1; i<len; i++, j--) {
+    itpp::Vec<T> output(len);
+    for (int i = 0, j = len - 1; i < len; i++, j--) {
         output(i) = input(j);
     }
     return output;
 }
 
 /**
- * Return the number of elements of a vector.
+ * Find indices of nonzero elements.
+ * Example:
+ *   input  = "1 0 2 3 0"
+ *   output = "0 2 3"
+ * @param input a vector
+ * @return a new vector of integers
  */
 template <typename T>
-unsigned int numel(const itpp::Vec<T>& input) {
-    return input.length();
-}
-
-/**
- * Find indices of nonzero elements.
- */
-static 
-itpp::ivec find(const itpp::vec& input) {
+inline
+itpp::ivec find(const itpp::Vec<T>& input) {
     const int len = input.length();
-    itpp::ivec idx;
+    itpp::ivec idx(len);
+    int j = 0;
     for (int i = 0; i < len; i++) {
         if (input[i] != 0.0) {
-            idx = itpp::concat(idx, i);
+            idx[j++] = i;
         }
     }
-    return idx;
+    return idx.left(j);
 }
 
 /**
  * Return difference and approximate derivative.
+ * Example:
+ *   input  = "2 4 3 5 5"
+ *   output = "2 -1 2 0"
+ * @param input a vector
+ * @return a new vector
  */
-static
-itpp::vec diff(const itpp::vec& input) {
+template <typename T>
+inline
+itpp::Vec<T> diff(const itpp::Vec<T>& input) {
     const int len = input.length() - 1;
-    itpp::vec out(len);
-    for (int i = 0; i < len; i++)
+    itpp::Vec<T> out(len);
+    for (int i = 0; i < len; i++) {
         out[i] = input[i + 1] - input[i];
+    }
     return out;
 }
 
 /**
  * Find local maxima indices.
+ * Example:
+ *   input  = "2 3 4 1 2 0"
+ *   output = "2 4"
+ * @param input a vector
+ * @return a new vector of integers
  */
-static
-itpp::ivec maxima(const itpp::vec& input) {
-    itpp::vec updown = itpp::sign(diff(input));
+template <typename T>
+inline
+itpp::ivec maxima(const itpp::Vec<T>& input) {
+    itpp::Vec<T> updown = itpp::sign(diff(input));
 
-    itpp::vec flags;
-    flags = itpp::concat(flags, static_cast<double>(updown[0] < 0));
+    itpp::Vec<T> flags;
+    flags = itpp::concat(flags, static_cast<T>(updown[0] < 0));
     flags = itpp::concat(flags, itpp::to_vec(diff(updown) < 0));
-    flags = itpp::concat(flags, static_cast<double>(updown[updown.length() - 1] > 0));
-    return itpp::to_ivec(find(flags));
+    flags = itpp::concat(flags, static_cast<T>(updown[updown.length() - 1] > 0));
+    return find(flags);
 }
 
 /**
  * Create a linear vector.
+ * @param start the initial value
+ * @param stop the final value, it must hold that stop > start
+ * @param step the step value
+ * @return a new vector
  */
-static 
-itpp::vec linvec(const int start, const int stop) {
+template <typename T>
+inline
+itpp::Vec<T> linvec(const T start, const T stop, const T step = static_cast<T>(1)) {
+    assert(stop > start);
     const int size = stop - start + 1;
-    itpp::vec out(size);
-    for (int i = 0, val = start; i < size; i++, val++)
-         out[i] = val;
+    itpp::Vec<T> out(size);
+    T val = start;
+    for (int i = 0; i < size; i++) {
+        out[i] = val;
+        val += step;
+    }
     return out;
 }
 
 /**
  * Compute the spectrum of the given signal.
+ * @param input a vector
+ * @param nfft the number of frequency bins
+ * @return a new vector
  */
-inline itpp::vec 
-getSpectrum(const itpp::vec& input, const int& nfft) {
+inline itpp::vec
+getSpectrum(const itpp::vec& input, int nfft) {
     return itpp::abs( itpp::fft( itpp::to_cvec(input), nfft) ).left(nfft/2);
 }
 

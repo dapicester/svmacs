@@ -27,7 +27,7 @@ const int INDEX = 5;
 void HR::extract(const vec& frame, vec* features) const {
     double hr = 0.0;
 
-    if (numel(find(frame)) != 0) { // no silence
+    if (find(frame).length() > 0) { // no silence
         // cross-correlation
         vec R = itpp::xcorr(frame, -1, "coeff");
         // discard first half

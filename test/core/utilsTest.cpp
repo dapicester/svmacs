@@ -17,11 +17,6 @@ BOOST_AUTO_TEST_CASE(flipud_test) {
     BOOST_CHECK_EQUAL(expected, output);
 }
 
-BOOST_AUTO_TEST_CASE(numel_test) {
-    int output = numel(input);
-    BOOST_CHECK_EQUAL(size, output);
-}
-
 BOOST_AUTO_TEST_CASE(find_test) {
     ivec output = find(input);
     const ivec expected = "1 2 4";
@@ -41,8 +36,8 @@ BOOST_AUTO_TEST_CASE(maxima_test) {
 }
 
 BOOST_AUTO_TEST_CASE(linvec_test) {
-    vec output = linvec(0, 10);
-    const vec expected = "0 1 2 3 4 5 6 7 8 9 10";
+    ivec output = linvec(0, 10);
+    const ivec expected = "0 1 2 3 4 5 6 7 8 9 10";
     BOOST_CHECK_EQUAL(expected, output);
 }
 

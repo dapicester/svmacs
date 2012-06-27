@@ -29,7 +29,7 @@ void ASS::extract(const vec& spectrum, vec* features) const {
     vec aspectrum = abs(spectrum.right(len));
 
     double summ = itpp::sum(aspectrum);
-    vec bins = linvec(1, len);
+    vec bins = linvec(1.0, static_cast<double>(len));
 
     double centroid = 0.0;
     double spread = 0.0;
