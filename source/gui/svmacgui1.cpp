@@ -3,9 +3,7 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#include "version.h"
 #include "svmacgui.h"
-#include "engine/engine.h"
 
 using namespace svmacs;
 
@@ -15,16 +13,16 @@ using namespace svmacs;
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
-SvmacGui::SvmacGui(float length, float overlap, 
-        const std::string& dm, const std::string& cm, 
+SvmacGui::SvmacGui(float length, float overlap,
+        const std::string& dm, const std::string& cm,
         QWidget *parent) : dmodel(dm), cmodel(cm)
         /*, qout(std::cout, textEdit) */ {
     // initialise gui
     setupUi(this);
-    
+
     this->setFixedSize(400, 450);
     this->setStyleSheet(eventStylesheet);
-    
+
     gunshotLabel->setProperty("event", true);
     screamLabel->setProperty("event", true);
     glassLabel->setProperty("event", true);
@@ -41,8 +39,6 @@ SvmacGui::SvmacGui(float length, float overlap,
     NspinBox->setValue(length);
     RspinBox->setValue(overlap);
 
-    engine = 0;
-    
     rInfo("GUI ready");
 }
 
@@ -53,18 +49,13 @@ void SvmacGui::startEngine() {
     float length = NspinBox->value();
     rDebug("frame length N = %f seconds", length);
 
-    float overlap = (float) RspinBox->value() / 100;
+    float overlap = static_cast<float>(RspinBox->value()) / 100.0;
     rDebug("overlapping  R = %f percent", overlap);
 
     rInfo("initializing Engine ...");
     textEdit->append(tr("initializing Engine ..."));
     try {
-        // defensive programming!!
-        if (engine) {
-            delete engine;
-            engine = 0;
-        }
-        engine = new Engine(length, overlap, dmodel, cmodel);
+        engine.reset(new Engine(length, overlap, dmodel, cmodel));
         engine->start();
     } catch (JackException& e) {
         rError("%s", e.what());
@@ -72,8 +63,7 @@ void SvmacGui::startEngine() {
         textEdit->append(e.what()); // TODO parametrizzare
 
         QMessageBox::critical(this, tr("Error"),
-                tr("Could not start the engine.\n"
-                "Please check if the Jackd server is running.")); // TODO: show e.what()
+                tr("Could not start the engine."));
         return;
     }
 
@@ -86,7 +76,7 @@ void SvmacGui::startEngine() {
     engine->eventDetected.connect(boost::bind(&SvmacGui::adapterSlot, this, _1));
     qRegisterMetaType<Event>("Event");
     connect(this, SIGNAL(adapterSignal(const Event&)), this, SLOT(eventDetected(const Event&)) );
-    
+
     rDebug("started");
     textEdit->insertPlainText(tr("started"));
 }
@@ -96,8 +86,6 @@ void SvmacGui::stopEngine() {
     textEdit->append(tr("stopping the Engine ..."));
     engine->eventDetected.disconnect(boost::bind(&SvmacGui::adapterSlot, this, _1));
     engine->stop();
-    delete engine;
-    engine = 0;
 
     disable(stopButton);
     enable(startButton);
@@ -119,7 +107,7 @@ void SvmacGui::quitApp() {
     if (engine) {
         stopEngine();
     }
-    
+
     rInfo("quitting GUI");
     qApp->quit();
 }

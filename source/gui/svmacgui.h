@@ -8,24 +8,23 @@
 
 #include "config.h"
 #include "ui_svmacgui.h"
+#include "engine/engine.h"
 #include "model/event.h"
 //#include "gui/qdebugstream.h"
 
 #include <QObject>
+#include <QScopedPointer>
 
-NS_SVMACS_BEGIN
-class Engine;
-NS_SVMACS_END
-
-/** 
+/**
  * @class SvmacGui
- * @brief GUI interface for the SVM Audio Classifier. 
+ * @brief GUI interface for the SVM Audio Classifier.
  * @author Paolo D'Apice
  */
 class SvmacGui : public QWidget, private Ui::SvmacGui {
     Q_OBJECT
 
 public:
+
     /**
      * Constructor.
      * @param length
@@ -38,13 +37,13 @@ public:
      *          path to the classification model file
      * @param parent
      */
-    SvmacGui(float length, float overlap, 
+    SvmacGui(float length, float overlap,
             const std::string& dmodel, const std::string& cmodel,
             QWidget *parent = 0);
-    
+
     /*
      * Boost - Qt signals/slots adapter scheme:
-     * 
+     *
      * Engine::eventDetected(Event)      Boost signal
      *     |
      *     V
@@ -54,15 +53,16 @@ public:
      *     V
      * SvmacGui::eventDetected(Event)    Qt slot
      */
-     
+
 public Q_SLOTS:
+
     /// Start the engine
     void startEngine();
     /// Stop the engine
     void stopEngine();
-    
+
     /// Quit the application
-    void quitApp();    
+    void quitApp();
     /// Show the about dialog
     void showAbout();
 
@@ -70,14 +70,17 @@ public Q_SLOTS:
     void eventDetected(const svmacs::Event& event);
 
 protected:
+
     /// Adapter Boost slot transforming a Boost signal into a Qt signal
     void adapterSlot(const svmacs::Event& event);
 
 Q_SIGNALS:
+
     /// Adapter Qt signal for Boost signal Engine::eventDetected
-    void adapterSignal(const svmacs::Event& event);   
+    void adapterSignal(const svmacs::Event& event);
 
 private:
+
     /// Enable the specified widget
     void enable(QWidget* widget);
     /// Disable the specified widget
@@ -89,18 +92,19 @@ private:
     void setTextDefault(QLabel* label);
 
 private:
+
     const std::string dmodel;
     const std::string cmodel;
 
     /// pointer to the engine
-    svmacs::Engine* engine;
-    
+    QScopedPointer<svmacs::Engine> engine;
+
     /// capture cout
     //QDebugStream qout;
-    
+
     /// fancy style for event labels
     static const QString eventStylesheet;
-    
+
 };
 
 #endif //SVMACS_GUI_H
