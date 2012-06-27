@@ -27,8 +27,9 @@ const unsigned int NUM_OUTPUT = 1; // monitor output
 /// Client name
 const char CLIENT_NAME[] = "svmacs";
 
-JackClient::JackClient(float len, float olap, Engine* e) :
-        JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false) {
+JackClient::JackClient(float len, float olap, const Engine& e) :
+        JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false),
+        engine(e) {
     rInfo("initializing JackClient ...");
 
     reserveInPorts(MAX_IN);
@@ -41,9 +42,9 @@ JackClient::JackClient(float len, float olap, Engine* e) :
     rDebug("frame length set to %d samples with %d overlapping samples", length, overlap);
 
     rDebug("initializing input buffer");
-    input = new RingBuffer(length * 2 + 1);
+    input.reset(new RingBuffer(length * 2 + 1));
     // allocating buffer for current frame
-    frame = new double[static_cast<int>(length)];
+    frame.reset(new double[static_cast<int>(length)]);
 
     rWarning("Jack %s running in realtime mode: %s",
             isRealTime() ? "is" : "is not",
@@ -57,18 +58,12 @@ JackClient::JackClient(float len, float olap, Engine* e) :
     for(unsigned int i = 0; i < outPorts(); i++)
         rDebug("   [%s]", getOutputPortName(i).c_str());
 
-    rDebug("saving pointer to Engine");
-    engine = e;
-
     rInfo("JackClient [%s] created (#in=%d, #out=%d)", CLIENT_NAME, NUM_INPUT, NUM_OUTPUT);
 }
 
 JackClient::~JackClient() {
     rDebug("closing JackClient ...");
     close();
-
-    delete[] frame;
-    delete input;
 
     rInfo("JackClient correctly destroyed");
 }
@@ -129,16 +124,16 @@ void JackClient::checkData() {
 
     //rDebug("there are enough samples in the input buffer (%d)", input->getReadSpace());
     if (overlap > 0) { // overlapping frames
-        input->read(frame, length - overlap);      // read the first (R - N) non overlapping samples
-        input->peek(frame + overlap, overlap);     // and peek the remaining overlapping (R) samples
+        input->read(frame.get(), length - overlap);      // read the first (R - N) non overlapping samples
+        input->peek(frame.get() + overlap, overlap);     // and peek the remaining overlapping (R) samples
     } else {           // non overlapping frames
-        input->read(frame, length);
+        input->read(frame.get(), length);
     }
 
     // send signal
-    itpp::vec data(frame, length);
+    itpp::vec data(frame.get(), length);
     //gotInputData(data);
-    engine->processFrame(data);
+    engine.processFrame(data);
 }
 
 NS_SVMACS_END

@@ -26,7 +26,7 @@ throw (JackException, BadModel)
        
     try {
         rDebug("connecting to Jack ...");
-        client = new JackClient(length, overlap, this);
+        client = new JackClient(length, overlap, *this);
     } catch (std::runtime_error& e) {
         string msg = "could not create the client: is Jack server running?";
         rError("%s", msg.c_str());

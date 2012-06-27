@@ -12,6 +12,8 @@
 
 #include <itpp/base/vec.h>
 #include <boost/noncopyable.hpp>
+#include <boost/scoped_array.hpp>
+#include <boost/scoped_ptr.hpp>
 //#include <boost/signals2.hpp>
 
 NS_SVMACS_BEGIN
@@ -31,8 +33,10 @@ public:
      *          frame length (seconds)
      * @param overlap
      *          frame overlapping ratio
+     * @param engine
+     *          the current engine
      */
-    JackClient(float length, float overlap, Engine* engine);
+    JackClient(float length, float overlap, const Engine& engine);
 
     /// Destructor.
     ~JackClient();
@@ -52,19 +56,6 @@ public:
 
 private:
 
-    /// frame length (samples)
-    unsigned int length;
-    /// frame overlap (samples)
-    unsigned int overlap;
-
-    typedef RingBufferRead<double> RingBuffer;
-
-    /// The input ring buffer.
-    RingBuffer* input;
-
-    /// The current frame.
-    double* frame;
-
     /**
      * Audio callback.
      * All audio processing goes in this function.
@@ -76,7 +67,21 @@ private:
     /// Access data in buffer and eventually send a signal
     void checkData();
 
-    Engine* engine;
+private:
+
+    const Engine& engine;
+
+    /// frame length (samples)
+    unsigned int length;
+    /// frame overlap (samples)
+    unsigned int overlap;
+
+    /// The input ring buffer.
+    typedef RingBufferRead<double> RingBuffer;
+    boost::scoped_ptr<RingBuffer> input;
+
+    /// The current frame.
+    boost::scoped_array<double> frame;
 };
 
 NS_SVMACS_END
