@@ -14,34 +14,42 @@ NS_SVMACS_BEGIN
 
 class Feature;
 
-/** 
+/**
  * Class processing the input audio frames for feature extraction.
  */
 class Processor {
 public:
-    Processor(int sr);
-    ~Processor();
-    
+
     /**
-     * Process the input for feature extraction. 
+     * Constructor.
+     * @param sr sample rate
+     */
+    Processor(int sr);
+
+    /// Destructor.
+    ~Processor();
+
+    /**
+     * Process the input for feature extraction.
      * @param frame the input audio frame
      * @return a vector containing the extracte audio features
      */
     itpp::vec process(const itpp::vec& frame);
-    
-private: 
+
+private:
+
     /// Sample rate (from Jackd)
     int sampleRate;
-    
+
     /// Window
     itpp::vec win;
-    
+
     /// Frame length
     int M;
     /// Frame overlap
     int R;
-    
-    /// worker for features extraction
+
+    /// Feature extractors
     boost::ptr_vector<Feature> extractors;
 };
 
