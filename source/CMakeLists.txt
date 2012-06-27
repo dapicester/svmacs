@@ -89,7 +89,6 @@ set(svmacs_SRCS
     features/mfcc.cpp
     features/melfb.cpp
     processor/processor.cpp
-    model/event.cpp
     classifier/svmclassifier.cpp
     jack/jackclient.cpp
     jack/ringbufferread.cpp
