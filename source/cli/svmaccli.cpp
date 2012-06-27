@@ -18,12 +18,10 @@
 NS_SVMACS_BEGIN
 
 SvmacCli::SvmacCli() {
-    engine = 0; // FIXME engine init qui
     rInfo("CLI ready");
 }
 
 SvmacCli::~SvmacCli() {
-    delete engine;
     rInfo("CLI correctly closed");
 }
 
@@ -33,16 +31,16 @@ void SvmacCli::start(float length, float overlap,
         const std::string& dmodel, const std::string& cmodel) {
     // FIXME: engine.start()
     rDebug("starting CLI main loop");
-    
+
     rInfo("initializing Engine ... ");
     try {
-        engine = new Engine(length, overlap, dmodel, cmodel);
+        engine.reset(new Engine(length, overlap, dmodel, cmodel));
         engine->start();
     } catch (JackException& e) {
         rError("%s", e.what());
         return;
     }
-    
+
     // trap signals
     rInfo("use CTRL-C to quit");
     signal(SIGTERM, &cleanup);
@@ -50,12 +48,12 @@ void SvmacCli::start(float length, float overlap,
 #ifdef SIGQUIT
     signal(SIGQUIT, &cleanup);
 #endif
-    
+
     // main loop
     while(flag) {
-        sleep(1); // XXX: sure to du this?
-    } 
-    
+        sleep(1); // XXX: sure to do this?
+    }
+
     engine->stop();
     rInfo("quitting ... ");
 }

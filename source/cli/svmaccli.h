@@ -8,24 +8,29 @@
 
 #include "config.h"
 #include <boost/noncopyable.hpp>
+#include <boost/scoped_ptr.hpp>
 #include <string>
 
 NS_SVMACS_BEGIN
 
 class Engine;
 
-/** 
+/**
  * @class SvmacCli
- * @brief CLI interface for the SVM Audio Classifier. 
+ * @brief CLI interface for the SVM Audio Classifier.
  * @author Paolo D'Apice
  */
 class SvmacCli : private boost::noncopyable {
 public:
+
+    /// Constructor.
     SvmacCli();
+
+    /// Destructor.
     ~SvmacCli();
 
-    /** 
-     * Start the client. 
+    /**
+     * Start the client.
      * @param length
      *          frame length (in seconds)
      * @param overlap
@@ -35,13 +40,14 @@ public:
      * @param cmodel
      *          path to the classification model file
      */
-    void start(float length, float overlap, 
+    void start(float length, float overlap,
             const std::string& dmodel, const std::string& cmodel);
 
 private:
+
     /// pointer to the engine
-    Engine* engine; // TODO: boost::scoped_ptr
-    
+    boost::scoped_ptr<Engine> engine;
+
     /// signal handler
     static void cleanup(int); // TODO: signal handler (maybe boost::asio)
     /// running flag
