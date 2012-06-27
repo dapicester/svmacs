@@ -11,8 +11,9 @@
 #include "exceptions/exceptions.h"
 
 #include <itpp/base/vec.h>
-#include <boost/signals2.hpp>
 #include <boost/noncopyable.hpp>
+#include <boost/signals2.hpp>
+#include <boost/scoped_ptr.hpp>
 
 NS_SVMACS_BEGIN
 
@@ -24,12 +25,13 @@ class Classifier;
  * This class contains the application business logic,
  * i.e. reading audio input data from the Jack client,
  * computing features and and using them classification.
- */ 
+ */
 class Engine : private boost::noncopyable {
 public:
+
     /**
      * Constructor.
-     * @param length 
+     * @param length
      *          frame length (seconds)
      * @param overlap
      *          frames overlapping ratio (percentage)
@@ -43,37 +45,37 @@ public:
 
     /// Destructor.
     ~Engine();
-    
+
     /**
      * Start processing.
      */
     void start();
-    
+
     /**
      * Stop processing.
      */
     void stop();
-    
+
     /**
      * Signal raised on event detection.
      */
     boost::signals2::signal<void (Event)> eventDetected;
-    
-private: // TODO: boost::scoped_ptr
+
+    /// Slot for input processing
+    void processFrame(const itpp::vec& frame) const;
+
+private:
+
     /// The Jack audio client.
-    JackClient* client;
-    
+    boost::scoped_ptr<JackClient> client;
+
     /// The audio frame processor.
-    Processor* processor;
+    boost::scoped_ptr<Processor> processor;
 
     /// The classifier.
-    Classifier* classifier;
-    
-    mutable EventType previousEvent;
+    boost::scoped_ptr<Classifier> classifier;
 
-public:
-    /// slot for input processing
-    void processFrame(const itpp::vec& frame) const;
+    mutable EventType previousEvent;
 };
 
 NS_SVMACS_END
