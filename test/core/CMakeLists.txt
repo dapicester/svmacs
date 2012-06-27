@@ -22,7 +22,7 @@ add_unit_test(NAME JackRingBufferTest TAG core
     LINK_LIBRARIES ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
 
 add_unit_test(NAME RingBufferReadTest TAG core
-    SOURCES RingBufferReadTest.cpp ${SOURCE_DIR}/jack/ringbufferread.cpp
+    SOURCES RingBufferReadTest.cpp
     LINK_LIBRARIES ${Boost_LIBRARIES} ${JACK_LIBRARIES})
 
 add_unit_test(NAME UtilsTest TAG core

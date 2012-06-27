@@ -4,7 +4,6 @@
  ***************************************************************************/
 
 #include "jackclient.h"
-#include "jack/ringbufferread.h"
 #include "engine/engine.h"
 
 #define RLOG_COMPONENT "jackclient"
@@ -42,11 +41,11 @@ JackClient::JackClient(float len, float olap, Engine* e) :
     rDebug("frame length set to %d samples with %d overlapping samples", length, overlap);
 
     rDebug("initializing input buffer");
-    input = new RingBufferRead(length * 2 + 1);
+    input = new RingBuffer(length * 2 + 1);
     // allocating buffer for current frame
     frame = new double[static_cast<int>(length)];
 
-    rWarning("Jack %s running in realtime mode: %s", 
+    rWarning("Jack %s running in realtime mode: %s",
             isRealTime() ? "is" : "is not",
             isRealTime() ? "NOT good!" : "ok" );
 

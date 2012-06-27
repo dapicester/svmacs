@@ -91,7 +91,6 @@ set(svmacs_SRCS
     processor/processor.cpp
     classifier/svmclassifier.cpp
     jack/jackclient.cpp
-    jack/ringbufferread.cpp
     engine/engine.cpp
     cli/svmaccli.cpp
     main.cpp

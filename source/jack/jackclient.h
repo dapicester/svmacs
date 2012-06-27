@@ -7,6 +7,7 @@
 #define JACKCLIENT_H
 
 #include "config.h"
+#include "ringbufferread.h"
 #include <jackaudioio.hpp>
 
 #include <itpp/base/vec.h>
@@ -15,17 +16,15 @@
 
 NS_SVMACS_BEGIN
 
-class RingBufferRead;
 class Engine;
 
 /**
  * This class implement a Jack client, providing the implementation
  * of the Jack callback function.
  */
-class JackClient 
-        : public JackCpp::AudioIO , boost::noncopyable {
-
+class JackClient : public JackCpp::AudioIO, private boost::noncopyable {
 public:
+
     /**
      * Instantiate a new Jack client.
      * @param length
@@ -34,15 +33,17 @@ public:
      *          frame overlapping ratio
      */
     JackClient(float length, float overlap, Engine* engine);
+
+    /// Destructor.
     ~JackClient();
-    
+
     /**
      * Automatically connect input/output ports.
      */
     void connect();
-    
+
     /**
-     * disconnect all input/output ports.
+     * Disconnect all input/output ports.
      */
     void disconnect();
 
@@ -50,30 +51,34 @@ public:
     //boost::signals2::signal<void (const itpp::vec&)> gotInputData;
 
 private:
+
     /// frame length (samples)
     unsigned int length;
     /// frame overlap (samples)
     unsigned int overlap;
-    
+
+    typedef RingBufferRead<double> RingBuffer;
+
     /// The input ring buffer.
-    RingBufferRead* input;
+    RingBuffer* input;
+
     /// The current frame.
     double* frame;
 
-    /** 
-     * Audio callback. 
-     * All audio processing goes in this function. 
+    /**
+     * Audio callback.
+     * All audio processing goes in this function.
      */
     int audioCallback(jack_nframes_t nframes,
             audioBufVector inBufs,
             audioBufVector outBufs);
-    
-    /// access data in buffer and eventually send a signal
-    void checkData();    
-    
+
+    /// Access data in buffer and eventually send a signal
+    void checkData();
+
     Engine* engine;
 };
 
 NS_SVMACS_END
-        
+
 #endif // JACKCLIENT_H
