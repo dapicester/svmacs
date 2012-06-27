@@ -1,25 +1,29 @@
 Introduction
 ============
 
-This project started as the porting to C++ of my master thesis project 
-developed with Matlab. 
-Once the porting has been completed, enhancements and new feature have 
-been added.
+This project started as the porting to C++ of my master thesis project
+developed with Matlab.
 
 
 How to build
 ============
 
-The project is mantained in a git repository. The more stable version is 
+The project is mantained in a git repository. The more stable version is
 in the 'master' branch, while the currently developed version is in the
-'develop' branch. 
+'develop' branch.
 The build tool used is CMake.
 The following libraries are required:
-- Boost: signals2, program-options, system, filesystem, thread
+- Boost
+  + filesystem
+  + program-options
+  + signals2
+  + system
+  + test (for tests only)
+  + thread
 - IT++
 - libSVM
 - Rlog
-- JACK 
+- JACK
 
 In order to build, first checkout the project, either with:
     $ git clone git@git.assembla.com:svmacs.git
@@ -45,10 +49,15 @@ Optionally, you can either build a zip package with:
     $ make package
 or install the program (default to /opt/svmacs)
     $ make install
-Moreover, it is possible to specify a custom path:
+The install path can be configured using the
+CMAKE_INSTALL_PATH variable or directly passed to make:
     $ make install DESTDIR=/my/custom/path
 
-At the moment no uninstall is supported.
+Uninstall with:
+    $ make uninstall
+or:
+    $make uninstall DESTDIR=/my/custom/path
+if DESTDIR has been used.
 
 
 How to run
@@ -63,8 +72,13 @@ Then launch the program:
 and make the connection to JACK.
 You can use the sample audio file 'online-5db.wav' provided with sources.
 
+Default parameters can be overridden either using the command line
+or defined in the configuration file.
+Please launch with the '--help' or '-h' option for details.
+
 
 Additional Information
 ======================
 
 For any questions and comments, please email me at: dapicester@gmail.com
+
