@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(test_utils) {
     // getTime
     print("time1", getTime(0, 10));
     print("time2", getTime(0, 1, 0.1));
-    
+
     // getSilence
     print("silence", getSilence(10));
 
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE(online_test) {
         BOOST_REQUIRE(signal.length() > 0);
     }
 
-    const int length = 1 * SAMPLE_RATE; // 1 second
+    const int length = 0.05 * SAMPLE_RATE; // 50 ms
     for (int i = 0; i + length < signal.length() ; i += length) {
         rDebug("reading samples [%d+%d]", i, length);
         vec frame = signal.mid(i, length);

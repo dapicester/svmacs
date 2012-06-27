@@ -71,8 +71,10 @@ vec Processor::process(const vec& frame) {
     //vec frame = itpp::concat(frame, flipud(frame.right(R)));
     //rDebug("frame padded to length %d", pframe.length());
 
+    int i = 0;
     mat featureMatrix = itpp::zeros(Nframes, N_FEATURES);
-    for (int counter = 0, i = 0; counter < Nframes; counter++, i += M - R - 1) {
+#pragma omp parallel for ordered shared(featureMatrix) private(i) schedule(dynamic,3)
+    for (int counter = 0; counter < Nframes; counter++) {
         vec tmp = frame.mid(i, M);
 
         // windowing
@@ -81,7 +83,6 @@ vec Processor::process(const vec& frame) {
 
         // extracting
         vec features = itpp::zeros(N_FEATURES);
-#pragma omp parallel for
         for (boost::ptr_vector<Feature>::size_type j = 0u; j < extractors.size(); j++) {
             switch (extractors[j].getType()) {
             case TEMPORAL:
@@ -97,11 +98,13 @@ vec Processor::process(const vec& frame) {
 
         //rDebug("feature vector: %s", itpp::to_str(features).c_str());
         featureMatrix.set_row(counter, features);
+        i += M - R - 1;
     }
     //rDebug("feature matrix:\n %s", itpp::to_str(featureMatrix).c_str());
 
     // data reduction
     vec vout = itpp::zeros(N_FEATURES);
+#pragma omp parallel for shared(vout) schedule(dynamic,2)
     for (int i = 0; i < N_FEATURES; i++) {
         vout.set(i, itpp::mean(featureMatrix.get_col(i)) );
     }
