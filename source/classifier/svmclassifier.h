@@ -8,34 +8,37 @@
 
 #include "classifier.h"
 #include "exceptions/exceptions.h"
+#include <boost/scoped_ptr.hpp>
 #include <libsvm/svm.h>
 
 NS_SVMACS_BEGIN
 
-/** 
- * The SVM classifier 
+/**
+ * The SVM classifier
  */
 class SvmClassifier : public Classifier {
 public:
+
     /**
      * Constructor.
      * @param dmodel file path to the detection model
      * @param cmodel file path to the classification model
      */
     SvmClassifier(const std::string& dmodel, const std::string& cmodel);
-    
+
     /// Destructor.
     ~SvmClassifier();
-    
+
+    /// Process audio features.
     EventType classify(itpp::vec& features) const;
 
 private: // TODO: boost::scoped_ptr
-    
-    const struct svm_model* m1;
-    const struct svm_model* model;
-    
-    /// read the model from file
-    struct svm_model* readModel(const std::string& name) throw (BadModel);
+
+    boost::scoped_ptr<svm_model> m1;
+    boost::scoped_ptr<svm_model> model;
+
+    /// Read the model from file
+    svm_model* readModel(const std::string& name) throw (BadModel);
 };
 
 NS_SVMACS_END

@@ -15,25 +15,22 @@ NS_SVMACS_BEGIN
 
 using std::string;
 
-SvmClassifier::SvmClassifier(const string& dmodel, const string& cmodel) 
-        : Classifier() {
+SvmClassifier::SvmClassifier(const string& dmodel, const string& cmodel) {
     rInfo("loading Detection model %s ...", dmodel.c_str());
-    m1 = readModel(dmodel);
+    m1.reset(readModel(dmodel));
 
     rInfo("loading Classification model %s ...", cmodel.c_str());
-    model = readModel(cmodel);
+    model.reset(readModel(cmodel));
 
     rInfo("SvmClassifier created");
 }
 
 SvmClassifier::~SvmClassifier(){
-    delete m1;
-    delete model;
     rInfo("SvmClassifier correctly destroyed");
 }
 
 svm_model* SvmClassifier::readModel(const string& name) throw (BadModel) {
-    struct svm_model* model = svm_load_model(name.c_str());
+    svm_model* model = svm_load_model(name.c_str());
     if (model == NULL) {
         string message = "Model " + name + " is NULL!";
         rError("%s", message.c_str());
@@ -53,11 +50,11 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
 
     // build the array for libsvm
     const int len = features.length();
-    svm_node array[len+1];
+    svm_node array[len + 1];
 
     int i = 0;
-    while(i<len) {
-         array[i].index = i+1;
+    while (i < len) {
+         array[i].index = i + 1;
          array[i].value = features[i];
          i++;
     }
@@ -72,7 +69,7 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
 #endif
 
 #if 1 /* enable/disable detection step */
-    int detected = svm_predict(m1, array);
+    int detected = svm_predict(m1.get(), array);
     rDebug("detection = %s", (detected == 1) ? "yes" : "no");
 #else /* classification without detection */
     int detected = 1;
@@ -81,7 +78,7 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
     EventType t = NONE;
 #if 1 /* enable/disable classification step */
     if (detected == 1) {
-        int type = svm_predict(model, array);
+        int type = svm_predict(model.get(), array);
         rDebug("classification = %d", type);
         switch (type) {
         case GUNSHOT: t = GUNSHOT; break;
