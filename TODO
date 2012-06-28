@@ -1,8 +1,6 @@
 - refactoring codice:
   * fix CMakeLists per diversi build-type
-  * usare reference invece che puntatori (quando possibile)
   * usare const (dove possibile)
-  * usare Boost Pointers e Containers
   * rimuovere dichiarazioni throw() e scrivere Doxygen
   * aggiungere nota di Copyright esatta nei sorgenti
 
