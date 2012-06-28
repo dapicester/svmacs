@@ -9,28 +9,21 @@
 #include <itpp/itbase.h>
 using itpp::vec;
 
-#define RLOG_COMPONENT "energy"
-#include <rlog/rlog.h>
-
 NS_SVMACS_BEGIN
 
-// FIXME: inline this!!!
-
-Energy::Energy(int samplerate) : Feature(samplerate, TEMPORAL) {
-    name = "Energy";
-}
+Energy::Energy(int samplerate) : Feature(samplerate, TEMPORAL) {}
 
 Energy::~Energy() {}
 
 const int INDEX = 1;
 
-void Energy::extract(const vec& frame, vec* features) const {
+void Energy::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
-    
+
     vec square = itpp::sqr(itpp::abs(frame));
     double energy = itpp::sum(square) / len * samplerate;
-    
-    (*features)[INDEX] = energy;
+
+    features[INDEX] = energy;
 }
 
 NS_SVMACS_END

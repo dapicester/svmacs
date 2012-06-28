@@ -3,10 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef ZCR_H
-#define ZCR_H
+#ifndef SVMACS_ZCR_H
+#define SVMACS_ZCR_H
 
-#include "feature.h"
+#include "feature.hpp"
 
 NS_SVMACS_BEGIN
 
@@ -18,11 +18,11 @@ class ZCR : public Feature {
 public:
     ZCR(int samplerate);
     ~ZCR();
-    
+
     /// Compute the ZCR for the given frame.
-    void extract(const itpp::vec& frame, itpp::vec* features) const;
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_ZCR_H

@@ -3,10 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef SRF_H
-#define SRF_H
+#ifndef SVMACS_SRF_H
+#define SVMACS_SRF_H
 
-#include"feature.h"
+#include"feature.hpp"
 
 NS_SVMACS_BEGIN
 
@@ -18,11 +18,11 @@ class SRF : public Feature {
 public:
     SRF(int samplerate);
     ~SRF();
-    
+
     /// Compute the SRF for the given spectrum frame.
-    void extract(const itpp::vec& frame, itpp::vec* features) const;
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_SRF_H

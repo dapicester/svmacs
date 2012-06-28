@@ -9,41 +9,32 @@
 #include <itpp/itbase.h>
 using itpp::vec;
 
-#define RLOG_COMPONENT "ass"
-#include <rlog/rlog.h>
-
 NS_SVMACS_BEGIN
 
-ASS::ASS(int samplerate) : Feature(samplerate, SPECTRAL) {
-    name = "ASS and ASC";
-}
+ASS::ASS(int samplerate) : Feature(samplerate, SPECTRAL) {}
 
 ASS::~ASS() {}
 
 const int INDEX = 2;
 
-void ASS::extract(const vec& spectrum, vec* features) const {
+void ASS::extract(const vec& spectrum, vec& features) const {
     const int len = spectrum.length() - 1;
 
     // discard the 0-bin frequency
-    vec aspectrum = abs(spectrum.right(len));
+    vec absSpec = abs(spectrum.right(len));
 
-    double summ = itpp::sum(aspectrum);
+    double summ = itpp::sum(absSpec);
     vec bins = linvec(1.0, static_cast<double>(len));
 
     double centroid = 0.0;
     double spread = 0.0;
     if (summ > 0.0) {
-        centroid = itpp::sum(
-                              itpp::elem_mult(bins, aspectrum)
-                          ) / summ;
-        spread = itpp::sum(
-                            itpp::elem_mult( itpp::sqr(bins - centroid), aspectrum)
-                        )/summ;
+        centroid = itpp::sum(itpp::elem_mult(bins, absSpec)) / summ;
+        spread = itpp::sum(itpp::elem_mult( itpp::sqr(bins - centroid), absSpec)) / summ;
     }
 
-    (*features)[INDEX] = spread;
-    (*features)[INDEX + 1] = centroid;
+    features[INDEX] = spread;
+    features[INDEX + 1] = centroid;
 }
 
 NS_SVMACS_END

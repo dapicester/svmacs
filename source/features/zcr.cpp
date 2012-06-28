@@ -8,21 +8,15 @@
 #include <itpp/itbase.h>
 using itpp::vec;
 
-#define RLOG_COMPONENT "zcr"
-#include <rlog/rlog.h>
-
 NS_SVMACS_BEGIN
 
-ZCR::ZCR(int samplerate) : Feature(samplerate, TEMPORAL) {
-    name = "ZCR";
-}
+ZCR::ZCR(int samplerate) : Feature(samplerate, TEMPORAL) {}
 
 ZCR::~ZCR() {}
 
 const int INDEX = 0;
 
-void
-ZCR::extract(const vec& frame, vec* features) const {
+void ZCR::extract(const vec& frame, vec& features) const {
     const int len = frame.length();
 
     // get the sign
@@ -41,7 +35,7 @@ ZCR::extract(const vec& frame, vec* features) const {
     }
 
     double zcr = static_cast<double>(cont) / len * samplerate;
-    (*features)[INDEX] = zcr;
+    features[INDEX] = zcr;
 }
 
 NS_SVMACS_END

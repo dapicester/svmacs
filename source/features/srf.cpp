@@ -8,26 +8,21 @@
 #include <itpp/itbase.h>
 using itpp::vec;
 
-#define RLOG_COMPONENT "srf"
-#include <rlog/rlog.h>
-
 NS_SVMACS_BEGIN
-        
+
 /// Roll-off threshold (percentage)
 const double ALPHA = 0.93;
 
-SRF::SRF(int samplerate) : Feature(samplerate, SPECTRAL) {
-    name = "SRF";
-}
+SRF::SRF(int samplerate) : Feature(samplerate, SPECTRAL) {}
 
 SRF::~SRF() {}
 
-static const int INDEX = 4;
+const int INDEX = 4;
 
-void SRF::extract(const vec& spectrum, vec* features) const {
+void SRF::extract(const vec& spectrum, vec& features) const {
     const int len = spectrum.length();
 
-    vec spectrum2 = itpp::sqr(itpp::abs(spectrum)); // TODO togliere abs?
+    vec spectrum2 = itpp::sqr(itpp::abs(spectrum));
     double threshold = ALPHA * itpp::sum(spectrum2);
 
     double K = 0.0;
@@ -41,7 +36,7 @@ void SRF::extract(const vec& spectrum, vec* features) const {
         }
     }
 
-    (*features)[INDEX] = K;
+    features[INDEX] = K;
 }
 
 NS_SVMACS_END

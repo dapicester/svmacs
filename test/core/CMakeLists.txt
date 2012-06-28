@@ -24,7 +24,6 @@ add_unit_test(NAME UtilsTest TAG core
 
 set(SRCS
     ${SOURCE_DIR}/processor/processor.cpp
-    ${SOURCE_DIR}/features/feature.cpp
     ${SOURCE_DIR}/features/zcr.cpp
     ${SOURCE_DIR}/features/energy.cpp
     ${SOURCE_DIR}/features/ass.cpp

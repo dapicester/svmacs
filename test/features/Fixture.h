@@ -1,7 +1,7 @@
 #ifndef FIXTURE_H_
 #define FIXTURE_H_
 
-#include "features/feature.h"
+#include "features/feature.hpp"
 #include "testconfig.h"
 #include "testUtils.h"
 #include "utils/utils.h"
@@ -66,11 +66,11 @@ struct Fixture {
 itpp::vec extract(const svmacs::Feature& feature, const TestData& input) {
     itpp::vec result = itpp::zeros(FEATURES);
     switch (feature.getType()) {
-    case svmacs::TEMPORAL:
-        feature.extract(input.samples, &result); 
+    case svmacs::Feature::TEMPORAL:
+        feature.extract(input.samples, result);
         break;
-    case svmacs::SPECTRAL:
-        feature.extract(input.spectrum, &result); 
+    case svmacs::Feature::SPECTRAL:
+        feature.extract(input.spectrum, result);
         break;
     }
     //print("result", result);

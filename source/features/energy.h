@@ -3,10 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef ENERGY_H
-#define ENERGY_H
+#ifndef SVMACS_ENERGY_H
+#define SVMACS_ENERGY_H
 
-#include "feature.h"
+#include "feature.hpp"
 
 NS_SVMACS_BEGIN
 
@@ -18,11 +18,11 @@ class Energy : public Feature {
 public:
     Energy(int samplerate);
     ~Energy();
-    
+
     /// Compute the energy for the given frame.
-    void extract(const itpp::vec& frame, itpp::vec* features) const;
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
-    
+
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_ENERGY_H

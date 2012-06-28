@@ -80,7 +80,6 @@ option(ENABLE_LOG "Enable logging" OFF)
 ###########
 
 set(svmacs_SRCS
-    features/feature.cpp
     features/zcr.cpp
     features/energy.cpp
     features/ass.cpp

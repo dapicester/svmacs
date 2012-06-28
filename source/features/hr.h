@@ -3,10 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef HR_H
-#define HR_H
+#ifndef SVMACS_HR_H
+#define SVMACS_HR_H
 
-#include "feature.h"
+#include "feature.hpp"
 
 NS_SVMACS_BEGIN
 
@@ -18,11 +18,11 @@ class HR : public Feature {
 public:
     HR(int samplerate);
     ~HR();
-    
+
     /// Compute the HR for the given audio frame.
-    void extract(const itpp::vec& frame, itpp::vec* features) const;
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_HR_H

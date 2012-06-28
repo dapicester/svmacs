@@ -3,10 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef MFCC_H
-#define MFCC_H
+#ifndef SVMACS_MFCC_H
+#define SVMACS_MFCC_H
 
-#include "feature.h"
+#include "feature.hpp"
 
 NS_SVMACS_BEGIN
 
@@ -20,9 +20,9 @@ public:
     ~MFCC();
 
     /// Compute the MFCC for the given spectrum frame
-    void extract(const itpp::vec& frame, itpp::vec* features) const;
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 
-    itpp::mat getFilterBank() const {
+    const itpp::mat& getFilterBank() const {
         return filterBank;
     }
 
@@ -45,4 +45,4 @@ private:
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_MFCC_H

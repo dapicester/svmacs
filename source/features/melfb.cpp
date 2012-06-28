@@ -17,7 +17,7 @@ using itpp::mat;
 using boost::lexical_cast;
 
 NS_SVMACS_BEGIN
-        
+
 const int MEL_COEFF = 2595;
 const int MEL_DEN = 700;
 

@@ -5,7 +5,7 @@
 
 #include "processor.h"
 
-#include "features/feature.h"
+#include "features/feature.hpp"
 #include "features/zcr.h"
 #include "features/energy.h"
 #include "features/ass.h"
@@ -85,11 +85,11 @@ vec Processor::process(const vec& frame) {
         vec features = itpp::zeros(N_FEATURES);
         for (boost::ptr_vector<Feature>::size_type j = 0u; j < extractors.size(); j++) {
             switch (extractors[j].getType()) {
-            case TEMPORAL:
-                extractors[j].extract(current, &features);
+            case Feature::TEMPORAL:
+                extractors[j].extract(current, features);
                 break;
-            case SPECTRAL:
-                extractors[j].extract(spectrum, &features);
+            case Feature::SPECTRAL:
+                extractors[j].extract(spectrum, features);
                 break;
             default: // this should never occur
                 rError("unknown feature type: (%i)", extractors[j].getType());

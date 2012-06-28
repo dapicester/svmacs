@@ -10,21 +10,15 @@
 using itpp::vec;
 using itpp::ivec;
 
-#define RLOG_COMPONENT "hr"
-#include <rlog/rlog.h>
-
 NS_SVMACS_BEGIN
 
-HR::HR(int samplerate) : Feature(samplerate, TEMPORAL) {
-    name = "HR";
-}
+HR::HR(int samplerate) : Feature(samplerate, TEMPORAL) {}
 
-HR::~HR() {
-}
+HR::~HR() {}
 
 const int INDEX = 5;
 
-void HR::extract(const vec& frame, vec* features) const {
+void HR::extract(const vec& frame, vec& features) const {
     double hr = 0.0;
 
     if (find(frame).length() > 0) { // no silence
@@ -43,7 +37,7 @@ void HR::extract(const vec& frame, vec* features) const {
         }
     }
 
-    (*features)[INDEX] = hr;
+    features[INDEX] = hr;
 }
 
 NS_SVMACS_END

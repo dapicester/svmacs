@@ -19,26 +19,26 @@ endif()
 set(src ${SOURCE_DIR}/features)
 
 add_unit_test(NAME ZcrTest TAG features
-    SOURCES ZcrTest.cpp ${src}/zcr.cpp ${src}/feature.cpp
+    SOURCES ZcrTest.cpp ${src}/zcr.cpp
     LINK_LIBRARIES ${LIBS})
 
 add_unit_test(NAME EnergyTest TAG features
-    SOURCES EnergyTest.cpp ${src}/energy.cpp ${src}/feature.cpp
+    SOURCES EnergyTest.cpp ${src}/energy.cpp
     LINK_LIBRARIES ${LIBS})
 
 add_unit_test(NAME AssTest TAG features
-    SOURCES AssTest.cpp ${src}/ass.cpp ${src}/feature.cpp
+    SOURCES AssTest.cpp ${src}/ass.cpp
     LINK_LIBRARIES ${LIBS})
 
 add_unit_test(NAME SrfTest TAG features
-    SOURCES SrfTest.cpp ${src}/srf.cpp ${src}/feature.cpp
+    SOURCES SrfTest.cpp ${src}/srf.cpp
     LINK_LIBRARIES ${LIBS})
 
 add_unit_test(NAME HrTest TAG features
-    SOURCES HrTest.cpp ${src}/hr.cpp ${src}/feature.cpp
+    SOURCES HrTest.cpp ${src}/hr.cpp
     LINK_LIBRARIES ${LIBS})
 
 add_unit_test(NAME MfccTest TAG features
-    SOURCES MfccTest.cpp ${src}/mfcc.cpp ${src}/melfb.cpp ${src}/feature.cpp
+    SOURCES MfccTest.cpp ${src}/mfcc.cpp ${src}/melfb.cpp
     LINK_LIBRARIES ${LIBS})
 

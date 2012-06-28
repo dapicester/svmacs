@@ -3,10 +3,10 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef ASS_H
-#define ASS_H
+#ifndef SVMACS_ASS_H
+#define SVMACS_ASS_H
 
-#include "feature.h"
+#include "feature.hpp"
 
 NS_SVMACS_BEGIN
 
@@ -18,11 +18,11 @@ class ASS : public Feature {
 public:
     ASS(int samplerate);
     ~ASS();
-    
+
     /// Compute the ASS and the ASC for the given spectrum frame.
-    void extract(const itpp::vec& frame, itpp::vec* features) const;    
+    void extract(const itpp::vec& frame, itpp::vec& features) const;
 };
 
 NS_SVMACS_END
-        
-#endif
+
+#endif // SVMACS_ASS_H
