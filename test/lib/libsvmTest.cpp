@@ -4,6 +4,7 @@
 #include "testconfig.h"
 #include <libsvm/svm.h>
 
+#include <iostream>
 using std::cout;
 using std::endl;
 
@@ -11,7 +12,7 @@ void
 modelInfo(const char* fileName) {
     const svm_model* model = svm_load_model(fileName);
     BOOST_CHECK(model != NULL);
-    
+
     // model info
     cout << "filename: " << fileName << endl;
     cout << "svm_type: " << svm_get_svm_type(model) << endl;

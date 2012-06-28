@@ -4,7 +4,9 @@
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 
-using namespace std;
+#include <iostream>
+using std::cout;
+using std::endl;
 
 class Emitter {
 public:
@@ -14,17 +16,17 @@ public:
 class Receiver {
 public:
     Receiver() {}
-    
+
     void slot() {
         cout << "signal received" << endl;
         doStuff();
-    }   
-    
+    }
+
     void smartSlot() {
-        cout << "signal received, smart" << endl; 
+        cout << "signal received, smart" << endl;
         boost::thread service(boost::bind(&Receiver::doStuff, this));
     }
-    
+
     void doStuff() {
         cout << "doing time-consuming stuff ..." << endl;
         boost::posix_time::seconds sleepTime(3);
@@ -37,7 +39,7 @@ BOOST_AUTO_TEST_CASE(signal2_test) {
     Receiver r;
     //e.sig.connect(boost::bind(&Receiver::slot, r));
     e.sig.connect(boost::bind(&Receiver::smartSlot, r));
-    
+
     cout << "emitting signal" << endl;
     e.sig();
     cout << "emitted" << endl;

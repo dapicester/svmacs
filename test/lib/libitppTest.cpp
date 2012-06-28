@@ -2,7 +2,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include "testconfig.h"
-//#include "utils/testUtils.h"
 
 #include <boost/filesystem.hpp>
 namespace bf = boost::filesystem;
@@ -49,7 +48,7 @@ struct FileFixture {
 BOOST_FIXTURE_TEST_CASE(itpp_file, FileFixture) {
     using namespace itpp;
 
-    /* write to file */ 
+    /* write to file */
     int i = -22;
     double d = 3.1415;
     vec v = "1 2 3 4 5";
@@ -94,8 +93,8 @@ BOOST_AUTO_TEST_CASE(matlab_file) {
     mat wts;
 
     it_ifile file(filename);
-    
-    file >> Name("featuresSignal") >> sig; 
+
+    file >> Name("featuresSignal") >> sig;
     P(sig);
     file >> Name("featuresSilence") >> sil;
     P(sil);
