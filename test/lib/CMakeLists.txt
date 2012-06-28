@@ -14,6 +14,9 @@ list(APPEND LIBS ${LIBSVM_LIBRARIES})
 include_directories(${ITPP_INCLUDE_DIRS})
 list(APPEND LIBS ${ITPP_LIBRARIES})
 
+include_directories(${PROJECT_SOURCE_DIR}/libjackcpp ${JACK_INCLUDE_DIRS})
+list(APPEND LIBS jackcpp-static ${JACK_LIBRARIES})
+
 add_unit_test(NAME itppTest TAG lib
     SOURCES libitppTest.cpp
     LINK_LIBRARIES ${Boost_LIBRARIES} ${ITPP_LIBRARIES})
@@ -25,4 +28,8 @@ add_unit_test(NAME svmTest TAG lib
 add_unit_test(NAME signalsTest TAG lib
     SOURCES signalsTest.cpp
     LINK_LIBRARIES ${Boost_LIBRARIES})
+
+add_unit_test(NAME JackRingBufferTest TAG lib
+    SOURCES JackRingBufferTest.cpp
+    LINK_LIBRARIES ${Boost_LIBRARIES} ${JACK_LIBRARIES} jackcpp-static)
 

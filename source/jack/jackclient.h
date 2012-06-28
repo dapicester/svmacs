@@ -7,7 +7,7 @@
 #define JACKCLIENT_H
 
 #include "config.h"
-#include "ringbufferread.h"
+#include "jackringbuffer.hpp"
 #include <jackaudioio.hpp>
 
 #include <itpp/base/vec.h>
@@ -77,7 +77,7 @@ private:
     unsigned int overlap;
 
     /// The input ring buffer.
-    typedef RingBufferRead<double> RingBuffer;
+    typedef JackRingBuffer<double> RingBuffer;
     boost::scoped_ptr<RingBuffer> input;
 
     /// The current frame.
