@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef RANGE_H
-#define RANGE_H
+#ifndef SVMACS_RANGE_H
+#define SVMACS_RANGE_H
 
 #include "config.h"
 #include <itpp/itbase.h>
@@ -12,23 +12,28 @@
 
 NS_SVMACS_BEGIN
 
-/// Linearly scale data to be whithin a given range.
+/**
+ * Linearly scale matrix rows to be whithin a given range.
+ * @param input The matrix to be scaled, having size (N,M).
+ * @param range The range matrix, having (2,M) whose rows contain
+ *              respectively the min and max value.
+ * @return A new matrix with scaled data.
+ */
 // FIXME: unit test fails!!
-inline 
-itpp::mat 
+inline itpp::mat
 scaleData(const itpp::mat& input, const itpp::mat& range) {
     int R = input.rows();
     int C = input.cols();
-    
+
     itpp::mat scaled(R,C);
     scaled.zeros();
-    
+
     // scale data to be within [mi,Mi]
     itpp::vec col;
     double mi, Mi;
     for(int i = 0; i < C; i++) {
         col = input.get_col(i);
-        
+
         mi = range(0,i);
         Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
@@ -38,28 +43,36 @@ scaleData(const itpp::mat& input, const itpp::mat& range) {
     }
     return scaled;
 }
+/**
+ * Linearly scale vector values to be whithin a given range.
+ * @param input The vector to be scaled, having size (1,N).
+ * @param range The range matrix, having (2,N) whose rows contain
+ *              respectively the min and max value.
+ * @return A new vector with scaled data.
+ */
 
-/// Linearly scale data to be within a given range.
-inline 
-itpp::vec 
+inline itpp::vec
 scaleData(const itpp::vec& input, const itpp::mat& range) {
     const int len = input.length();
-    
+
     itpp::vec scaled(len);
     scaled.zeros();
-    
+
     // scale data to be within [mi,Mi]
     double mi, Mi;
     for(int i = 0; i < len; i++) {
         mi = range(0,i);
         Mi = range(1,i);
         if( (Mi - mi) != 0.0) {
-            scaled[i] = 2 * (input[i] - mi ) / (Mi - mi) - 1; 
+            scaled[i] = 2 * (input[i] - mi ) / (Mi - mi) - 1;
         }
     }
     return scaled;
 }
 
+/**
+ * The range matrix used by the SVM classifier.
+ */
 const itpp::mat Range = //TODO: salvare in un file IT++ ?
     " 677.1070780399273871807963587343692779541015625 "
     " 171.124029237493601840469636954367160797119140625 "
@@ -89,4 +102,4 @@ const itpp::mat Range = //TODO: salvare in un file IT++ ?
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_RANGE_H

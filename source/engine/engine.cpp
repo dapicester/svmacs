@@ -19,8 +19,8 @@ NS_SVMACS_BEGIN
 
 using std::string;
 
-Engine::Engine(float length, float overlap, const string& dmodel, const string& cmodel)
-throw (JackException, BadModel)
+Engine::Engine(const float length, const float overlap,
+        const string& dmodel, const string& cmodel)
         : previousEvent(Event::NONE) {
     rDebug("frame length set to %.2f seconds with %.2f %% overlap", length, overlap);
 
@@ -52,7 +52,8 @@ Engine::~Engine() {
     rInfo("Engine correctly destroyed");
 }
 
-void Engine::start() {
+void
+Engine::start() {
     rDebug("starting JackClient");
     client->start();
     client->connect();
@@ -61,7 +62,8 @@ void Engine::start() {
     rInfo("Engine started");
 }
 
-void Engine::stop() {
+void
+Engine::stop() {
     rDebug("stopping JackClient");
     client->disconnect();
     client->stop();
@@ -69,7 +71,8 @@ void Engine::stop() {
     rInfo("Engine stopped");
 }
 
-void Engine::processFrame(const itpp::vec& frame) const {
+void
+Engine::processFrame(const itpp::vec& frame) const {
 #if 1 // enable/disable input processing
     itpp::vec features = processor->process(frame);
     //rDebug("feature vector: %s", itpp::to_str(features).c_str());

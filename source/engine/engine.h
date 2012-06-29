@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef ENGINE_H
-#define	ENGINE_H
+#ifndef SVMACS_ENGINE_H
+#define SVMACS_ENGINE_H
 
 #include "config.h"
 #include "model/event.h"
@@ -22,43 +22,37 @@ class Processor;
 class Classifier;
 
 /**
- * This class contains the application business logic,
- * i.e. reading audio input data from the Jack client,
- * computing features and and using them classification.
+ * The audio engine.
+ * It is a façade to the other components.
+ * @see JackClient
+ * @see Processor
+ * @see SvmClassifier
  */
 class Engine : private boost::noncopyable {
 public:
 
     /**
      * Constructor.
-     * @param length
-     *          frame length (seconds)
-     * @param overlap
-     *          frames overlapping ratio (percentage)
-     * @param dmodel
-     *          path to the detection model file
-     * @param cmodel
-     *          path to the classification model file
+     * @param length frame length (seconds)
+     * @param overlap frames overlapping ratio (percentage)
+     * @param dmodel path to the detection model file
+     * @param cmodel path to the classification model file
+     * @throw JackExeption if cannot connect to Jack.
+     * @throw BadModel if cannot read the model files.
      */
-    Engine(float length, float overlap, const std::string& dmodel,
-            const std::string& cmodel) throw (JackException, BadModel);
+    Engine(const float length, const float overlap,
+            const std::string& dmodel, const std::string& cmodel);
 
     /// Destructor.
     ~Engine();
 
-    /**
-     * Start processing.
-     */
+    /// Start processing.
     void start();
 
-    /**
-     * Stop processing.
-     */
+    /// Stop processing.
     void stop();
 
-    /**
-     * Signal raised on event detection.
-     */
+    /// Signal raised on event detection.
     boost::signals2::signal<void (Event)> eventDetected;
 
     /// Slot for input processing
@@ -66,18 +60,13 @@ public:
 
 private:
 
-    /// The Jack audio client.
-    boost::scoped_ptr<JackClient> client;
+    boost::scoped_ptr<JackClient> client;     ///< The Jack audio client.
+    boost::scoped_ptr<Processor> processor;   ///< The audio frame processor.
+    boost::scoped_ptr<Classifier> classifier; ///< The classifier.
 
-    /// The audio frame processor.
-    boost::scoped_ptr<Processor> processor;
-
-    /// The classifier.
-    boost::scoped_ptr<Classifier> classifier;
-
-    mutable Event::Type previousEvent;
+    mutable Event::Type previousEvent; ///< The previously detected event.
 };
 
 NS_SVMACS_END
 
-#endif	/* ENGINE_H */
+#endif // SVMACS_ENGINE_H

@@ -19,6 +19,7 @@ extern "C" {
 NS_SVMACS_BEGIN
 
 /**
+ * Ring Buffer.
  * Class wrapping the JACK lock-free ring buffer.
  */
 template <typename Type>
@@ -28,43 +29,43 @@ public:
     /**
      * Constructor.
      * @param size the actual buffer size
-     * @param mlock memory lock (default to false)
+     * @param mlock memory lock
      */
     JackRingBuffer(size_t size, bool mlock = false);
 
-    /** Destructor */
+    /// Destructor.
     ~JackRingBuffer();
 
-    /** Get the total length of the ring buffer. */
+    /// Get the total length of the ring buffer.
     size_t length() const {
         return mLength;
     };
 
-    /** Get the number of items that can be read at this time */
+    /// Get the number of items that can be read at this time.
     size_t getReadSpace();
 
-    /** Get the number of items that can be written at this time. */
+    /// Get the number of items that can be written at this time.
     size_t getWriteSpace();
 
-    /** Read from the buffer into a variable. */
+    /// Read from the buffer into a variable.
     size_t read(Type& dest);
 
-    /** Read from the buffer into a variable without moving the read pointer. */
+    /// Read from the buffer into a variable without moving the read pointer.
     size_t peek(Type& dest);
 
-    /** Read from the buffer into an array. */
+    /// Read from the buffer into an array, optionally moving the read pointer.
     size_t read(Type dest[], size_t cnt, bool peek = false);
 
-    /** Read from the buffer into an array without move the read pointer. */
+    /// Read from the buffer into an array without move the read pointer.
     size_t peek(Type dest[], size_t cnt);
 
-    /** Write into the ring buffer. */
+    /// Write into the ring buffer.
     size_t write(Type src);
 
-    /** Write an array of values into the ring buffer. */
+    /// Write an array of values into the ring buffer.
     size_t write(Type src[], size_t cnt);
 
-    /** Reset the read and write pointers, effectively making the ring buffer empty (not threadsafe) */
+    /// Reset the read and write pointers, effectively making the ring buffer empty (not threadsafe).
     void reset();
 
 private:

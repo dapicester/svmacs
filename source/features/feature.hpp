@@ -32,7 +32,6 @@ public:
      * Constructor.
      * @param sr sample rate
      * @param t feature type
-     * @see Type
      */
     Feature(int sr, Type t) : samplerate(sr), type(t) {}
 
@@ -44,18 +43,15 @@ public:
 
     /**
      * Processes an audio frame and returns the computed features.
-     * \param data data to be processed
-     * \param features features vector to which append the computed feature
+     * @param data data to be processed
+     * @param[out] features vector into which insert the computed feature
      */
     virtual void extract(const itpp::vec& data, itpp::vec& features) const = 0;
 
 protected:
 
-    /// The actual sample rate;
-    const int samplerate;
-
-    /// The feature type.
-    const Type type;
+    const int samplerate; ///< The sample rate;
+    const Type type;      ///< The feature type.
 };
 
 NS_SVMACS_END

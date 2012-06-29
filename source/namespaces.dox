@@ -1,0 +1,14 @@
+/**
+@namespace svmacs
+The SVMACS project namespace.
+ */
+
+/**
+@namespace test
+The SVMACS test namespace.
+*/
+
+/**
+@namespace JackCpp
+The JACK C++ adapter namespace.
+ */

@@ -29,7 +29,8 @@ SvmClassifier::~SvmClassifier(){
     rInfo("SvmClassifier correctly destroyed");
 }
 
-svm_model* SvmClassifier::readModel(const string& name) throw (BadModel) {
+svm_model*
+SvmClassifier::readModel(const string& name) {
     svm_model* model = svm_load_model(name.c_str());
     if (model == NULL) {
         string message = "Model " + name + " is NULL!";
@@ -40,22 +41,23 @@ svm_model* SvmClassifier::readModel(const string& name) throw (BadModel) {
     return model;
 }
 
-Event::Type SvmClassifier::classify(itpp::vec& features) const {
+Event::Type
+SvmClassifier::classify(const itpp::vec& features) const {
     //rDebug("feature vector: %s", itpp::to_str(features).c_str());
 
     rDebug("scaling data");
-    features = scaleData(features, Range);
+    itpp::vec scaled = scaleData(features, Range);
 
-    //rDebug("scaled vector: %s", itpp::to_str(features).c_str());
+    //rDebug("scaled vector: %s", itpp::to_str(scaled).c_str());
 
     // build the array for libsvm
-    const int len = features.length();
+    const int len = scaled.length();
     svm_node array[len + 1];
 
     int i = 0;
     while (i < len) {
          array[i].index = i + 1;
-         array[i].value = features[i];
+         array[i].value = scaled[i];
          i++;
     }
     // mark the last element

@@ -3,14 +3,15 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef SVMACS_UTILS_H
+#define SVMACS_UTILS_H
 
+#include "config.h"
 #include <itpp/itsignal.h>
 #include <iostream>
 #include <cassert>
 
-namespace svmacs {
+NS_SVMACS_BEGIN
 
 // TODO usare out param invece che return
 
@@ -23,8 +24,8 @@ namespace svmacs {
  * @return a new vector
  */
 template <typename T>
-inline
-itpp::Vec<T> flipud(const itpp::Vec<T>& input) {
+inline itpp::Vec<T>
+flipud(const itpp::Vec<T>& input) {
     const int len = input.length();
     itpp::Vec<T> output(len);
     for (int i = 0, j = len - 1; i < len; i++, j--) {
@@ -42,8 +43,8 @@ itpp::Vec<T> flipud(const itpp::Vec<T>& input) {
  * @return a new vector of integers
  */
 template <typename T>
-inline
-itpp::ivec find(const itpp::Vec<T>& input) {
+inline itpp::ivec
+find(const itpp::Vec<T>& input) {
     const int len = input.length();
     itpp::ivec idx(len);
     int j = 0;
@@ -64,8 +65,8 @@ itpp::ivec find(const itpp::Vec<T>& input) {
  * @return a new vector
  */
 template <typename T>
-inline
-itpp::Vec<T> diff(const itpp::Vec<T>& input) {
+inline itpp::Vec<T>
+diff(const itpp::Vec<T>& input) {
     const int len = input.length() - 1;
     itpp::Vec<T> out(len);
     for (int i = 0; i < len; i++) {
@@ -83,8 +84,8 @@ itpp::Vec<T> diff(const itpp::Vec<T>& input) {
  * @return a new vector of integers
  */
 template <typename T>
-inline
-itpp::ivec maxima(const itpp::Vec<T>& input) {
+inline itpp::ivec
+maxima(const itpp::Vec<T>& input) {
     itpp::Vec<T> updown = itpp::sign(diff(input));
 
     itpp::Vec<T> flags;
@@ -102,8 +103,8 @@ itpp::ivec maxima(const itpp::Vec<T>& input) {
  * @return a new vector
  */
 template <typename T>
-inline
-itpp::Vec<T> linvec(const T start, const T stop, const T step = static_cast<T>(1)) {
+inline itpp::Vec<T>
+linvec(const T start, const T stop, const T step = static_cast<T>(1)) {
     assert(stop > start);
     const int size = stop - start + 1;
     itpp::Vec<T> out(size);
@@ -126,6 +127,6 @@ getSpectrum(const itpp::vec& input, int nfft) {
     return itpp::abs( itpp::fft( itpp::to_cvec(input), nfft) ).left(nfft/2);
 }
 
-} /* namespace svmacs */
+NS_SVMACS_END
 
-#endif // UTILS_H
+#endif // SVMACS_UTILS_H

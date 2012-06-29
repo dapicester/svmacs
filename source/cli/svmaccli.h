@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef SVMACS_CLI_H
-#define SVMACS_CLI_H
+#ifndef SVMACS_SVMACCLI_H
+#define SVMACS_SVMACCLI_H
 
 #include "config.h"
 #include <boost/noncopyable.hpp>
@@ -16,9 +16,7 @@ NS_SVMACS_BEGIN
 class Engine;
 
 /**
- * @class SvmacCli
- * @brief CLI interface for the SVM Audio Classifier.
- * @author Paolo D'Apice
+ * CLI interface for the SVM Audio Classifier.
  */
 class SvmacCli : private boost::noncopyable {
 public:
@@ -30,7 +28,7 @@ public:
     ~SvmacCli();
 
     /**
-     * Start the client.
+     * Start the CLI.
      * @param length
      *          frame length (in seconds)
      * @param overlap
@@ -40,20 +38,18 @@ public:
      * @param cmodel
      *          path to the classification model file
      */
-    void start(float length, float overlap,
+    void start(const float length, const float overlap,
             const std::string& dmodel, const std::string& cmodel);
 
 private:
 
-    /// pointer to the engine
-    boost::scoped_ptr<Engine> engine;
+    boost::scoped_ptr<Engine> engine; ///< The actual running audio engine.
 
-    /// signal handler
-    static void cleanup(int); // TODO: signal handler (maybe boost::asio)
-    /// running flag
-    static bool flag;
+    // TODO: signal handler (maybe boost::asio)
+    static void cleanup(int); ///< Signal handler function.
+    static bool flag;         ///< Running flag.
 };
 
 NS_SVMACS_END
 
-#endif // SVMACS_CLI_H
+#endif // SVMACS_SVMACCLI_H

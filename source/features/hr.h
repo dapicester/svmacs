@@ -12,7 +12,6 @@ NS_SVMACS_BEGIN
 
 /**
  * Harmonic Ratio audio feature.
- * TODO: definition
  */
 class HR : public Feature {
 public:

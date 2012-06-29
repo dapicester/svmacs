@@ -12,7 +12,6 @@ NS_SVMACS_BEGIN
 
 /**
  * Energy audio feature.
- * TODO: definition
  */
 class Energy : public Feature {
 public:

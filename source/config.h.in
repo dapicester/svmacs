@@ -4,14 +4,19 @@
  ***************************************************************************/
 
 #ifndef CONFIG_H
-#define	CONFIG_H
+#define CONFIG_H
 
+/// Begin of namespace declaration.
 #define NS_SVMACS_BEGIN namespace svmacs {
+/// End of namespace declaration.
 #define NS_SVMACS_END   } /* namepace svmacs */
 
+/// Default configuration file path.
 #cmakedefine CONFIG_FILE "@CONFIG_FILE@"
+/// Default MFCC filterbank file path.
 #cmakedefine MFCC_FILE "@MFCC_FILE@"
+
 #cmakedefine ENABLE_LOG
 #cmakedefine ENABLE_GUI
 
-#endif	/* CONFIG_H */
+#endif // CONFIG_H

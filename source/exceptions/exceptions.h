@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef EXCEPTIONS_H
-#define	EXCEPTIONS_H
+#ifndef SVMACS_EXCEPTIONS_H
+#define SVMACS_EXCEPTIONS_H
 
 #include "config.h"
 #include <stdexcept>
@@ -19,7 +19,7 @@ public:
     JackException(const std::string& s = "") : std::runtime_error(s) { }
 };
 
-/** 
+/**
  * Runtime exception for model loading errors.
  */
 class BadModel : public std::runtime_error {
@@ -45,4 +45,4 @@ public:
 
 NS_SVMACS_END
 
-#endif	/* EXCEPTIONS_H */
+#endif // SVMACS_EXCEPTIONS_H

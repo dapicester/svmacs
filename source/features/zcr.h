@@ -12,7 +12,6 @@ NS_SVMACS_BEGIN
 
 /**
  * Zero-Crossing-Rate audio feature.
- * TODO: definition
  */
 class ZCR : public Feature {
 public:

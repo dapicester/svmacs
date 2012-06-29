@@ -12,7 +12,6 @@ NS_SVMACS_BEGIN
 
 /**
  * Spectral Roll-off audio feature.
- * TODO: definition
  */
 class SRF : public Feature {
 public:

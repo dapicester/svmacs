@@ -12,7 +12,6 @@ NS_SVMACS_BEGIN
 
 /**
  * Audio Spectral Spread and Audio Spectral Centroid audio features.
- * TODO: definitions
  */
 class ASS : public Feature {
 public:

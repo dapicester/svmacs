@@ -64,7 +64,8 @@ Processor::~Processor() {
     rInfo("Processor correctly destroyed");
 }
 
-vec Processor::process(const vec& frame) {
+vec
+Processor::process(const vec& frame) {
     int L = frame.length();
     int Nframes = (L - R)/(M - R);
 

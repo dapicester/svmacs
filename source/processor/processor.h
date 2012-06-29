@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef PROCESSOR_H
-#define PROCESSOR_H
+#ifndef SVMACS_PROCESSOR_H
+#define SVMACS_PROCESSOR_H
 
 #include "config.h"
 #include <itpp/base/vec.h>
@@ -15,6 +15,7 @@ NS_SVMACS_BEGIN
 class Feature;
 
 /**
+ * Audio processor.
  * Class processing the input audio frames for feature extraction.
  */
 class Processor {
@@ -38,21 +39,15 @@ public:
 
 private:
 
-    /// Sample rate (from Jackd)
-    int sampleRate;
+    int sampleRate; ///< Sample rate.
+    itpp::vec win;  ///< Analisys window.
+    int M;          ///< Frame length.
+    int R;          ///< Frame overlap.
 
-    /// Window
-    itpp::vec win;
-
-    /// Frame length
-    int M;
-    /// Frame overlap
-    int R;
-
-    /// Feature extractors
+    /// Feature extractors.
     boost::ptr_vector<Feature> extractors;
 };
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_PROCESSOR_H

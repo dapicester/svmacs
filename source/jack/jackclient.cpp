@@ -27,9 +27,8 @@ const unsigned int NUM_OUTPUT = 1; // monitor output
 /// Client name
 const char CLIENT_NAME[] = "svmacs";
 
-JackClient::JackClient(float len, float olap, const Engine& e) :
-        JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false),
-        engine(e) {
+JackClient::JackClient(const float len, const float olap, const Engine& e) :
+        JackCpp::AudioIO("svmacs", NUM_INPUT, NUM_OUTPUT, false), engine(e) {
     rInfo("initializing JackClient ...");
 
     reserveInPorts(MAX_IN);
@@ -68,7 +67,8 @@ JackClient::~JackClient() {
     rInfo("JackClient correctly destroyed");
 }
 
-void JackClient::connect() {
+void
+JackClient::connect() {
     try {
 #if 0 /* enable/disable auto connect from audio input */
         rDebug("connecting from input port ...");
@@ -85,7 +85,8 @@ void JackClient::connect() {
     }
 }
 
-void JackClient::disconnect() {
+void
+JackClient::disconnect() {
     rDebug("disconnecting ports");
 
     for(unsigned int i = 0; i < inPorts(); i++)
@@ -96,7 +97,8 @@ void JackClient::disconnect() {
 }
 
 // Jack Audio callback.
-int JackClient::audioCallback(jack_nframes_t nframes,
+int
+JackClient::audioCallback(jack_nframes_t nframes,
                           audioBufVector inBufs,
                           audioBufVector outBufs) {
     for(unsigned int i = 0; i < inBufs.size(); i++) {
@@ -110,13 +112,11 @@ int JackClient::audioCallback(jack_nframes_t nframes,
         }
     }
 
-
-
-    //0 on success
-    return 0;
+    return 0; // 0 on success
 }
 
-void JackClient::checkData() {
+void
+JackClient::checkData() {
     if (input->getReadSpace() < length) {
         //rDebug("not enough samples in the input buffer (%d)", input->getReadSpace());
         return;
@@ -130,9 +130,7 @@ void JackClient::checkData() {
         input->read(frame.get(), length);
     }
 
-    // send signal
-    itpp::vec data(frame.get(), length);
-    //gotInputData(data);
+    itpp::vec data(frame.get(), length); // TODO: use pointer!
     engine.processFrame(data);
 }
 

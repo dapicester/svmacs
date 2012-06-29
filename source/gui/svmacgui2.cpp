@@ -20,11 +20,13 @@ const QString SvmacGui::eventStylesheet = "QLabel[event=\"true\"] {"
         "min-width: 5em;"
     "}";
 
-void SvmacGui::adapterSlot(const Event& event) {
+void
+SvmacGui::adapterSlot(const Event& event) {
     Q_EMIT adapterSignal(event);
 }
 
-void SvmacGui::showAbout() {
+void
+SvmacGui::showAbout() {
     static const QString message = QString(
             "<center>"
             "<p><b>SVM Audio Classification</b></p>"
@@ -35,18 +37,22 @@ void SvmacGui::showAbout() {
     QMessageBox::about(this, tr("About"), message);
 }
 
-void SvmacGui::enable(QWidget* widget) {
+void
+SvmacGui::enable(QWidget* widget) {
     widget->setEnabled(true);
 }
 
-void SvmacGui::disable(QWidget* widget) {
+void
+SvmacGui::disable(QWidget* widget) {
     widget->setEnabled(false);
 }
 
-void SvmacGui::setTextRed(QLabel* label) {
+void
+SvmacGui::setTextRed(QLabel* label) {
     label->setStyleSheet("background-color: red");
 }
 
-void SvmacGui::setTextDefault(QLabel* label) {
+void
+SvmacGui::setTextDefault(QLabel* label) {
     label->setStyleSheet("background-color: ");
 }

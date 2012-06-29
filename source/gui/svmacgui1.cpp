@@ -13,7 +13,7 @@ using namespace svmacs;
 #define RLOG_COMPONENT "gui"
 #include <rlog/rlog.h>
 
-SvmacGui::SvmacGui(float length, float overlap,
+SvmacGui::SvmacGui(const float length, const float overlap,
         const std::string& dm, const std::string& cm,
         QWidget *parent) : dmodel(dm), cmodel(cm)
         /*, qout(std::cout, textEdit) */ {
@@ -42,7 +42,8 @@ SvmacGui::SvmacGui(float length, float overlap,
     rInfo("GUI ready");
 }
 
-void SvmacGui::startEngine() {
+void
+SvmacGui::startEngine() {
     rInfo("starting ...");
     textEdit->append(tr("starting ..."));
 
@@ -81,7 +82,8 @@ void SvmacGui::startEngine() {
     textEdit->insertPlainText(tr("started"));
 }
 
-void SvmacGui::stopEngine() {
+void
+SvmacGui::stopEngine() {
     rDebug("stopping the Engine ...");
     textEdit->append(tr("stopping the Engine ..."));
     engine->eventDetected.disconnect(boost::bind(&SvmacGui::adapterSlot, this, _1));
@@ -100,7 +102,8 @@ void SvmacGui::stopEngine() {
     textEdit->insertPlainText(tr("done"));
 }
 
-void SvmacGui::quitApp() {
+void
+SvmacGui::quitApp() {
     rDebug("quitting");
     textEdit->append(tr("quitting"));
 
@@ -112,7 +115,8 @@ void SvmacGui::quitApp() {
     qApp->quit();
 }
 
-void SvmacGui::eventDetected(const Event& event) {
+void
+SvmacGui::eventDetected(const Event& event) {
     Event::Type type = event.getType();
     switch (type) {
         // TODO: refactoring (si puo` fare di meglio...)

@@ -15,7 +15,7 @@
 NS_SVMACS_BEGIN
 
 /**
- * Interface to be implemented.
+ * Classifier interface.
  */
 class Classifier : private boost::noncopyable {
 public:
@@ -25,8 +25,11 @@ public:
     /**
      * Process the audio features for detection
      * and classification of events.
+     * @param features the feature vector
+     * @return The type of event detected.
+     * @see Event::Type
      */
-    virtual Event::Type classify(itpp::vec& features) const = 0;
+    virtual Event::Type classify(const itpp::vec& features) const = 0;
 };
 
 NS_SVMACS_END

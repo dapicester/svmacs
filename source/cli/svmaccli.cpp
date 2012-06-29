@@ -27,9 +27,9 @@ SvmacCli::~SvmacCli() {
 
 bool SvmacCli::flag = true;
 
-void SvmacCli::start(float length, float overlap,
+void
+SvmacCli::start(const float length, const float overlap,
         const std::string& dmodel, const std::string& cmodel) {
-    // FIXME: engine.start()
     rDebug("starting CLI main loop");
 
     rInfo("initializing Engine ... ");
@@ -58,8 +58,9 @@ void SvmacCli::start(float length, float overlap,
     rInfo("quitting ... ");
 }
 
-void SvmacCli::cleanup(int) {
-    rDebug("CTRL-C trapped");
+void
+SvmacCli::cleanup(int sig) {
+    rDebug("Signal %d trapped", sig);
     flag = false;
 }
 

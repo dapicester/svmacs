@@ -3,8 +3,8 @@
  *   dapicester@gmail.com                                                  *
  ***************************************************************************/
 
-#ifndef EVENT_H
-#define EVENT_H
+#ifndef SVMACS_EVENT_H
+#define SVMACS_EVENT_H
 
 #include "config.h"
 #include <string>
@@ -54,10 +54,10 @@ private:
     Type type;
 
     /// A descriptive string.
-    // TODO: add details, e.g. timestamp
+    // TODO: add details, e.g. timestamp (Boost posix_time)
     const std::string description;
 };
 
 NS_SVMACS_END
 
-#endif
+#endif // SVMACS_EVENT_H
