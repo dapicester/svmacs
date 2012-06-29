@@ -1,8 +1,8 @@
 - refactoring codice:
   * fix CMakeLists per diversi build-type
-  * usare const (dove possibile)
-  * rimuovere dichiarazioni throw() e scrivere Doxygen
   * aggiungere nota di Copyright esatta nei sorgenti
+    includendo @file, @author, ed eventualmente @bug
+  * documentare i casi di test
 
 - feature test
   * test di regressione usando dati di Matlab/Octave
