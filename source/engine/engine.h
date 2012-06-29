@@ -75,7 +75,7 @@ private:
     /// The classifier.
     boost::scoped_ptr<Classifier> classifier;
 
-    mutable EventType previousEvent;
+    mutable Event::Type previousEvent;
 };
 
 NS_SVMACS_END

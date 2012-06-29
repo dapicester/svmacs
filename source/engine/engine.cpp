@@ -21,7 +21,7 @@ using std::string;
 
 Engine::Engine(float length, float overlap, const string& dmodel, const string& cmodel)
 throw (JackException, BadModel)
-        : previousEvent(NONE) {
+        : previousEvent(Event::NONE) {
     rDebug("frame length set to %.2f seconds with %.2f %% overlap", length, overlap);
 
     try {
@@ -76,25 +76,25 @@ void Engine::processFrame(const itpp::vec& frame) const {
 #endif
 
 #if 1 // enable/disable the classifier
-    EventType type = classifier->classify(features);
+    Event::Type type = classifier->classify(features);
     if (type != previousEvent) {
         // FIXME sistemare!!!
         string message = "none";
-        if (type != NONE) {
+        if (type != Event::NONE) {
             switch (type) {
-            case GUNSHOT:
+            case Event::GUNSHOT:
                 message = "GUNSHOT";
                 break;
-            case SCREAM:
+            case Event::SCREAM:
                 message = "SCREAM";
                 break;
-            case GLASS:
+            case Event::GLASS:
                 message = "GLASS";
                 break;
             default:
                 break;
             }
-            rInfo("Detected EventType: %s", message.c_str());
+            rInfo("Detected event type: %s", message.c_str());
         }
         Event e(type, message);
         // emit signal

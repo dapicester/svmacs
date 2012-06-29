@@ -26,7 +26,7 @@ public:
      * Process the audio features for detection
      * and classification of events.
      */
-    virtual EventType classify(itpp::vec& features) const = 0;
+    virtual Event::Type classify(itpp::vec& features) const = 0;
 };
 
 NS_SVMACS_END

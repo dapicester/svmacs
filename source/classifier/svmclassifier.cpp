@@ -40,7 +40,7 @@ svm_model* SvmClassifier::readModel(const string& name) throw (BadModel) {
     return model;
 }
 
-EventType SvmClassifier::classify(itpp::vec& features) const {
+Event::Type SvmClassifier::classify(itpp::vec& features) const {
     //rDebug("feature vector: %s", itpp::to_str(features).c_str());
 
     rDebug("scaling data");
@@ -75,20 +75,17 @@ EventType SvmClassifier::classify(itpp::vec& features) const {
     int detected = 1;
 #endif
 
-    EventType t = NONE;
 #if 1 /* enable/disable classification step */
     if (detected == 1) {
         int type = svm_predict(model.get(), array);
         rDebug("classification = %d", type);
-        switch (type) {
-        case GUNSHOT: t = GUNSHOT; break;
-        case SCREAM:  t = SCREAM;  break;
-        case GLASS:   t = GLASS;   break;
+        if (type != 0) {
+            return static_cast<Event::Type>(type);
         }
     }
 #endif
 
-    return t;
+    return Event::NONE;
 }
 
 NS_SVMACS_END

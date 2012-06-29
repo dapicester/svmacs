@@ -113,25 +113,25 @@ void SvmacGui::quitApp() {
 }
 
 void SvmacGui::eventDetected(const Event& event) {
-    EventType type = event.getType();
+    Event::Type type = event.getType();
     switch (type) {
         // TODO: refactoring (si puo` fare di meglio...)
-        case GUNSHOT:
+        case Event::GUNSHOT:
             setTextRed(gunshotLabel);
             setTextDefault(screamLabel);
             setTextDefault(glassLabel);
             break;
-        case SCREAM:
+        case Event::SCREAM:
             setTextRed(screamLabel);
             setTextDefault(gunshotLabel);
             setTextDefault(glassLabel);
             break;
-        case GLASS:
+        case Event::GLASS:
             setTextRed(glassLabel);
             setTextDefault(gunshotLabel);
             setTextDefault(screamLabel);
             break;
-        case NONE:
+        case Event::NONE:
             setTextDefault(gunshotLabel);
             setTextDefault(screamLabel);
             setTextDefault(glassLabel);
@@ -140,7 +140,7 @@ void SvmacGui::eventDetected(const Event& event) {
             break;
     }
     /* TODO
-    if (type != NONE) {
+    if (type != Event::NONE) {
         textEdit->append("detected event: "
                           event.getDescription());
     }

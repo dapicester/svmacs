@@ -30,7 +30,7 @@ public:
     ~SvmClassifier();
 
     /// Process audio features.
-    EventType classify(itpp::vec& features) const;
+    Event::Type classify(itpp::vec& features) const;
 
 private: // TODO: boost::scoped_ptr
 

@@ -12,22 +12,23 @@
 NS_SVMACS_BEGIN
 
 /**
- * Type of detected event.
- */
-enum EventType {
-    NONE,       ///< No Event
-    GUNSHOT,    ///< Gunshot
-    SCREAM,     ///< Scream
-    GLASS       ///< Breaking glass
-};
-
-/**
  * Detected event.
  */
 class Event {
 public:
+
+    /**
+     * Type of detected event.
+     */
+    enum Type {
+        NONE = 0,   ///< No Event
+        GUNSHOT,    ///< Gunshot
+        SCREAM,     ///< Scream
+        GLASS       ///< Breaking glass
+    };
+
     /// Constructor.
-    Event(const EventType t = NONE, const std::string& desc = "")
+    Event(const Type t = NONE, const std::string& desc = "")
         : type(t), description(desc) {}
 
     /// Copy constructor.
@@ -38,7 +39,7 @@ public:
     ~Event() {}
 
     /// Getter for the type property.
-    EventType getType() const {
+    Type getType() const {
         return type;
     }
 
@@ -50,7 +51,7 @@ public:
 private:
 
     /// The event type.
-    EventType type;
+    Type type;
 
     /// A descriptive string.
     // TODO: add details, e.g. timestamp
