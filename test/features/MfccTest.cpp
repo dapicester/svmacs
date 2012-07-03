@@ -14,6 +14,8 @@ void testFilterBank(const svmacs::MFCC& mfcc, const itpp::mat& filterBank);
 }
 #endif
 
+/// @class svmacs::MFCC
+/// @test Test feature extraction.
 BOOST_FIXTURE_TEST_CASE(mfcc_test, test::Fixture) {
     svmacs::MFCC feature(sampleRate, nfft, NUM_FILTERS, NUM_COEFF);
     doTest(feature, silence);

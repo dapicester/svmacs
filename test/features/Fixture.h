@@ -11,12 +11,14 @@ namespace test {
 /// length of the input/output vector
 const int FEATURES = 12;
 
+/// Test data structure.
 struct TestData {
-    itpp::vec samples;
-    itpp::vec spectrum;
-    itpp::vec expected;
+    itpp::vec samples;  ///< input signal
+    itpp::vec spectrum; ///< signal spectrum
+    itpp::vec expected; ///< expected result
 };
 
+/// Feature test fixture.
 struct Fixture {
     Fixture() {
 #ifdef ENABLE_REGRESSION_TEST
@@ -45,7 +47,7 @@ struct Fixture {
         sampleRate = 22050;
         nfft = 1024;
 
-        const itpp::vec& time = getTime(0, 2 - 1/nfft, 1/nfft);
+        const itpp::vec& time = getTime(0.0, 2 - 1/nfft, 1/nfft);
         silence.samples = getSilence(time.size());
         silence.spectrum = svmacs::getSpectrum(silence.samples, nfft);
         signal.samples = getSignal(time, 3.5, 2.0);

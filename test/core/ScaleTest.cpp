@@ -7,6 +7,10 @@ using namespace svmacs;
 
 const double DELTA = 1e-9;
 
+/// @fn itpp::mat svmacs::scaleData(const itpp::mat&, const itpp::mat&)
+/// @test Test scaling in a matrix.
+/// @fn itpp::vec svmacs::scaleData(const itpp::vec&, const itpp::mat&)
+/// @test Test scaling in a vector.
 BOOST_AUTO_TEST_CASE(scaleData_test) {
     const mat input =
     "0.2500    0.5000    0.7500    1.0000    1.2500    1.5000    1.7500    2.0000;"
@@ -17,8 +21,8 @@ BOOST_AUTO_TEST_CASE(scaleData_test) {
     "9.0000    8.0000    7.0000    6.0000    5.0000    4.0000    3.0000    2.0000;"
     "2.0000    4.0000    6.0000    8.0000   10.0000   12.0000   14.0000   16.0000;"
    "18.0000   16.0000   14.0000   12.0000   10.0000    8.0000    6.0000    4.0000";
-   
-   const mat range = 
+
+   const mat range =
    " 0     0     0     0     0     0     0     0;"
    "10    10    10    10    10    10    10    10";
 

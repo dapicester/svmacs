@@ -4,6 +4,8 @@
 #include "Fixture.h"
 #include "features/srf.h"
 
+/// @class svmacs::SRF
+/// @test Test feature extraction.
 BOOST_FIXTURE_TEST_CASE(srf_test, test::Fixture) {
     svmacs::SRF feature(sampleRate);
     doTest(feature, silence);

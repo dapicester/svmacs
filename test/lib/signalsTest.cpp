@@ -8,11 +8,15 @@
 using std::cout;
 using std::endl;
 
+namespace test {
+
+/// Boost signal emitter.
 class Emitter {
 public:
     boost::signals2::signal<void ()> sig;
 };
 
+/// Boost signal receiver.
 class Receiver {
 public:
     Receiver() {}
@@ -34,9 +38,14 @@ public:
     }
 };
 
+} /* namespace test */
+
 BOOST_AUTO_TEST_CASE(signal2_test) {
+    using namespace test;
+
     Emitter e;
     Receiver r;
+
     //e.sig.connect(boost::bind(&Receiver::slot, r));
     e.sig.connect(boost::bind(&Receiver::smartSlot, r));
 

@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE RingBufferReadTest
+#define BOOST_TEST_MODULE JackRingBufferTest
 #include <boost/test/unit_test.hpp>
 
 #include "jack/jackringbuffer.hpp"
@@ -6,6 +6,8 @@ using svmacs::JackRingBuffer;
 
 #define P(X) std::cout << #X << X << std::endl;
 
+/// @class svmacs::JackRingBuffer
+/// @test Tests read and write operations.
 BOOST_AUTO_TEST_CASE(buffer_test) {
     // test data
     double array[] = {1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 10.0};
@@ -41,6 +43,8 @@ BOOST_AUTO_TEST_CASE(buffer_test) {
     BOOST_CHECK_EQUAL(0, buffer.getReadSpace());
 }
 
+/// @class svmacs::JackRingBuffer
+/// @test Tests the read and peek operations.
 BOOST_AUTO_TEST_CASE(peek_test) {
     const int length = 4;
     const int overlap = 2;

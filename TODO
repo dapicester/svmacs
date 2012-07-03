@@ -2,7 +2,6 @@
   * fix CMakeLists per diversi build-type
   * aggiungere nota di Copyright esatta nei sorgenti
     includendo @file, @author, ed eventualmente @bug
-  * documentare i casi di test
 
 - feature test
   * test di regressione usando dati di Matlab/Octave

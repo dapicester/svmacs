@@ -4,6 +4,8 @@
 #include "Fixture.h"
 #include "features/energy.h"
 
+/// @class svmacs::Energy
+/// @test Test feature extraction.
 BOOST_FIXTURE_TEST_CASE(energy_test, test::Fixture) {
     svmacs::Energy feature(sampleRate);
     test::doTest(feature, silence);

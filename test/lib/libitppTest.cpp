@@ -38,14 +38,19 @@ BOOST_AUTO_TEST_CASE(vector_test) {
     P(us);
 }
 
+namespace test {
+
+/// ITPP file test fixture.
 struct FileFixture {
     FileFixture() : filePath(bf::temp_directory_path() / bf::path("itpp_test.it")) {}
     ~FileFixture() { bf::remove_all(filePath); }
     bf::path filePath;
 };
 
+}
+
 /// Test write/reat to itpp file.
-BOOST_FIXTURE_TEST_CASE(itpp_file, FileFixture) {
+BOOST_FIXTURE_TEST_CASE(itpp_file, test::FileFixture) {
     using namespace itpp;
 
     /* write to file */

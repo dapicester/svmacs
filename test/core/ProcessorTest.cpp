@@ -13,9 +13,27 @@ using namespace itpp;
 #define RLOG_COMPONENT "processor"
 #include <rlog/rlog.h>
 
-/// Default sample rate
+namespace test {
+
 const int SAMPLE_RATE = 1024;
-const int SIGNAL_LEN  = 1024;
+const int SIGNAL_LEN  = 1 * SAMPLE_RATE;
+
+const std::string TEST_FILE = TEST_DATA_DIR "/test_signal.it";
+
+/// ProcessorTest fixture.
+struct Fixture {
+    Fixture() : processor(SAMPLE_RATE) {
+        silence = test::getSilence();
+        vec time = test::getTime(0.0, 1.0, 0.01);
+        signal = test::getSignal(time);
+    }
+    ~Fixture() {}
+    Processor processor;
+    vec silence;
+    vec signal;
+};
+
+} /* namespace test */
 
 #if 0
 BOOST_AUTO_TEST_CASE(test_utils) {
@@ -40,31 +58,25 @@ BOOST_AUTO_TEST_CASE(test_utils) {
 }
 #endif
 
-struct Fixture {
-    Fixture() : processor(SAMPLE_RATE) {
-        silence = test::getSilence();
-        vec time = test::getTime(0, 1, 0.01);
-        signal = test::getSignal(time);
-    }
-    ~Fixture() {}
-    Processor processor;
-    vec silence;
-    vec signal;
-};
-
-BOOST_FIXTURE_TEST_CASE(silence_test, Fixture) {
+/// @class svmacs::Processor
+/// @test Test processing on a silence signal.
+BOOST_FIXTURE_TEST_CASE(silence_test, test::Fixture) {
     vec result = processor.process(silence);
     test::print("feature vector", result);
 }
 
-BOOST_FIXTURE_TEST_CASE(signal_test, Fixture) {
+/// @class svmacs::Processor
+/// @test Test processing on a signal.
+BOOST_FIXTURE_TEST_CASE(signal_test, test::Fixture) {
     vec result = processor.process(signal);
     test::print("feature vector", result);
 }
 
-const std::string TEST_FILE = TEST_DATA_DIR "/test_signal.it";
-
+/// @class svmacs::Processor
+/// @test Test online processing (OLA analysis) on a recorded signal.
 BOOST_AUTO_TEST_CASE(online_test) {
+    using namespace test;
+
     Processor processor(SAMPLE_RATE);
     vec signal;
     { // load signal from file

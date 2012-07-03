@@ -4,6 +4,8 @@
 #include "Fixture.h"
 #include "features/zcr.h"
 
+/// @class svmacs::ZCR
+/// @test Test feature extraction.
 BOOST_FIXTURE_TEST_CASE(zcr_test, test::Fixture) {
     svmacs::ZCR feature(sampleRate);
     test::doTest(feature, silence);

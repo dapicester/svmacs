@@ -4,6 +4,8 @@
 #include "Fixture.h"
 #include "features/ass.h"
 
+/// @class svmacs::ASS
+/// @test Test feature extraction.
 BOOST_FIXTURE_TEST_CASE(ass_silence, test::Fixture) {
     svmacs::ASS feature(sampleRate);
     test::doTest(feature, silence);

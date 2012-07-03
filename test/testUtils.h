@@ -1,5 +1,5 @@
-#ifndef TESTUTILS_H
-#define	TESTUTILS_H
+#ifndef TEST_TESTUTILS_H
+#define TEST_TESTUTILS_H
 
 #include <itpp/itbase.h>
 #include <boost/lexical_cast.hpp>
@@ -24,9 +24,11 @@ void print(const std::string& name, const T& input) {
  * @param start the start value
  * @param end the end value
  * @param step step size
+ * @return the time vector
  */
-itpp::vec 
-getTime(double start, double end, double step = 1.0) {
+template <typename T>
+itpp::Vec<T>
+getTime(T start, T end, T step = static_cast<T>(1)) {
     std::stringstream ss;
     ss << boost::lexical_cast<std::string>(start);
     if (step != 1.0) {
@@ -45,7 +47,7 @@ const size_t DEFAULT_LENGTH = 1024;
  * @param time the time vector
  * @return a vector of zeros
  */
-itpp::vec 
+itpp::vec
 getSilence(size_t length = DEFAULT_LENGTH) {
     itpp::vec silence(length);
     silence.zeros();
@@ -53,18 +55,19 @@ getSilence(size_t length = DEFAULT_LENGTH) {
 }
 
 /**
- * Get a test signal s(t) = sin(2*pi*f*t) + sqrt(n)*randn(t).
- * @param time t
- * @param frequency f
- * @param noise n
- * @return the signal vector 
+ * Get a test signal
+ * \f$ s(t) = \sin{(2 \pi f t)} + \sqrt{n}\,\mathrm{randn}(t) \f$.
+ * @param time the time vector \f$ t \f$
+ * @param frequency the frequency \f$ f \f$
+ * @param noise n the variance of the noise \f$ n \f$
+ * @return the signal vector
  */
-itpp::vec 
+itpp::vec
 getSignal(const itpp::vec& time, double frequency = 1.0, double noise = 0.0) {
-    return itpp::sin(itpp::m_2pi * frequency * time ) 
+    return itpp::sin(itpp::m_2pi * frequency * time )
         + sqrt(noise) * itpp::randn(time.length());
 }
 
 } /* namespace test */
 
-#endif	/* TESTUTILS_H */
+#endif // TEST_TESTUTILS_H

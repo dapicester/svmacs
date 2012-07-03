@@ -16,10 +16,7 @@ NS_SVMACS_BEGIN
 // TODO usare out param invece che return
 
 /**
- * Return a mirrored copy of the input vector.
- * Example:
- *  input  = "1 2 3"
- *  output = "3 2 1"
+ * Return a flipped copy of the input vector.
  * @param input a vector
  * @return a new vector
  */
@@ -36,9 +33,6 @@ flipud(const itpp::Vec<T>& input) {
 
 /**
  * Find indices of nonzero elements.
- * Example:
- *   input  = "1 0 2 3 0"
- *   output = "0 2 3"
  * @param input a vector
  * @return a new vector of integers
  */
@@ -58,9 +52,6 @@ find(const itpp::Vec<T>& input) {
 
 /**
  * Return difference and approximate derivative.
- * Example:
- *   input  = "2 4 3 5 5"
- *   output = "2 -1 2 0"
  * @param input a vector
  * @return a new vector
  */
@@ -77,9 +68,6 @@ diff(const itpp::Vec<T>& input) {
 
 /**
  * Find local maxima indices.
- * Example:
- *   input  = "2 3 4 1 2 0"
- *   output = "2 4"
  * @param input a vector
  * @return a new vector of integers
  */
