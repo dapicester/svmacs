@@ -1,7 +1,6 @@
 - refactoring codice:
   * fix CMakeLists per diversi build-type
-  * aggiungere nota di Copyright esatta nei sorgenti
-    includendo @file, @author, ed eventualmente @bug
+  * aggiungere includendo @file, @author, ed eventualmente @bug
 
 - feature test
   * test di regressione usando dati di Matlab/Octave
