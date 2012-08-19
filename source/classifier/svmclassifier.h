@@ -22,7 +22,7 @@
 #include "classifier.h"
 #include "exceptions/exceptions.h"
 #include <boost/scoped_ptr.hpp>
-#include <libsvm/svm.h>
+#include <svm.h>
 
 NS_SVMACS_BEGIN
 

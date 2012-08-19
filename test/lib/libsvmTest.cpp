@@ -20,7 +20,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "testconfig.h"
-#include <libsvm/svm.h>
+#include <svm.h>
 
 #include <iostream>
 using std::cout;

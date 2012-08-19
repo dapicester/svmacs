@@ -7,8 +7,8 @@
 
 find_package(PkgConfig)
 
-find_path(LIBSVM_INCLUDE_DIR libsvm/svm.h
-          PATH_SUFFIXES libsvm-2.0 libsvm-3.0 )
+find_path(LIBSVM_INCLUDE_DIR svm.h
+          PATH_SUFFIXES libsvm )
 
 find_library(LIBSVM_LIBRARY NAMES svm )
 
