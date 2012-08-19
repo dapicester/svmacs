@@ -1,6 +1,8 @@
 - refactoring codice:
-  * fix CMakeLists per diversi build-type
-  * aggiungere includendo @file, @author, ed eventualmente @bug
+  * aggiungere doc includendo @file, @author, ed eventualmente @bug
+
+- online test: script per lanciare jack, svmacs, mplayer ed effettuare 
+  le varie connessioni
 
 - feature test
   * test di regressione usando dati di Matlab/Octave
