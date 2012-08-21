@@ -1,11 +1,15 @@
 - refactoring codice:
-  * aggiungere doc includendo @file, @author, ed eventualmente @bug
+  * polimorfismo statico: http://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
 
 - online test: script per lanciare jack, svmacs, mplayer ed effettuare 
   le varie connessioni
 
 - feature test
   * test di regressione usando dati di Matlab/Octave
+
+- documentazione
+  * aggiungere doc includendo @file, @brief, @author, ed eventualmente @bug
+  * usare @note per copyright
 
 - usare Ruby invece che Octave/Matlab
 
