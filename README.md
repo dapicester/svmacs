@@ -1,4 +1,4 @@
-Introduction                                                    {#mainpage}
+Introduction
 ============
 
 This project started as the porting to C++ of my master thesis project
@@ -105,6 +105,9 @@ Default parameters can be overridden either using the command line
 or defined in the configuration file.
 Please launch with the `--help` or `-h` option for details.
 
+Here is a screenshot of the system GUI and the JACK connections:
+
+![screenshot](screenshot.png)
 
 Additional Information
 ======================
